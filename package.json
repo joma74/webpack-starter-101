@@ -1,0 +1,22 @@
+{
+  "name": "webpack-starter-101",
+  "version": "0.1.0-SNAPSHOT",
+  "description": "webpack academy tutorial",
+  "main": "index.js",
+  "repository": "https://github.com/joma74/webpack-starter-101",
+  "author": "joma74",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "webpack --watch --env.env=dev",
+    "start:prod": "webpack --watch --env.env=prod",
+    "start:alladdons": "webpack --watch --env.env=dev --env.addons=bundleanalyze"
+  },
+  "devDependencies": {
+    "eslint": "^4.5.0",
+    "prettyjson": "^1.2.1",
+    "webpack": "^3.5.5",
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "^2.7.1",
+    "webpack-merge": "^4.1.0"
+  }
+}
