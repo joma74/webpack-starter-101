@@ -7,15 +7,20 @@
   "author": "joma74",
   "license": "MIT",
   "scripts": {
-    "start:dev": "webpack --watch --env.env=dev",
-    "start:prod": "webpack --watch --env.env=prod",
+    "build:debug": "node --inspect --debug-brk ./node_modules/webpack/bin/webpack.js --env.env=prod",
+    "start:dev": "webpack-dev-server --env.env=dev --port=9000 --hot",
+    "start:prod": "webpack --env.env=prod",
     "start:alladdons": "webpack --watch --env.env=dev --env.addons=bundleanalyze"
   },
   "devDependencies": {
+    "babel-minify-webpack-plugin": "^0.2.0",
+    "css-loader": "^0.28.5",
     "eslint": "^4.5.0",
+    "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
     "prettyjson": "^1.2.1",
+    "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.5",
     "webpack-bundle-analyzer": "^2.9.0",
