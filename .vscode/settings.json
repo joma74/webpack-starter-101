@@ -1,0 +1,8 @@
+{
+    "path-intellisense.mappings": {
+        "/": "${workspaceRoot}",
+        "js@": "src/main/js/",
+        "css@": "src/main/css/"
+    },
+    "path-intellisense.extensionOnImport": true
+}

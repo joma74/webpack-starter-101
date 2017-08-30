@@ -1,15 +1,6 @@
 const commonPaths = require("./common-paths");
-const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-/**
- * 
- * @param {string} dir 
- */
-function resolve (dir) {
-    return path.join(__dirname, "..", dir)
-}
 
 const config = {
     entry: "./src/main/js/",
@@ -19,7 +10,8 @@ const config = {
     },
     resolve: {
         alias: {
-            "@": resolve("src/main/js/")
+            "js@": commonPaths.mainJs,
+            "css@": commonPaths.mainCss
         },
         extensions: [".js", ".json"]
     },
