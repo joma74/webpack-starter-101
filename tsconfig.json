@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "checkJs": true,
+        "moduleResolution": "node",
+        "strict": true,
+        "rootDirs": [
+            "build-utils", "src/main/js"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "*": ["*"],
+            "@/*": ["./src/main/js/*"]
+        },"types": [
+            "node", "webpack"
+        ],
+        "traceResolution": true
+    },
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*",
+        "dist"
+    ],
+    "typeAcquisition": {
+        "include": ["node", "webpack"]
+    }
+}
