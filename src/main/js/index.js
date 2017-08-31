@@ -3,6 +3,7 @@
 import FOO_STRING from "./foo"
 import BAZ_STRING from "js@/components/baz"
 import "css@/index.css"
+import "css@/twitterlike.scss"
 
 const bar = require("./bar")
 

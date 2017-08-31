@@ -4,5 +4,10 @@
         "js@": "src/main/js/",
         "css@": "src/main/css/"
     },
-    "path-intellisense.extensionOnImport": true
+    "path-intellisense.extensionOnImport": true,
+    "npm-intellisense.scanDevDependencies": true,
+    "npm-intellisense.packageSubfoldersIntellisense": true,
+    "files.associations": {
+        "*.vue": "vue"
+    }
 }

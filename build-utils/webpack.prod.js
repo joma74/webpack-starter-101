@@ -6,9 +6,16 @@ const config = {
     module: {
         rules: [
             {
-                test: /\.css/,
+                test: /\.css$/,
                 use: ExtractTextWebpackPlugin.extract({
                     use: "css-loader",
+                    fallback: "style-loader" // lazy loading as a fallback
+                })
+            },
+            {
+                test: /\.scss$/,
+                use: ExtractTextWebpackPlugin.extract({
+                    use: [ "css-loader", "sass-loader"],
                     fallback: "style-loader" // lazy loading as a fallback
                 })
             }

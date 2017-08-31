@@ -1,0 +1,138 @@
+/* 
+## Application Styles
+*/
+
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+@import url(https://unpkg.com/tachyons@4.6.1/css/tachyons.min.css);
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+}
+
+/*Scrollbar*/
+/*
+ *  STYLE 3
+ */
+
+#photo-area::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: whitesmoke;
+}
+
+#photo-area::-webkit-scrollbar
+{
+	height: 6px;
+	background-color: white;
+}
+
+#photo-area::-webkit-scrollbar-thumb
+{
+	background-color: white;
+}
+
+/* ## Cloaked-until-loaded vue directive
+Credit goes to https://gist.github.com/adamwathan/3584d1904e4f4c36096f */
+[v-cloak] .v-cloak--block {
+  display: block;
+}
+[v-cloak] .v-cloak--inline {
+  display: inline;
+}
+[v-cloak] .v-cloak--inlineBlock {
+  display: inline-block;
+}
+[v-cloak] .v-cloak--hidden {
+  display: none;
+}
+[v-cloak] .v-cloak--invisible {
+  visibility: hidden;
+}
+.v-cloak--block, .v-cloak--inline, .v-cloak--inlineBlock {
+  display: none;
+}
+
+/* ## Loading... dot blink animation 
+Credit goes to https://martinwolf.org/blog/2015/01/pure-css-savingloading-dots-animation */
+@keyframes blink {
+  /**
+     * At the start of the animation the dot
+     * has an opacity of .2
+     */
+  0% {
+    opacity: .2;
+  }
+  /**
+     * At 20% the dot is fully visible and
+     * then fades out slowly
+     */
+  20% {
+    opacity: 1;
+  }
+  /**
+     * Until it reaches an opacity of .2 and
+     * the animation can start again
+     */
+  100% {
+    opacity: .2;
+  }
+}
+
+.loading span {
+  /**
+     * Use the blink animation, which is defined above
+     */
+  animation-name: blink;
+  /**
+     * The animation should take 1.4 seconds
+     */
+  animation-duration: 1.4s;
+  /**
+     * It will repeat itself forever
+     */
+  animation-iteration-count: infinite;
+  /**
+     * This makes sure that the starting style (opacity: .2)
+     * of the animation is applied before the animation starts.
+     * Otherwise we would see a short flash or would have
+     * to set the default styling of the dots to the same
+     * as the animation. Same applies for the ending styles.
+     */
+  animation-fill-mode: both;
+}
+
+.loading span:nth-child(2) {
+  /**
+     * Starts the animation of the third dot
+     * with a delay of .2s, otherwise all dots
+     * would animate at the same time
+     */
+  animation-delay: .2s;
+}
+
+.loading span:nth-child(3) {
+  /**
+     * Starts the animation of the third dot
+     * with a delay of .4s, otherwise all dots
+     * would animate at the same time
+     */
+  animation-delay: .4s;
+}
