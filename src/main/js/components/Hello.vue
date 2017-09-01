@@ -2,8 +2,8 @@
 <!-- As of now the vue project from https://github.com/DanielRosenwasser/vue/tree/accurateVueTypes is -->
 <!-- required to make the Code syntactic clean ONLY if lang=ts -->
 <!-- src/main/js/components/Hello.vue -->
-<!-- NOT included anywhere down from webpack entry -->
-<!-- NO ts-loader or sth. support, juts for MS VSCode Vetur showoff -->
+<!-- aon NOT included anywhere down from webpack entry -->
+<!-- aon NO ts-loader or sth. support, just for MS VSCode Vetur showoff -->
 <template>
     <div>
         <div class="greeting">Hello {{name}}{{exclamationMarks}}</div>
@@ -16,7 +16,14 @@
 import Vue from "vue";
 
 export default Vue.extend({
-    props: ['name', 'initialEnthusiasm'],
+    props: {
+        name: {
+            type: String
+        }, 
+        initialEnthusiasm: {
+            type: Number
+        }
+    },
     data() {
         return {
             enthusiasm: this.initialEnthusiasm,

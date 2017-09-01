@@ -91,26 +91,33 @@ export default Vue.extend({
         }
     },
     computed: {
+        /**@returns {boolean} */
         tweetIsOutOfUpperRange() {
             return this.tweet.length == 0;
         },
+        /**@returns {boolean} */
         tweetIsOutOfLowerRange() {
             return this.charactersRemaining < 0;
         },
+        /**@returns {boolean} */
         tweetIsOutOfRange() {
             return this.tweetIsOutOfLowerRange || this.tweetIsOutOfUpperRange;
         },
+        /**@returns {number} */
         charactersRemaining() {
             return MAX_TWEET_LENGTH - this.tweet.length;
         },
+        /**@returns {boolean} */
         underTwentyMark() {
             return this.charactersRemaining <= 20 && this.charactersRemaining >= 10;
         },
+        /**@returns {boolean} */
         underTenMark() {
             return this.charactersRemaining < 10 && this.charactersRemaining >= 0;
         },
+        /**@returns {boolean} */
         photoHasBeenUploaded() {
             return this.photos.length > 0;
-        },
+        }
     }
 })
