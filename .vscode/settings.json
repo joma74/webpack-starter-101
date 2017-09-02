@@ -9,5 +9,6 @@
     "npm-intellisense.packageSubfoldersIntellisense": true,
     "files.associations": {
         "*.vue": "vue"
-    }
+    },
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

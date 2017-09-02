@@ -8,7 +8,7 @@
         <!-- Only displayed after compiling -->
         <div class="v-cloak--hidden">
             <div class="pv2 tc bb b--black-10">
-                <h1 class="ma0 f5 normal">Compose a new Tweet</h1>
+                <h1 class="ma0 f5 normal">TwitterLike | Compose New Tweet</h1>
             </div>
             <div class="bg-near-white pa3">
                 <textarea name="tweet" v-model="tweet" rows="3" placeholder="Write your tweet" class="w-100 br2 ba b--black-10 pa2">
@@ -25,9 +25,10 @@
                 </transition>
                 <input @change="handlePhotoUpload" ref="photoUpload" type="file" accept="image/*" multiple="true" class="dn">
                 <div class="flex justify-end items-center mt3">
-                    <button @click="triggerFileUpload" class="mr-auto flex items-center justify-center br2 bn bg-transparent blue hover-bg-black-10 pointer">
+                    <button @click="triggerFileUpload" class="flex items-center justify-center br2 bn bg-transparent blue hover-bg-black-10 pointer">
                         <i class="material-icons f3">photo_camera</i>
                     </button>
+                    <span class="ml3 mr-auto light-red overflow-hidden">This file is not an image</span>
                     <span class="mr3 black-70" v-bind:class="{'orange': underTwentyMark, 'light-red': underTenMark, 'red': tweetIsOutOfLowerRange}">{{ charactersRemaining }}</span>
                     <button :disabled="tweetIsOutOfRange" class="bg-blue bn white f6 fw5 pv2 ph3 br2 dim">Tweet</button>
                 </div>
@@ -60,7 +61,7 @@ export default Vue.extend({
             /**
              * @type {HTMLButtonElement}  
              **/
-            var photoUploadLement = /** @type {HTMLButtonElement} */ (this.$refs.photoUpload); // TS Feature: Cast in JSDoc https://github.com/Microsoft/TypeScript/pull/17251
+            let photoUploadLement = /** @type {HTMLButtonElement} */ (this.$refs.photoUpload); // TS Feature: Cast in JSDoc https://github.com/Microsoft/TypeScript/pull/17251
             photoUploadLement.click();
         },
         /**
@@ -90,7 +91,7 @@ export default Vue.extend({
             /**
              * @type {HTMLButtonElement}  
              **/
-            var photoUploadLement = /** @type {HTMLButtonElement} */ (this.$refs.photoUpload); // TS Feature: Cast in JSDoc https://github.com/Microsoft/TypeScript/pull/17251
+            let photoUploadLement = /** @type {HTMLButtonElement} */ (this.$refs.photoUpload); // TS Feature: Cast in JSDoc https://github.com/Microsoft/TypeScript/pull/17251
             photoUploadLement.value = "";
         },
         /**

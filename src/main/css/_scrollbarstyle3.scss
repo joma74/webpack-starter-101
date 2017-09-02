@@ -1,0 +1,23 @@
+/*Scrollbar*/
+/*
+ *  STYLE 3
+ */
+
+ #photo-area::-webkit-scrollbar-track
+ {
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+     background-color: whitesmoke;
+ }
+ 
+ #photo-area::-webkit-scrollbar
+ {
+     height: 6px;
+     background-color: white;
+ }
+ 
+ #photo-area::-webkit-scrollbar-thumb
+ {
+     background-color: white;
+ }
+ 
