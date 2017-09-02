@@ -28,7 +28,7 @@
                     <button @click="triggerFileUpload" class="flex items-center justify-center br2 bn bg-transparent blue hover-bg-black-10 pointer">
                         <i class="material-icons f3">photo_camera</i>
                     </button>
-                    <span class="ml3 mr-auto light-red overflow-hidden">This file is not an image</span>
+                    <span class="ml3 ba b--lime-10 mr-auto light-red overflow-hidden">This file is not an image</span>
                     <span class="mr3 black-70" v-bind:class="{'orange': underTwentyMark, 'light-red': underTenMark, 'red': tweetIsOutOfLowerRange}">{{ charactersRemaining }}</span>
                     <button :disabled="tweetIsOutOfRange" class="bg-blue bn white f6 fw5 pv2 ph3 br2 dim">Tweet</button>
                 </div>

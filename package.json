@@ -9,7 +9,7 @@
   "scripts": {
     "build:debug": "node --inspect --debug-brk ./node_modules/webpack/bin/webpack.js --env.env=prod",
     "start:dev": "webpack-dev-server --env.env=dev --port=9000 --hot",
-    "start:prod": "webpack --env.env=prod",
+    "start:prod": "webpack --env.env=prod --env.addons=bundleanalyze",
     "start:alladdons": "webpack --watch --env.env=dev --env.addons=bundleanalyze"
   },
   "devDependencies": {

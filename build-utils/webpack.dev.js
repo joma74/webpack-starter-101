@@ -1,5 +1,12 @@
+const commonPaths = require("./common-paths");
+
 const config = {
     devtool: "eval-source-maps",
+    resolve: {
+        alias: {
+            "vue$": commonPaths.vueDev
+        },
+    },
     module: {
         rules: [
             {
