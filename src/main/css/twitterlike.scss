@@ -31,9 +31,32 @@ button:disabled {
 @import "v_cloak";
 @import "scrollbarstyle3";
 @import "~normalize.css/normalize.css";
+
+/* 
+## Additional normalizations
+*/
+
 input,
-button {
+button,
+select {
     border-style: none;
     border-width: 0;
     padding: 0;
+    outline-color: #357EDD; // tachyons blue
+    font-family: inherit;
+    font-size: inherit;
+}
+
+textarea {
+    border-style: none;
+    border-width: 0;
+    font-family: inherit;
+    font-size: inherit;
+    outline-color: #357EDD; // tachyons blue
+    box-shadow: none;
+    resize: none;
+}
+
+body {
+    font-family: Verdana, Geneva, sans-serif;
 }
