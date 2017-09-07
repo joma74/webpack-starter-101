@@ -13,10 +13,14 @@
             <div class="bg-near-white pa3">
                 <textarea name="tweet" v-model="tweet" rows="3" placeholder="Write your tweet" class="w-100 br2 ba b--black-10 pa2">
                 </textarea>
+                <div class="flex justify-end items-center">
+                    <span class="black-70" v-bind:class="{'orange': underTwentyMark, 'light-red': underTenMark, 'red': tweetIsOutOfLowerRange}">{{ charactersRemaining }}</span>
+                    <span class="black-70">/{{ maxTweetLength() }}</span>
+                </div>
                 <transition name="fade" mode="out-in">
                     <div v-if="photoHasBeenUploaded" class="bg-black-10 pa2 flex overflow-x-scroll" id="photo-area">
                         <figure v-for="(photo, index) in photos" class="ma0 mh1 relative flex items-center justify-center" style="flex-shrink: 0">
-                            <button @click="removePhoto(index)" class="pointer dim bn bg-blue h1 w1 br-100 white flex items-center justify-center absolute absolute--fill mr-auto">
+                            <button @click="removePhoto(index)" class="pointer dim bg-blue h1 w1 br-100 white flex items-center justify-center absolute absolute--fill mr-auto">
                                 <i class="material-icons f6">close</i>
                             </button>
                             <img v-bind:src="photo" class="h3 w3" alt="Uploaded photo">
@@ -24,13 +28,15 @@
                     </div>
                 </transition>
                 <input @change="handlePhotoUpload" ref="photoUpload" type="file" accept="image/*" multiple="true" class="dn">
-                <div class="flex justify-end items-center mt3">
-                    <button @click="triggerFileUpload" class="flex items-center justify-center br2 bn bg-transparent blue hover-bg-black-10 pointer">
-                        <i class="material-icons f3">photo_camera</i>
-                    </button>
-                    <span class="ml3 ba b--lime-10 mr-auto light-red overflow-hidden">This file is not an image</span>
-                    <span class="mr3 black-70" v-bind:class="{'orange': underTwentyMark, 'light-red': underTenMark, 'red': tweetIsOutOfLowerRange}">{{ charactersRemaining }}</span>
-                    <button :disabled="tweetIsOutOfRange" class="bg-blue bn white f6 fw5 pv2 ph3 br2 dim">Tweet</button>
+                <div class="flex justify-end items-center">
+                    <div class="flex pa1 mr-auto self-stretch items-center bt bw1 b--dark-red">
+                        <button @click="triggerFileUpload" class="flex br2 pa1 items-center justify-center bg-transparent blue hover-bg-black-10 pointer">
+                            <i class="material-icons f4">photo_camera</i>
+                        </button>
+                    </div>
+                    <div class="flex pa1 bt bw1 b--dark-red">
+                        <button :disabled="tweetIsOutOfRange" class="bg-blue white f6 fw5 pv2 ph3 br2 dim">Tweet</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,6 +105,9 @@ export default Vue.extend({
          */
         removePhoto(index) {
             this.photos.splice(index, 1);
+        },
+        maxTweetLength() {
+            return MAX_TWEET_LENGTH;
         }
     },
     computed: {

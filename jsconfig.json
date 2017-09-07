@@ -12,6 +12,7 @@
         "outDir": "./target/",
         "paths": {
             "*": ["*"],
+            "~/*": ["node_modules/*"],
             "js@/*": ["src/main/js/*"],
             "css@/*": ["src/main/css/*"]
         },

@@ -26,7 +26,14 @@ button:disabled {
 }
 
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
-@import url(https://unpkg.com/tachyons@4.6.1/css/tachyons.min.css);
+@import "~tachyons/css/tachyons.min.css";
 @import "blinkdotanim";
 @import "v_cloak";
 @import "scrollbarstyle3";
+@import "~normalize.css/normalize.css";
+input,
+button {
+    border-style: none;
+    border-width: 0;
+    padding: 0;
+}
