@@ -47,8 +47,7 @@ export default Vue.extend({
     },
     methods: {
         triggerFileUpload() {
-            /** @type {HTMLButtonElement} */
-            var photoUploadLement = this.$refs.photoUpload;
+            var photoUploadLement = /** @type {HTMLButtonElement} */ (this.$refs.photoUpload);
             photoUploadLement.click();
         },
         /**
