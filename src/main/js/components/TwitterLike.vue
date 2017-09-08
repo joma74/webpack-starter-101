@@ -11,13 +11,13 @@
                 <h1 class="ma0 f5 normal">TwitterLike | Compose New Tweet</h1>
             </div>
             <div class="bg-near-white pa3">
-                <div class="flex justify-end items-center bb bw1 mb1 pt1 pb1" v-bind:class="{'b--dark-red': tweetIsOutOfRange, 'b--black-20': !tweetIsOutOfRange}">
-                    <span class="mr-auto" v-bind:class="{'dark-red': tweetIsOutOfRange, 'black-70': !tweetIsOutOfRange}">Your story</span>
-                    <span class="black-70" v-bind:class="{'dark-red': tweetIsOutOfUpperRange}">{{ charactersActual }}</span>
-                    <span class="black-70">&nbsp;/&nbsp;</span>
-                    <span class="black-70" v-bind:class="{'dark-red': tweetIsOutOfLowerRange, 'orange': underTwentyMark, 'light-red': underTenMark}">{{ charactersRemaining }}</span>
+                <div class="label f4 h2 flex justify-end items-center bb bw1 mb1 pt1 pb1" v-bind:class="{'b--dark-red': tweetIsOutOfRange, 'b--black-20': !tweetIsOutOfRange}">
+                    <label for="c_tweet_id" class="mr-auto" v-bind:class="{'dark-red': tweetIsOutOfRange, 'black-70': !tweetIsOutOfRange}">Your story</label>
+                    <label for="c_tweet_id"  class="black-70" v-bind:class="{'dark-red': tweetIsOutOfUpperRange}">{{ charactersActual }}</label>
+                    <label for="c_tweet_id"  class="black-70">&nbsp;/&nbsp;</label>
+                    <label for="c_tweet_id"  class="black-70" v-bind:class="{'dark-red': tweetIsOutOfLowerRange, 'orange': underTwentyMark, 'light-red': underTenMark}">{{ charactersRemaining }}</label>
                 </div>
-                <textarea name="tweet" v-model="tweet" rows="6" cols="20" placeholder="Write it up" class="w-100 bg-near-white br2 bn">
+                <textarea name="tweet" id="c_tweet_id" v-model="tweet" rows="6" cols="20" placeholder="Write it up" class="w-100 f4 bg-near-white br2 bn">
                 </textarea>
                 <transition name="fade" mode="out-in">
                     <div v-if="photoHasBeenUploaded" class="bg-black-10 pa2 flex overflow-x-scroll" id="photo-area">

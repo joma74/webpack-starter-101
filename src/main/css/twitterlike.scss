@@ -25,6 +25,20 @@ button:disabled {
     opacity: 0;
 }
 
+.label {
+    transform: translateY(2.125rem);
+    font-size: 1.25rem;
+    transition: all 0.35s;
+    z-index: -1;
+}
+
+.label:hover {
+    transform: translateY(0);
+    font-size: 1rem;
+    transition: all 0.35s;
+    z-index: 1;
+}
+
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 @import "~tachyons/css/tachyons.min.css";
 @import "blinkdotanim";
