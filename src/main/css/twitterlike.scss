@@ -25,18 +25,30 @@ button:disabled {
     opacity: 0;
 }
 
-.label {
+.label-is-down {
     transform: translateY(2.125rem);
     font-size: 1.25rem;
-    transition: all 0.35s;
-    z-index: -1;
+    transition: all 0.35s cubic-bezier(0.075, 0.82, 0.165, 1);
+    z-index: 0;
+    transition-delay: 0.125s;
+    pointer-events: all;
 }
 
-.label:hover {
+.label-is-up {
     transform: translateY(0);
     font-size: 1rem;
-    transition: all 0.35s;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 1;
+    pointer-events: all;
+}
+
+// See https://slickmedia.co.uk/blog/flexbox-force-wrap/
+.flex-break {
+    flex-basis: 100%;
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
+    display: inline-block;
 }
 
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
@@ -69,6 +81,8 @@ textarea {
     outline-color: #357EDD; // tachyons blue
     box-shadow: none;
     resize: none;
+    pointer-events: all;
+    z-index: 1;
 }
 
 body {
