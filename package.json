@@ -13,6 +13,7 @@
     "start:alladdons": "webpack --watch --env.env=dev --env.addons=bundleanalyze"
   },
   "devDependencies": {
+    "@types/debug": "^0.0.30",
     "@types/extract-text-webpack-plugin": "^2.1.0",
     "@types/html-webpack-plugin": "^2.28.0",
     "@types/node": "^8.0.26",
@@ -37,6 +38,7 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
+    "debug": "^3.0.1",
     "normalize.css": "^7.0.0",
     "tachyons": "^4.8.1",
     "vue": "https://github.com/DanielRosenwasser/vue#540a38fb21adb7a7bc394c65e23e6cffb36cd867"

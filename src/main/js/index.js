@@ -1,7 +1,7 @@
 /* eslint-env browser */
 
 import FOO_STRING from "./foo"
-import BAZ_STRING from "js@/components/baz"
+import BAZ_STRING from "jsm@/components/baz"
 import "css@/index.css"
 
 const bar = require("./bar")
@@ -9,7 +9,9 @@ const bar = require("./bar")
 console.log(`Hello ${FOO_STRING} and hello ${bar.BAR_STRING} plus hello ${BAZ_STRING}`); // This is an ES6 feature
 
 import Vue from "vue";
-import TwitterLike from "js@/components/TwitterLike.vue"
+import TwitterLike from "jsm@/components/TwitterLike.vue"
+
+localStorage.debug = "components:*";
 
 new Vue({
     el: "#twitterlike",

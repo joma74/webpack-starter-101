@@ -13,7 +13,7 @@
         "paths": {
             "*": ["*"],
             "~/*": ["node_modules/*"],
-            "js@/*": ["src/main/js/*"],
+            "jsm@/*": ["src/main/js/*"],
             "css@/*": ["src/main/css/*"]
         },
         "sourceMap": true,
@@ -31,6 +31,6 @@
         "src/**/*"
     ],
     "typeAcquisition": {
-        "include": ["node", "webpack"]
+        "include": ["node", "webpack", "debug"]
     }
 }

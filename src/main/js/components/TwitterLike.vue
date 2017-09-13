@@ -50,6 +50,9 @@ import Vue from "vue"
 
 import "css@/twitterlike.scss"
 
+import debug from "debug";
+const logit = debug('components:TwitterLike.vue');
+
 const MAX_TWEET_LENGTH = 140;
 
 export default Vue.extend({
@@ -111,13 +114,13 @@ export default Vue.extend({
         /**@param {string} event */
         evalLabelState(event) {
             if (event == 'fi') {
-                console.log("handling focus in")
+                logit("handling focus in");
                 this.labelIsUp = true;
                 this.hasFocus = true;
                 return;
             }
             if (event == 'hi') {
-                console.log("handling hover in")
+                logit("handling hover in");
                 this.labelIsUp = true;
                 this.hasHover = true;
                 return;
@@ -125,29 +128,29 @@ export default Vue.extend({
             if (event == 'ho') {
                 this.hasHover = false;
                 if (!this.hasFocus) {
-                    console.log("handling hover out without focus")
+                    logit("handling hover out without focus");
                     this.labelIsUp = false;
                 } else {
-                    console.log("handling hover out with focus")
+                    logit("handling hover out with focus");
                     this.labelIsUp = true;
                 }
                 return;
             }
             if (event == 'fo') {
-                console.log("handling focus out")
+                logit("handling focus out");
                 this.hasFocus = false;
                 if (this.hasHover) {
-                    console.log("handling focus out but has hover")
+                    logit("handling focus out but has hover");
                     this.labelIsUp = true;
                 } else {
-                    console.log("handling focus out without hover")
+                    logit("handling focus out without hover");
                     this.labelIsUp = false;
                 }
 
 
                 return;
             }
-            console.log("Huh?" + event)
+            logit("Huh?" + event);
         }
 
     },

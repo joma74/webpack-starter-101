@@ -10,7 +10,7 @@ const config = {
     },
     resolve: {
         alias: {
-            "js@": commonPaths.mainJs,
+            "jsm@": commonPaths.mainJs,
             "css@": commonPaths.mainCss,
             "html@": commonPaths.mainHtml,
             "vue$": commonPaths.vueEsm

@@ -1,4 +1,5 @@
 const commonPaths = require("./common-paths");
+const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 
 const config = {
     devtool: "eval-source-maps",
@@ -11,18 +12,33 @@ const config = {
         rules: [
             {
                 test: /\.css$/,
-                use: [ "style-loader", "css-loader" ]
+                use: [ "style-loader", {
+                    loader: "css-loader", options: {
+                        sourceMap: true
+                    }
+                } ]
             },
             {
                 test: /\.scss$/,
-                use: [ "style-loader", "css-loader", "sass-loader" ]
+                use: [ "style-loader", {
+                    loader: "css-loader", options: {
+                        sourceMap: true
+                    }
+                }, {
+                    loader: "sass-loader", options: {
+                        sourceMap: true
+                    }
+                } ]
             }
         ]
     },
     devServer: {
         historyApiFallback: true,
         noInfo: true
-    }
+    },
+    plugins: [
+        new ExtractTextWebpackPlugin("styles.css")
+    ]
 }
 
 module.exports = config;
