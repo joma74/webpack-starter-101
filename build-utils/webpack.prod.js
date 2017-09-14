@@ -1,14 +1,12 @@
-const commonPaths = require("./common-paths");
+const alias = require("./alias-prod");
 const webpack = require("webpack");
 const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 const BabelMinifyWebpackPlugin = require("babel-minify-webpack-plugin");
 
 const config = {
-    devtool: "source-map",
+    // devtool: "source-map",
     resolve: {
-        alias: {
-            "vue$": commonPaths.vueProd
-        },
+        alias: alias
     },
     module: {
         rules: [

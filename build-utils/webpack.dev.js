@@ -1,12 +1,10 @@
-const commonPaths = require("./common-paths");
+const alias = require("./alias-dev");
 const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 
 const config = {
     devtool: "eval-source-maps",
     resolve: {
-        alias: {
-            "vue$": commonPaths.vueDev
-        },
+        alias: alias
     },
     module: {
         rules: [

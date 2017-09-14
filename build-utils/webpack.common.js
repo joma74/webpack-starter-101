@@ -1,5 +1,5 @@
 const commonPaths = require("./common-paths");
-// const webpack = require("webpack");
+const alias = require("./alias-common");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const config = {
@@ -9,12 +9,7 @@ const config = {
         path: commonPaths.outputPath
     },
     resolve: {
-        alias: {
-            "jsm@": commonPaths.mainJs,
-            "css@": commonPaths.mainCss,
-            "html@": commonPaths.mainHtml,
-            "vue$": commonPaths.vueEsm
-        },
+        alias: alias,
         extensions: [".ts", ".js", ".vue", ".json"]
     },
     module: {
