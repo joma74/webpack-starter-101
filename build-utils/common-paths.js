@@ -1,11 +1,13 @@
 const path = require("path");
 
+const resolve = p => path.resolve(__dirname, "../", p)
+
 const allMyPaths = {
-    outputPath: path.resolve(__dirname, "../", "dist/"),
-    mainJs: path.resolve(__dirname, "../", "src/main/js/"),
-    mainCss: path.resolve(__dirname, "../", "src/main/css/"),
-    mainHtml: path.resolve(__dirname, "../", "src/main/html/"),
-    jsConfigJson: path.resolve(__dirname, "../", "jsconfig.json"),
+    outputPath: resolve("dist/"),
+    mainJs: resolve("src/main/js/"),
+    mainCss: resolve("src/main/css/"),
+    mainHtml: resolve("src/main/html/"),
+    jsConfigJson: resolve("jsconfig.json"),
     vueDev: "vue/dist/vue.esm.js",
     vueProd: "vue/dist/vue.runtime.esm.js"
 }
