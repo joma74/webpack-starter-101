@@ -75,10 +75,7 @@ export default Vue.extend({
                a.jpg again -> no change event is triggered. 
                Browser people seem settled to what a change is too literally :)
             */
-            /**
-             * @type {HTMLButtonElement}
-             * */
-            var photoUploadLement = this.$refs.photoUpload;
+            var photoUploadLement = /** @type {HTMLButtonElement} */ (this.$refs.photoUpload);
             photoUploadLement.value = "";
         },
         /**
