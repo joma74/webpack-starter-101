@@ -10,8 +10,8 @@
     "build:debug": "node --inspect --debug-brk ./node_modules/webpack/bin/webpack.js --env.env=prod",
     "start:dev": "webpack-dev-server --env.env=dev --port=9000 --hot",
     "start:prod": "webpack --env.env=prod",
-    "start:alladdons": "webpack --watch --env.env=dev --env.addons=bundleanalyze",
-    "webpack:stats": "webpack --profile --json  --env.env=prod > webpack-stats.json"
+    "webpack:stats": "webpack --env.env=prod --profile --env.addons=statswebpack",
+    "webpack:stats2": "webpack --env.env=prod --profile --json > old-webpack-stats.json"
   },
   "devDependencies": {
     "@types/debug": "^0.0.30",
@@ -28,6 +28,7 @@
     "node-sass": "^4.5.3",
     "prettyjson": "^1.2.1",
     "sass-loader": "^6.0.6",
+    "stats-webpack-plugin": "^0.6.1",
     "style-loader": "^0.18.2",
     "typescript": "^2.5.2",
     "url-loader": "^0.5.9",
