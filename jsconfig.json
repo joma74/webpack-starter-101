@@ -11,10 +11,10 @@
         "baseUrl": "./",
         "outDir": "./target/",
         "paths": {
-            "*": ["*"],
-            "~/*": ["node_modules/*"],
-            "jsm@/*": ["src/main/js/*"],
-            "css@/*": ["src/main/css/*"]
+            "jsm@/*": ["./src/main/js/*"],
+            "jst@/*": ["./src/test/js/*"],
+            "css@/*": ["./src/main/css/*"],
+            "~/*" : ["./src/main/*"]
         },
         "sourceMap": true,
         "types": [
@@ -23,9 +23,10 @@
         "traceResolution": true
     },
     "exclude": [
+        "dist",
         "node_modules",
         "**/node_modules/*",
-        "dist"
+        "target"
     ],
     "include": [
         "src/**/*"

@@ -1,10 +1,9 @@
 {
-    "path-intellisense.mappings": {
-        "/": "${workspaceRoot}",
-        "js@": "src/main/js/",
-        "css@": "src/main/css/"
+    "path-autocomplete.pathMappings": {
+        "jsm@": "${workspace}/src/main/js",
+        "jst@": "${workspace}/src/test/js",
+        "css@": "${workspace}/src/main/css"
     },
-    "path-intellisense.extensionOnImport": true,
     "npm-intellisense.scanDevDependencies": true,
     "npm-intellisense.packageSubfoldersIntellisense": true,
     "files.associations": {
