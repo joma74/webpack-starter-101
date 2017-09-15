@@ -1,7 +1,7 @@
 {
     "path-autocomplete.pathMappings": {
         "jsm@": "${workspace}/src/main/js",
-        "jst@": "${workspace}/src/test/js",
+        "jstu@": "${workspace}/src/test/unit/js",
         "css@": "${workspace}/src/main/css"
     },
     "npm-intellisense.scanDevDependencies": true,

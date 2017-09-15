@@ -5,7 +5,7 @@ const resolve = p => path.resolve(__dirname, "../", p)
 const paths = {
     outputPath: resolve("dist/"),
     mainJs: resolve("src/main/js/"),
-    testJs: resolve("src/test/js/"),
+    testUnitJs: resolve("src/test/unit/js/"),
     mainCss: resolve("src/main/css/"),
     mainHtml: resolve("src/main/html/"),
     jsConfigJson: resolve("jsconfig.json"),

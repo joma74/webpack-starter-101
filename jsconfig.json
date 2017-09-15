@@ -12,13 +12,13 @@
         "outDir": "./target/",
         "paths": {
             "jsm@/*": ["./src/main/js/*"],
-            "jst@/*": ["./src/test/js/*"],
+            "jstu@/*": ["./src/test/unit/js/*"],
             "css@/*": ["./src/main/css/*"],
             "~/*" : ["./src/main/*"]
         },
         "sourceMap": true,
         "types": [
-            "node", "webpack", "debug"
+            "node", "webpack", "debug", "jasmine", "karma"
         ],
         "traceResolution": true
     },
@@ -32,6 +32,6 @@
         "src/**/*"
     ],
     "typeAcquisition": {
-        "include": ["node", "webpack", "debug"]
+        "include": ["node", "webpack", "debug", "jasmine", "karma"]
     }
 }

@@ -2,7 +2,7 @@ const commonPaths = require("./common-paths");
 
 const alias = {
     "jsm@": commonPaths.mainJs,
-    "jst@": commonPaths.testJs,
+    "jstu@": commonPaths.testUnitJs,
     "css@": commonPaths.mainCss,
     "html@": commonPaths.mainHtml
 }
