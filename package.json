@@ -12,8 +12,9 @@
     "start:prod": "webpack --env.env=prod",
     "webpack:stats": "webpack --env.env=prod --profile --env.addons=statswebpack",
     "webpack:stats2": "webpack --env.env=prod --profile --json > old-webpack-stats.json",
-    "test:unit": "karma start test/unit/karma.unit.config.js",
-    "test:dev": "karma start"
+    "test:run": "karma start",
+    "test:watch": "karma start --autoWatch --singleRun false",
+    "test:nopreprocs": "karma start --autoWatch --singleRun false --noprepocs"
   },
   "devDependencies": {
     "@types/debug": "^0.0.30",
@@ -34,6 +35,8 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-mocha-reporter": "^2.2.4",
     "node-sass": "^4.5.3",
     "prettyjson": "^1.2.1",
     "sass-loader": "^6.0.6",

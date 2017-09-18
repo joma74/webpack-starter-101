@@ -2,6 +2,19 @@
 // Generated on Fri Sep 15 2017 15:25:15 GMT+0200 (CEST)
 
 module.exports = function (config) {
+    /**
+     * See https://glebbahmutov.com/blog/debugging-karma-unit-tests/
+     */
+    /* eslint no-unused-vars: "warn" */
+    var sourcePreprocessors = "coverage";
+
+    function isNoPreProcs(argument) {
+        return argument === "--nopreproc";
+    }
+    if (process.argv.some(isNoPreProcs)) {
+        sourcePreprocessors = [];
+    }
+
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -27,13 +40,14 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
+            // "index.js": sourcePreprocessors
         },
 
 
         // test results reporter to use
-        // possible values: "dots", "progress"
+        // possible values: "dots", "progress", "mocha"
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ["progress"],
+        reporters: ["mocha", "kjhtml"],
 
 
         // web server port
