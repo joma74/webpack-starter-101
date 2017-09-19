@@ -6,7 +6,7 @@ module.exports = function (config) {
      * See https://glebbahmutov.com/blog/debugging-karma-unit-tests/
      */
     /* eslint no-unused-vars: "warn" */
-    var sourcePreprocessors = "coverage";
+    var sourcePreprocessors = ["coverage"];
 
     function isNoPreProcs(argument) {
         return argument === "--nopreproc";
@@ -18,7 +18,7 @@ module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: "",
+        basePath: ".",
 
 
         // frameworks to use
@@ -67,9 +67,9 @@ module.exports = function (config) {
         autoWatch: false,
 
 
-        // start these browsers
+        // start these browsers "Chrome"
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ["Chrome"],
+        browsers: ["Firefox"],
 
 
         // Continuous Integration mode
@@ -78,6 +78,13 @@ module.exports = function (config) {
 
         // Concurrency level
         // how many browser should be started simultaneous
-        concurrency: Infinity
+        concurrency: Infinity,
+
+        customLaunchers: {
+            ChromeDebugging: {
+                base: "Chrome",
+                flags: ["--remote-debugging-port=9333"]
+            }
+        },
     })
 }
