@@ -28,7 +28,8 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "src/test/unit/js/**/*jasm.js"
+            "src/test/unit/js/**/*jasm.js",
+            "node_modules/bitset.js/bitset"
         ],
 
 
@@ -69,7 +70,7 @@ module.exports = function (config) {
 
         // start these browsers "Chrome" "Firefox"
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ["/usr/lib/firefox/firefox.sh"],
+        browsers: ["Firefox"],
 
 
         // Continuous Integration mode
