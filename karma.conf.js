@@ -28,8 +28,7 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "src/test/unit/js/**/*jasm.js",
-            "node_modules/bitset.js/bitset"
+            "src/test/unit/js/**/*jasm.js"
         ],
 
 
