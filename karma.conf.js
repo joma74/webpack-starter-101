@@ -6,7 +6,7 @@ module.exports = function (config) {
      * See https://glebbahmutov.com/blog/debugging-karma-unit-tests/
      */
     /* eslint no-unused-vars: "warn" */
-    var sourcePreprocessors = "coverage";
+    var sourcePreprocessors = ["coverage"];
 
     function isNoPreProcs(argument) {
         return argument === "--nopreproc";
@@ -18,7 +18,7 @@ module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: "",
+        basePath: ".",
 
 
         // frameworks to use
@@ -28,7 +28,8 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "src/test/unit/js/**/*jasm.js"
+            "src/test/unit/js/**/*jasm.js",
+            "node_modules/bitset.js/bitset"
         ],
 
 
@@ -78,6 +79,13 @@ module.exports = function (config) {
 
         // Concurrency level
         // how many browser should be started simultaneous
-        concurrency: Infinity
+        concurrency: Infinity,
+
+        customLaunchers: {
+            ChromeDebugging: {
+                base: "Chrome",
+                flags: ["--remote-debugging-port=9333"]
+            }
+        },
     })
 }

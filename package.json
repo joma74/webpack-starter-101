@@ -13,7 +13,7 @@
     "webpack-stats": "webpack --env.env=prod --profile --env.addons=statswebpack",
     "test-run": "karma start",
     "test-watch": "karma start --autoWatch --singleRun false",
-    "test-nopreprocs": "karma start --autoWatch --singleRun false --noprepocs"
+    "test-debug": "karma start --autoWatch false --singleRun false --noprepocs --browsers ChromeDebugging"
   },
   "devDependencies": {
     "@types/debug": "^0.0.30",
