@@ -1,4 +1,4 @@
-/// <reference path="../../../../node_modules/@types/webpack/index.d.ts" />
+/// <reference path="../../../../node_modules/@types/webpack-env/index.d.ts" />
 
 // require all test files
 const testsContext = require.context("./", true, /\.jasm$/)
