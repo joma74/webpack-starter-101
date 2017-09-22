@@ -1,5 +1,6 @@
 {
     "path-autocomplete.pathMappings": {
+        "bu@": "${workspace}/build-utils",
         "jsm@": "${workspace}/src/main/js",
         "jstu@": "${workspace}/src/test/unit/js",
         "css@": "${workspace}/src/main/css"

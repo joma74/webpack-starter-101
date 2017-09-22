@@ -7,13 +7,20 @@
   "author": "joma74",
   "license": "MIT",
   "scripts": {
+    "list-dependencies-l0": "yarn list --depth 0 > dist/installed-dependencies.l0.txt",
+    "list-dependencies-la": "yarn list > dist/installed-dependencies.la.txt",
     "build-debug": "node --inspect --debug-brk ./node_modules/webpack/bin/webpack.js --env.env=prod",
     "start-dev": "webpack-dev-server --env.env=dev --port=9000 --hot",
     "start-prod": "webpack --env.env=prod",
     "webpack-stats": "webpack --env.env=prod --profile --env.addons=statswebpack",
     "test-run": "karma start",
+    "test-unit": "karma start src/test/unit/js/karma.unit.config.js",
     "test-watch": "karma start --autoWatch --singleRun false",
     "test-debug": "karma start --autoWatch false --singleRun false --noprepocs --browsers ChromeDebugging"
+  },
+  "_moduleAliases": {
+    "root@": ".",
+    "bu@": "build-utils"
   },
   "devDependencies": {
     "@types/debug": "^0.0.30",
@@ -23,6 +30,7 @@
     "@types/karma": "^0.13.36",
     "@types/node": "^8.0.26",
     "@types/webpack": "^3.0.10",
+    "@types/webpack-env": "^1.13.1",
     "babel-minify-webpack-plugin": "^0.2.0",
     "css-loader": "^0.28.5",
     "eslint": "^4.5.0",
@@ -37,6 +45,9 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-mocha-reporter": "^2.2.4",
     "karma-script-launcher": "^1.0.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.4",
+    "module-alias": "^2.0.1",
     "node-sass": "^4.5.3",
     "prettyjson": "^1.2.1",
     "sass-loader": "^6.0.6",

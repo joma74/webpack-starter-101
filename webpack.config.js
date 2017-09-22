@@ -1,4 +1,4 @@
-const commonConfig = require("./build-utils/webpack.common");
+const commonConfig = require("bu@/webpack.common");
 const webpackMerge = require("webpack-merge");
 const prettyjson = require("prettyjson");
 

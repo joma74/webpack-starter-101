@@ -5,12 +5,14 @@
         "checkJs": true,
         "moduleResolution": "node",
         "strict": true,
+        "target": "es6",
         "rootDirs": [
             "build-utils", "src/main"
         ],
         "baseUrl": "./",
         "outDir": "./target/",
         "paths": {
+            "bu@/*": ["./build-utils/*"],
             "jsm@/*": ["./src/main/js/*"],
             "jstu@/*": ["./src/test/unit/js/*"],
             "css@/*": ["./src/main/css/*"],
@@ -18,7 +20,7 @@
         },
         "sourceMap": true,
         "types": [
-            "node", "webpack", "debug", "jasmine", "karma"
+            "node", "webpack", "debug", "jasmine", "karma", "karma-webpack"
         ],
         "traceResolution": true
     },
