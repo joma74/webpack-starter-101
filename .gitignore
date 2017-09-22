@@ -2,3 +2,4 @@ dist/
 node_modules/
 target/
 webpack-stats.json
+profiles/firefox/karmauser/*
