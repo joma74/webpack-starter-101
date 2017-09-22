@@ -202,6 +202,9 @@ class BitSet {
          * @type {number[]}
          */
         this.data = [];
+        /**
+         * @type {number}
+         */
         this._ = 0;
 
         if (!(this instanceof BitSet)) {
@@ -230,9 +233,9 @@ class BitSet {
         scale(this, ndx);
 
         if (value === undefined || value) {
-            this['data'][ndx >>> WORD_LOG] |= (1 << ndx);
+            this.data[ndx >>> WORD_LOG] |= (1 << ndx);
         } else {
-            this['data'][ndx >>> WORD_LOG] &= ~(1 << ndx);
+            this.data[ndx >>> WORD_LOG] &= ~(1 << ndx);
         }
         return this;
     }
@@ -251,11 +254,11 @@ class BitSet {
 
         ndx |= 0;
 
-        var d = this['data'];
+        var d = this.data;
         var n = ndx >>> WORD_LOG;
 
         if (n > d.length) {
-            return this['_'] & 1;
+            return this._ & 1;
         }
         return (d[n] >>> ndx) & 1;
     }
@@ -297,7 +300,7 @@ class BitSet {
             t[i] &= p[i];
         }
 
-        this['_'] &= P._;
+        this._ &= P._;
 
         return this;
     }
@@ -335,7 +338,7 @@ class BitSet {
             t[i] |= p[i];
         }
 
-        this['_'] |= P['_'];
+        this._ |= P._;
 
         return this;
     }
@@ -352,12 +355,12 @@ class BitSet {
      */
     not() { // invert()
 
-        var d = this['data'];
+        var d = this.data;
         for (var i = 0; i < d.length; i++) {
             d[i] = ~d[i];
         }
 
-        this['_'] = ~this['_'];
+        this._ = ~this._;
 
         return this;
     }
@@ -405,7 +408,7 @@ class BitSet {
         }
 
         // XOR infinity
-        this['_'] ^= p_;
+        this._ ^= p_;
 
         return this;
     }
@@ -467,7 +470,6 @@ class BitSet {
         var t = this.data;
         var p = P.data;
 
-        var t_ = this._;
         var p_ = P._;
 
         var l = Math.min(t.length, p.length);
@@ -475,7 +477,7 @@ class BitSet {
         for (var k = 0; k < l; k++) {
             t[k] &= ~p[k];
         }
-        this['_'] &= ~p_;
+        this._ &= ~p_;
 
         return this;
     }
@@ -499,10 +501,10 @@ class BitSet {
 
         if (from === undefined) {
 
-            for (var i = data.length - 1; i >= 0; i--) {
+            for (let i = data.length - 1; i >= 0; i--) {
                 data[i] = 0;
             }
-            this['_'] = 0;
+            this._ = 0;
 
         } else if (to === undefined) {
 
@@ -516,7 +518,7 @@ class BitSet {
 
             scale(this, to);
 
-            for (var i = from; i <= to; i++) {
+            for (let i = from; i <= to; i++) {
                 data[i >>> WORD_LOG] &= ~(1 << i);
             }
         }
@@ -543,10 +545,10 @@ class BitSet {
 
             to = this.data.length * WORD_LENGTH;
 
-            var im = new BitSet(undefined);
+            let im = new BitSet();
 
-            im['_'] = this['_'];
-            im['data'] = [0];
+            im._ = this._;
+            im.data = [0];
 
             for (var i = from; i <= to; i++) {
                 im.set(i - from, this.get(i));
@@ -555,10 +557,10 @@ class BitSet {
 
         } else if (from <= to && 0 <= from) {
 
-            var im = new BitSet(undefined);
-            im['data'] = [0];
+            let im = new BitSet();
+            im.data = [0];
 
-            for (var i = from; i <= to; i++) {
+            for (let i = from; i <= to; i++) {
                 im.set(i - from, this.get(i));
             }
             return im;
@@ -582,7 +584,7 @@ class BitSet {
     setRange(from, to, value) {
 
         for (var i = from; i <= to; i++) {
-            this['set'](i, value);
+            this.set(i, value);
         }
         return this;
     }
@@ -599,8 +601,8 @@ class BitSet {
     clone() {
 
         var im = Object.create(BitSet.prototype);
-        im['data'] = this['data'].slice();
-        im['_'] = this['_'];
+        im.data = this.data.slice();
+        im._ = this._;
 
         return im;
     }
@@ -612,7 +614,7 @@ class BitSet {
      */
     toArray() {
         var ret = [];
-        var data = this['data'];
+        var data = this.data;
 
         for (var i = 0; i < data.length; i++) {
 
@@ -625,7 +627,7 @@ class BitSet {
             }
         }
 
-        if (this['_'] !== 0)
+        if (this._ !== 0)
             ret.push(Infinity);
 
         return ret;
@@ -647,10 +649,10 @@ class BitSet {
         // If base is power of two
         if ((base & (base - 1)) === 0 && base < 36) {
 
-            var retString = '';
+            var retString = "";
             var len = 2 + Math.log(4294967295/*Math.pow(2, WORD_LENGTH)-1*/) / Math.log(base) | 0;
 
-            for (var i = data.length - 1; i >= 0; i--) {
+            for (let i = data.length - 1; i >= 0; i--) {
 
                 var cur = data[i];
 
@@ -660,31 +662,31 @@ class BitSet {
 
                 var tmp = cur.toString(base);
 
-                if (retString !== '') {
+                if (retString !== "") {
                     // Fill small positive numbers with leading zeros. The +1 for array creation is added outside already
-                    retString += new Array(len - tmp.length).join('0');
+                    retString += new Array(len - tmp.length).join("0");
                 }
                 retString += tmp;
             }
 
             if (this._ === 0) {
 
-                retString = retString.replace(/^0+/, '');
+                retString = retString.replace(/^0+/, "");
 
-                if (retString === '')
-                    retString = '0';
+                if (retString === "")
+                    retString = "0";
                 return retString;
 
             } else {
                 // Pad the string with ones
-                retString = '1111' + retString;
-                return retString.replace(/^1+/, '...1111');
+                retString = "1111" + retString;
+                return retString.replace(/^1+/, "...1111");
             }
 
         } else {
 
             if ((2 > base || base > 36))
-                throw 'Invalid base';
+                throw "Invalid base";
 
             /**
              * @type {string[]}
@@ -693,7 +695,7 @@ class BitSet {
             var arr = [];
 
             // Copy every single bit to a new array
-            for (var i = data.length; i--;) {
+            for (let i = data.length; i--;) {
 
                 for (var j = WORD_LENGTH; j--;) {
 
@@ -707,7 +709,7 @@ class BitSet {
                 return x === 0;
             }));
 
-            return retStringArray.join('');
+            return retStringArray.join("");
         }
     }
 
@@ -775,11 +777,11 @@ class BitSet {
      */
     msb() {
 
-        if (this['_'] !== 0) {
+        if (this._ !== 0) {
             return Infinity;
         }
 
-        var data = this['data'];
+        var data = this.data;
 
         for (var i = data.length; i-- > 0;) {
 
@@ -787,7 +789,7 @@ class BitSet {
             var c = 0;
 
             if (v) {
-
+                /* eslint no-empty:0 */
                 for (; (v >>>= 1) > 0; c++) {
                 }
                 return (i * WORD_LENGTH) + c;
@@ -869,11 +871,11 @@ class BitSet {
 
         parse(P, val);
 
-        var t = this['data'];
-        var p = P['data'];
+        var t = this.data;
+        var p = P.data;
 
-        var t_ = this['_'];
-        var p_ = P['_'];
+        var t_ = this._;
+        var p_ = P._;
 
         var tl = t.length - 1;
         var pl = p.length - 1;
@@ -911,7 +913,7 @@ class BitSet {
  */
 BitSet.fromBinaryString = function (str) {
 
-    return new BitSet('0b' + str);
+    return new BitSet("0b" + str);
 };
 
 /**
@@ -921,7 +923,7 @@ BitSet.fromBinaryString = function (str) {
 */
 BitSet.fromHexString = function (str) {
 
-    return new BitSet('0x' + str);
+    return new BitSet("0x" + str);
 };
 
 export default BitSet;

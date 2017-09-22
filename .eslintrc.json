@@ -11,11 +11,9 @@
     },
     "rules": {
         "indent": [
+            "error",
             4,
-            "string",
-            {
-                "indentSwitchCase": true
-            }
+            { "SwitchCase": 1 }
         ],
         "linebreak-style": [
             "error",
