@@ -67,9 +67,9 @@ module.exports = function (config) {
         autoWatch: false,
 
 
-        // start these browsers "Chrome"
+        // start these browsers "Chrome" "Firefox"
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ["Firefox"],
+        browsers: ["/usr/lib/firefox/firefox.sh"],
 
 
         // Continuous Integration mode
