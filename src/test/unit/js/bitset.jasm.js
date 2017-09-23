@@ -4,11 +4,11 @@
 
 import BitSet from "jsm@/utils/BitSet";
 
-describe("decision table", () => {
-    it("initial", () => {
+describe("BitSet", () => {
+    it("can set at certain position", () => {
         var bs = new BitSet();
-        bs.set(128, 1); // Set bit at position 128
-        console.log(bs.toString(16)); // Print out a hex dump with one bit set
-        expect(bs.get(128)).toBe(1);
+        bs.set(127, 1); // Set bit at position 128
+        // console.log(bs.toString(16)); // Print out a hex dump with one bit set
+        expect(bs.get(127)).toBe(1);
     });
 });

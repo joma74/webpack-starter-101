@@ -14,7 +14,8 @@
     "start-prod": "webpack --env.env=prod",
     "webpack-stats": "webpack --env.env=prod --profile --env.addons=statswebpack",
     "test-run": "karma start",
-    "test-unit": "karma start src/test/unit/js/karma.unit.config.js",
+    "test-unit": "karma start --autoWatch true src/test/unit/js/karma.unit.config.js",
+    "test-unit-once": "karma start --autoWatch false --singleRun true src/test/unit/js/karma.unit.config.js",
     "test-watch": "karma start --autoWatch --singleRun false",
     "test-debug": "karma start --autoWatch false --singleRun false --noprepocs --browsers ChromeDebugging"
   },

@@ -17,4 +17,4 @@ rm -rf ./profiles/firefox/karmauser/*
 cp ./profiles/firefox/karmauser-template/* ./profiles/firefox/karmauser/
 
 # --profile path is relative to the execution dir aka workspace root
-/usr/bin/firefox --profile ./profiles/firefox/karmauser ${captureUrl}
+/usr/bin/firefox --start-debugger-server 9222 --profile ./profiles/firefox/karmauser ${captureUrl}

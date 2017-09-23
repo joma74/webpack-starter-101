@@ -44,6 +44,7 @@ let karmaConfig =
     webpackMiddleware: {
         noInfo: true
     },
+    port: 9876,
     plugins: [
         "karma-jasmine",
         "karma-jasmine-html-reporter",

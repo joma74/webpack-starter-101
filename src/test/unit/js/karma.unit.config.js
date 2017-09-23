@@ -7,10 +7,7 @@ module.exports = function (config) {
     config.set(Object.assign(base, {
         browsers: ["profiles/firefox/launcher.sh"],
         reporters: ["mocha", "kjhtml"],
-        singleRun: true,
-        plugins: base.plugins.concat([
-            "karma-chrome-launcher",
-            "karma-firefox-launcher"
-        ])
+        singleRun: false,
+        autoWatch: false
     }))
 }
