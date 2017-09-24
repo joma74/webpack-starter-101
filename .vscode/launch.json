@@ -7,6 +7,7 @@
             "type": "firefox",
             "request": "attach",
             "name": "Attach Karma Firefox",
+            "showConsoleCallLocation": true,
             "port": 9222,
             "pathMappings": [{ "url": "webpack:///", "path": "${workspaceRoot}/" }]
             /** 
