@@ -15,7 +15,7 @@
     "webpack-stats": "webpack --env.env=prod --profile --env.addons=statswebpack",
     "test-unit-debug": "karma start --autoWatch true src/test/unit/js/karma.unit.config.js",
     "test-unit-once": "karma start --autoWatch false --singleRun true src/test/unit/js/karma.unit.config.js",
-    "test-unit-cover": "karma start src/test/unit/js/karma.cover.config.js"
+    "test-unit-cover": "rm -rf target/coverage && karma start src/test/unit/js/karma.cover.config.js"
   },
   "_moduleAliases": {
     "root@": ".",
