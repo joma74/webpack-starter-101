@@ -47,7 +47,6 @@ let karmaConfig =
     port: 9876,
     plugins: [
         "karma-jasmine",
-        "karma-jasmine-html-reporter",
         "karma-mocha-reporter",
         "karma-script-launcher",
         "karma-sourcemap-loader",

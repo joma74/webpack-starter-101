@@ -13,10 +13,9 @@
     "start-dev": "webpack-dev-server --env.env=dev --port=9000 --hot",
     "start-prod": "webpack --env.env=prod",
     "webpack-stats": "webpack --env.env=prod --profile --env.addons=statswebpack",
-    "test-run": "karma start",
     "test-unit-debug": "karma start --autoWatch true src/test/unit/js/karma.unit.config.js",
     "test-unit-once": "karma start --autoWatch false --singleRun true src/test/unit/js/karma.unit.config.js",
-    "test-debug": "karma start --autoWatch false --singleRun false --noprepocs --browsers ChromeDebugging"
+    "test-unit-cover": "karma start src/test/unit/js/karma.cover.config.js"
   },
   "_moduleAliases": {
     "root@": ".",
@@ -37,9 +36,11 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
+    "istanbul-instrumenter-loader": "^3.0.0",
     "jasmine": "^2.8.0",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
