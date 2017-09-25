@@ -10,7 +10,7 @@ module.exports = function (config) {
         reporters: ["mocha", "coverage"],
         singleRun: true,
         autoWatch: false,
-        logLevel: config.LOG_DEBUG,
+        logLevel: config.LOG_INFO,
         // optionally, configure the reporter
         coverageReporter: {
             includeAllSources: true,
