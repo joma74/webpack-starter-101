@@ -5,7 +5,7 @@ const base = require("./karma.base.config")
  */
 module.exports = function (config) {
     config.set(Object.assign(base, {
-        browsers: ["profiles/firefox/launcher.sh"],
+        browsers: ["profiles/firefoxLocal/launcher.sh"],
         reporters: ["mocha", "kjhtml"],
         singleRun: false,
         autoWatch: false
