@@ -7,25 +7,28 @@ const alias_common = require("bu@/alias-common")
 module.exports = function (config) {
     let options = Object.assign(base, {
         browsers: ["ChromeHeadless"],
-        reporters: ["mocha", "coverage"],
+        reporters: ["mocha", "coverage-istanbul"],
         singleRun: true,
         autoWatch: false,
-        logLevel: config.LOG_DEBUG,
+        logLevel: config.LOG_INFO,
         // optionally, configure the reporter
-        coverageReporter: {
-            includeAllSources: true,
-            dir: "../../../../target/coverage/",
-            instrumenterOptions: {
-                istanbul: { noCompact: true }
-            },
-            reporters: [
-                { type: "html", subdir: "html" },
-                { type: "text-summary" }
-            ]
+        coverageIstanbulReporter: {
+            reports: ["text-summary", "html"],
+            fixWebpackSourcePaths: true,
+            dir: "target/coverage",
+            "report-config": {
+
+                // all options available at: https://github.com/istanbuljs/istanbul-reports/blob/590e6b0089f67b723a1fdf57bc7ccc080ff189d7/lib/html/index.js#L135-L137
+                html: {
+                    // outputs the report in ./coverage/html
+                    subdir: "html"
+                }
+
+            }
         },
         plugins: base.plugins.concat([
             "karma-chrome-launcher",
-            "karma-coverage"
+            "karma-coverage-istanbul-reporter"
         ])
     });
     options.webpack.module.rules[0] = {

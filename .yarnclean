@@ -42,3 +42,4 @@ Gruntfile.js
 *.md
 
 !istanbul/lib/assets
+!istanbul-reports/lib/html/assets
