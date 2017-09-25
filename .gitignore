@@ -3,3 +3,4 @@ node_modules/
 target/
 webpack-stats.json
 karmauser/
+yarn-error.log
