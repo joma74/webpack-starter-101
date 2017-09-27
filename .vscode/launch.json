@@ -9,15 +9,18 @@
             "name": "Attach Karma Firefox",
             "showConsoleCallLocation": true,
             "port": 9222,
-            "pathMappings": [{ "url": "webpack:///", "path": "${workspaceRoot}/" }]
-            /** 
-                ,"log": {
-                "consoleLevel": {
-                    "PathConversion": "Debug",
-                    "default": "Error"
+            "pathMappings": [
+                    { "url": "webpack:///", "path": "${workspaceRoot}/" },
+                    { "url": "http://localhost:9876", "path": "${workspaceRoot}/node_modules/karma/static" }
+                ]
+                /** 
+                    ,"log": {
+                    "consoleLevel": {
+                        "PathConversion": "Debug",
+                        "default": "Error"
+                    }
                 }
-            }
-            */
+                */
         },
         {
             "type": "chrome",
