@@ -11,8 +11,8 @@
     "list-dependencies-la": "yarn list > dist/installed-dependencies.la.txt",
     "build-debug": "node --inspect --debug-brk ./node_modules/webpack/bin/webpack.js --env.env=prod",
     "start-dev": "webpack-dev-server --env.env=dev --port=9000 --hot",
-    "start-prod": "rm -rf dist/* && webpack --display-modules --display-reasons --env.env=prod",
-    "webpack-stats": "rm -rf dist/* && webpack --env.env=prod --profile --env.addons=statswebpack",
+    "start-prod": "rm -rf dist/* && webpack --hide-modules=true --env.env=prod",
+    "stats-prod": "rm -rf dist/* && webpack --hide-modules=true --env.env=prod --profile --env.addons=statswebpack",
     "test-unit-debug": "karma start --autoWatch true src/test/unit/js/karma.unit.config.js",
     "test-unit-once": "karma start --autoWatch false --singleRun true src/test/unit/js/karma.unit.config.js",
     "test-unit-cover": "rm -rf target/coverage && karma start src/test/unit/js/karma.cover.config.js"
