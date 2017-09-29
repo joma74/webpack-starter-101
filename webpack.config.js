@@ -1,3 +1,4 @@
+require("module-alias/register"); // !! overload require to make alias possible
 const commonConfig = require("bu@/webpack.common");
 const webpackMerge = require("webpack-merge");
 const prettyjson = require("prettyjson");
