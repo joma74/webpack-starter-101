@@ -11,10 +11,10 @@
                 <h1 class="ma0 f5 normal">TwitterLike | Compose New Tweet</h1>
             </div>
             <div class="bg-near-white pa3">
-                <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1" v-bind:class="{'b--dark-red': tweetIsOutOfRange, 'b--black-20': !tweetIsOutOfRange, 'label-is-up': labelIsUp, 'label-is-down': !labelIsUp}" @mouseover="evalLabelState('hi')" @mouseout="evalLabelState('ho')" role="presentation">
-                    <label for="c_tweet_id" class="mr-auto" v-bind:class="{'dark-red': tweetIsOutOfRange, 'black-70': !tweetIsOutOfRange}">Your story</label>
-                    <label for="c_tweet_id" class="black-70" v-bind:class="{'dark-red': tweetIsOutOfUpperRange}">{{ charactersActual }}</label>
-                    <label for="c_tweet_id" class="black-70" v-bind:class="{'dark-red': tweetIsOutOfLowerRange, 'orange': underTwentyMark, 'light-red': underTenMark}">&nbsp;/&nbsp;{{ charactersRemaining }}</label>
+                <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1" v-bind:class="b_labelMove" @mouseover="evalLabelState('hi')" @mouseout="evalLabelState('ho')" role="presentation">
+                    <label for="c_tweet_id" class="mr-auto" v-bind:class="b_labelTitle">Your story</label>
+                    <label for="c_tweet_id" class="black-70" v-bind:class="b_labelCurCharCount">{{ charactersActual }}</label>
+                    <label for="c_tweet_id" class="black-70" v-bind:class="b_labelTotalCharCount">&nbsp;/&nbsp;{{ charactersRemaining }}</label>
                 </div>
                 <div class="pb1" @mouseover="evalLabelState('hi')" @mouseout="evalLabelState('ho')" role="presentation"></div>
                 <textarea name="tweet" id="c_tweet_id" v-model="tweet" rows="6" cols="20" class="w-100 f4 bg-near-white br2 bn" @mouseover="evalLabelState('hi')" @mouseout="evalLabelState('ho')" @focus="evalLabelState('fi')" @blur="evalLabelState('fo')">
@@ -186,6 +186,33 @@ export default Vue.extend({
         /**@returns {boolean} */
         photoHasBeenUploaded() {
             return this.photos.length > 0;
+        },
+        b_labelMove() {
+            return {
+                'b--dark-red': this.tweetIsOutOfRange,
+                'b--black-20': !this.tweetIsOutOfRange,
+                'label-is-up': this.labelIsUp,
+                'label-is-down': !this.labelIsUp
+            }
+        },
+        b_labelTitle() {
+            return {
+                'dark-red': this.tweetIsOutOfRange,
+                'black-70': !this.tweetIsOutOfRange
+            }
+        },
+        b_labelCurCharCount() {
+            return {
+                'dark-red': this.tweetIsOutOfUpperRange
+            }
+
+        },
+        b_labelTotalCharCount() {
+            return {
+                'dark-red': this.tweetIsOutOfLowerRange,
+                'orange': this.underTwentyMark,
+                'light-red': this.underTenMark
+            }
         }
     }
 });
