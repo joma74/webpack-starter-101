@@ -75,7 +75,7 @@ button:disabled {
 .label-is-down {
     transform: translateY(2.125rem);
     font-size: 1.25rem;
-    transition: all 0.35s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.35s;
     transition-delay: 0.5s;
     backface-visibility: hidden;
 }
@@ -83,7 +83,7 @@ button:disabled {
 .label-is-up {
     transform: translate(0);
     font-size: 1rem;
-    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1);
+    transition: all 0.35s;
     backface-visibility: hidden;
 }
 
