@@ -65,8 +65,10 @@
   },
   "dependencies": {
     "debug": "^3.0.1",
+    "enumify": "^1.0.4",
     "normalize.css": "^7.0.0",
     "tachyons": "^4.8.1",
+    "ts-enums": "^0.0.6",
     "vue": "https://github.com/DanielRosenwasser/vue#540a38fb21adb7a7bc394c65e23e6cffb36cd867"
   }
 }
