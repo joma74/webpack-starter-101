@@ -1,43 +1,15 @@
 /*global describe*/
 /*global it*/
-/*global beforeAll*/
 /*global expect*/
 
 "use strict";
 
-import { Enum, EnumValue } from "ts-enums";
-
-class Color extends EnumValue {
-    /**
-     * @param {string} description 
-     */
-    constructor(description) {
-        super(description);
-    }
-}
-
-class ColorEnumType extends Enum {
-
-    constructor() {
-        super();
-        this.RED = new Color("RED name");
-        this.GREEN = new Color("GREEN name");
-        this.BLUE = new Color("BLUE name");
-        this.initEnum("Color");
-    }
-}
+import {Color, ColorEnum} from "./ColorEnum";
 
 describe("ColorEnumType", () => {
-    /**
-     * @type {ColorEnumType}
-     */
-    let ColorEnum;
 
-    beforeAll(() => {
-        ColorEnum = new ColorEnumType();
-    });
     it("can be stringifed as expected", () => {
-        let expectedElements = ["Color.RED", "Color.GREEN", "Color.BLUE"]
+        let expectedElements = ["Color.RED", "Color.GREEN", "Color.BLUE", "Color.BLACK"]
         for (const nextColor of ColorEnum.values) {
             let c_nextColor = /** @type {Color} */ (nextColor)
             expect(expectedElements.indexOf(c_nextColor.toString())).toBeGreaterThanOrEqual(0)
