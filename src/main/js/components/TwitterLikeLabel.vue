@@ -12,7 +12,9 @@ import Vue from "vue"
 import "css@/twitterlike.scss"
 
 import debug from "debug";
-const logit = debug('components:TwitterLikeLabel.vue');
+const logit = debug("components:TwitterLikeLabel.vue");
+
+import labelMixins from "./LabelMixin";
 
 export default Vue.extend({
     /**
@@ -51,52 +53,53 @@ export default Vue.extend({
             required: true
         }
     },
+    mixins: [ labelMixins ],
     computed: {
         /**@returns {boolean} */
-        tweetIsOutOfUpperRange() {
+        c_tweetIsOutOfUpperRange() {
             return this.p_curCharCount == 0;
         },
         /**@returns {boolean} */
-        tweetIsOutOfLowerRange() {
+        c_tweetIsOutOfLowerRange() {
             return this.p_remainingCharCount < 0;
         },
         /**@returns {boolean} */
-        tweetIsOutOfRange() {
-            return this.tweetIsOutOfLowerRange || this.tweetIsOutOfUpperRange;
+        c_tweetIsOutOfRange() {
+            return this.c_tweetIsOutOfLowerRange || this.c_tweetIsOutOfUpperRange;
         },
         /**@returns {boolean} */
-        underTwentyMark() {
+        c_underTwentyMark() {
             return this.p_remainingCharCount <= 20 && this.p_remainingCharCount >= 10;
         },
         /**@returns {boolean} */
-        underTenMark() {
+        c_underTenMark() {
             return this.p_remainingCharCount < 10 && this.p_remainingCharCount >= 0;
         },
         b_labelMove() {
             return {
-                'b--dark-red': this.tweetIsOutOfRange,
-                'b--black-20': !this.tweetIsOutOfRange,
+                'b--dark-red': this.c_tweetIsOutOfRange,
+                'b--black-20': !this.c_tweetIsOutOfRange,
                 'label-is-up': this.labelIsUp,
                 'label-is-down': !this.labelIsUp
             }
         },
         b_labelTitle() {
             return {
-                'dark-red': this.tweetIsOutOfRange,
-                'black-70': !this.tweetIsOutOfRange
+                'dark-red': this.c_tweetIsOutOfRange,
+                'black-70': !this.c_tweetIsOutOfRange
             }
         },
         b_labelCurCharCount() {
             return {
-                'dark-red': this.tweetIsOutOfUpperRange
+                'dark-red': this.c_tweetIsOutOfUpperRange
             }
 
         },
         b_labelTotalCharCount() {
             return {
-                'dark-red': this.tweetIsOutOfLowerRange,
-                'orange': this.underTwentyMark,
-                'light-red': this.underTenMark
+                'dark-red': this.c_tweetIsOutOfLowerRange,
+                'orange': this.c_underTwentyMark,
+                'light-red': this.c_underTenMark
             }
         }
     },
