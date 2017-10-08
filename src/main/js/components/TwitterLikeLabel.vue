@@ -1,5 +1,11 @@
 <template>
-    <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1" v-bind:class="b_labelMove" @mouseover="evalLabelState('hi')" @mouseout="evalLabelState('ho')" role="presentation">
+    <div 
+        class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1" 
+        v-bind:class="b_labelMove" 
+        @mouseover="evalLabelState(EventEnum.HOVER_IN)" 
+        @mouseout="evalLabelState(EventEnum.HOVER_OUT)" 
+        role="presentation"
+    >
         <label for="c_tweet_id" class="mr-auto" v-bind:class="b_labelTitle">{{ p_title }}</label>
         <label for="c_tweet_id" class="black-70" v-bind:class="b_labelCurCharCount">{{ p_curCharCount }}</label>
         <label for="c_tweet_id" class="black-70" v-bind:class="b_labelTotalCharCount">&nbsp;/&nbsp;{{ p_remainingCharCount }}</label>
@@ -9,6 +15,10 @@
 <script>
 import Vue from "vue"
 
+import {
+    EventEnum
+} from "./EventEnum";
+
 import "css@/twitterlike.scss"
 
 import debug from "debug";
@@ -17,16 +27,6 @@ const logit = debug("components:TwitterLikeLabel.vue");
 import labelMixins from "./LabelMixin";
 
 export default Vue.extend({
-    /**
-     * @returns {{labelIsUp: boolean, hasFocus: boolean, hasHover: boolean}}
-     */
-    data() {
-        return {
-            labelIsUp: false,
-            hasFocus: false,
-            hasHover: false
-        }
-    },
     props: {
         p_title: {
             type: String,
@@ -53,7 +53,7 @@ export default Vue.extend({
             required: true
         }
     },
-    mixins: [ labelMixins ],
+    mixins: [labelMixins],
     computed: {
         /**@returns {boolean} */
         c_tweetIsOutOfUpperRange() {
@@ -79,8 +79,8 @@ export default Vue.extend({
             return {
                 'b--dark-red': this.c_tweetIsOutOfRange,
                 'b--black-20': !this.c_tweetIsOutOfRange,
-                'label-is-up': this.labelIsUp,
-                'label-is-down': !this.labelIsUp
+                'label-is-up': this.d_labelIsUp,
+                'label-is-down': !this.d_labelIsUp
             }
         },
         b_labelTitle() {
@@ -101,49 +101,6 @@ export default Vue.extend({
                 'orange': this.c_underTwentyMark,
                 'light-red': this.c_underTenMark
             }
-        }
-    },
-    methods: {
-        /**@param {string} event */
-        evalLabelState(event) {
-            if (event == 'fi') {
-                logit("handling focus in");
-                this.labelIsUp = true;
-                this.hasFocus = true;
-                return;
-            }
-            if (event == 'hi') {
-                logit("handling hover in");
-                this.labelIsUp = true;
-                this.hasHover = true;
-                return;
-            }
-            if (event == 'ho') {
-                this.hasHover = false;
-                if (!this.hasFocus) {
-                    logit("handling hover out without focus");
-                    this.labelIsUp = false;
-                } else {
-                    logit("handling hover out with focus");
-                    this.labelIsUp = true;
-                }
-                return;
-            }
-            if (event == 'fo') {
-                logit("handling focus out");
-                this.hasFocus = false;
-                if (this.hasHover) {
-                    logit("handling focus out but has hover");
-                    this.labelIsUp = true;
-                } else {
-                    logit("handling focus out without hover");
-                    this.labelIsUp = false;
-                }
-
-
-                return;
-            }
-            logit("Huh?" + event);
         }
     }
 })
