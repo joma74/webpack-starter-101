@@ -9,14 +9,14 @@ const bar = require("./bar")
 console.log(`Hello ${FOO_STRING} and hello ${bar.BAR_STRING} plus hello ${BAZ_STRING}`); // This is an ES6 feature
 
 import Vue from "vue";
-import TwitterLike from "jsm@/components/TwitterLike.vue"
+import TwitterLikeWithLabel from "jsm@/components/twitterlike/TwitterLikeWithLabel.vue"
 
 localStorage.debug = "components:*";
 
 new Vue({
     el: "#twitterlike",
-    template: "<TwitterLike></TwitterLike>",
+    template: "<TwitterLikeWithLabel></TwitterLikeWithLabel>",
     components: {
-        TwitterLike
+        TwitterLikeWithLabel
     }
 });
