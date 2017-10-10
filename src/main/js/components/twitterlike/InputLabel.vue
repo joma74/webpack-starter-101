@@ -1,21 +1,27 @@
 <template>
     <div>
-        <div 
-            class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1" 
-            v-bind:class="b_labelMove" 
-            @mouseover="m_evalLabelState(d_HOVER_IN, p_curCharCount)" 
-            @mouseout="m_evalLabelState(d_HOVER_OUT, p_curCharCount)" 
-            role="presentation"
-        >
-            <label for="c_tweet_id" class="mr-auto" v-bind:class="b_labelTitle">{{ p_title }}</label>
-            <label for="c_tweet_id" class="black-70" v-bind:class="b_labelCurCharCount">{{ p_curCharCount }}</label>
-            <label for="c_tweet_id" class="black-70" v-bind:class="b_labelTotalCharCount">&nbsp;/&nbsp;{{ p_remainingCharCount }}</label>
+        <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1"
+             v-bind:class="b_labelMove"
+             @mouseover="m_evalLabelState(d_HOVER_IN, p_curCharCount)"
+             @mouseout="m_evalLabelState(d_HOVER_OUT, p_curCharCount)"
+             role="presentation">
+            <label for="c_tweet_id"
+                   class="mr-auto"
+                   v-bind:class="b_labelTitle">{{ p_title }}
+            </label>
+            <label for="c_tweet_id"
+                   class="black-70"
+                   v-bind:class="b_labelCurCharCount">{{ p_curCharCount }}
+            </label>
+            <label for="c_tweet_id"
+                   class="black-70"
+                   v-bind:class="b_labelTotalCharCount">&nbsp;/&nbsp;{{ p_remainingCharCount }}
+            </label>
         </div>
-        <div 
-            class="pb1" 
-            @mouseover="m_evalLabelState(d_HOVER_IN, p_curCharCount)" 
-            @mouseout="m_evalLabelState(d_HOVER_OUT, p_curCharCount)" 
-            role="presentation">
+        <div class="pb1"
+             @mouseover="m_evalLabelState(d_HOVER_IN, p_curCharCount)"
+             @mouseout="m_evalLabelState(d_HOVER_OUT, p_curCharCount)"
+             role="presentation">
         </div>
     </div>
 </template>
@@ -48,15 +54,15 @@ export default Vue.extend({
             type: Number,
             required: true
         },
-        p_tweetIsOutOfUpperRange: {
+        p_isOutOfUpperRange: {
             type: Boolean,
             required: true
         },
-        p_tweetIsOutOfLowerRange: {
+        p_isOutOfLowerRange: {
             type: Boolean,
             required: true
         },
-        p_tweetIsOutOfRange: {
+        p_isOutOfRange: {
             type: Boolean,
             required: true
         },
@@ -81,27 +87,27 @@ export default Vue.extend({
         },
         b_labelMove() {
             return {
-                'b--dark-red': this.p_tweetIsOutOfRange,
-                'b--black-20': !this.p_tweetIsOutOfRange,
+                'b--dark-red': this.p_isOutOfRange,
+                'b--black-20': !this.p_isOutOfRange,
                 'label-is-up': this.d_labelIsUp,
                 'label-is-down': !this.d_labelIsUp
             }
         },
         b_labelTitle() {
             return {
-                'dark-red': this.p_tweetIsOutOfRange,
-                'black-70': !this.p_tweetIsOutOfRange
+                'dark-red': this.p_isOutOfRange,
+                'black-70': !this.p_isOutOfRange
             }
         },
         b_labelCurCharCount() {
             return {
-                'dark-red': this.p_tweetIsOutOfUpperRange
+                'dark-red': this.p_isOutOfUpperRange
             }
 
         },
         b_labelTotalCharCount() {
             return {
-                'dark-red': this.p_tweetIsOutOfLowerRange,
+                'dark-red': this.p_isOutOfLowerRange,
                 'orange': this.c_underTwentyMark,
                 'light-red': this.c_underTenMark
             }
@@ -111,13 +117,13 @@ export default Vue.extend({
         /**
          * @param {Boolean} value 
          */
-        p_labelIsUp: function (value){
-               this.d_labelIsUp = value;
+        p_labelIsUp: function(value) {
+            this.d_labelIsUp = value;
         },
         /**
          * @param {Boolean} value 
          */
-        p_hasFocus: function (value){
+        p_hasFocus: function(value) {
             this.d_hasFocus = value;
         }
     }

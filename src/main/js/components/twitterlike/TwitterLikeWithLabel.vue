@@ -1,5 +1,7 @@
 <template>
-    <div class="w-25 center ba b--black-10" id="twitterlike" v-cloak>
+    <div class="w-25 center ba b--black-10"
+         id="twitterlike"
+         v-cloak>
         <p class="f1 tc loading v-cloak--block">Loading
             <span>.</span>
             <span>.</span>
@@ -11,46 +13,60 @@
                 <h1 class="ma0 f5 normal">TwitterLike | Compose New Tweet</h1>
             </div>
             <div class="bg-near-white pa3">
-                <InputLabel 
-                    p_title="Your Story" 
-                    :p_curCharCount="charactersActual" 
-                    :p_remainingCharCount="charactersRemaining"
-                    :p_tweetIsOutOfUpperRange="c_tweetIsOutOfUpperRange" 
-                    :p_tweetIsOutOfLowerRange="c_tweetIsOutOfLowerRange" 
-                    :p_tweetIsOutOfRange="c_tweetIsOutOfRange" 
-                    :p_labelIsUp="d_labelIsUp"
-                    :p_hasFocus="d_hasFocus"
-                >
+                <InputLabel p_title="Your Story"
+                            :p_curCharCount="charactersActual"
+                            :p_remainingCharCount="charactersRemaining"
+                            :p_isOutOfUpperRange="c_tweetIsOutOfUpperRange"
+                            :p_isOutOfLowerRange="c_tweetIsOutOfLowerRange"
+                            :p_isOutOfRange="c_tweetIsOutOfRange"
+                            :p_labelIsUp="d_labelIsUp"
+                            :p_hasFocus="d_hasFocus">
                 </InputLabel>
-                <textarea 
-                    name="tweet" id="c_tweet_id" 
-                    v-model="tweet" 
-                    rows="6" cols="20" 
-                    class="w-100 f4 bg-near-white br2 bn" 
-                    @mouseover="m_evalLabelState(d_HOVER_IN, charactersActual)" 
-                    @mouseout="m_evalLabelState(d_HOVER_OUT, charactersActual)" 
-                    @focus="m_evalLabelState(d_FOCUS_IN, charactersActual)" 
-                    @blur="m_evalLabelState(d_FOCUS_OUT, charactersActual)">
+                <textarea name="tweet"
+                          id="c_tweet_id"
+                          v-model="tweet"
+                          rows="6"
+                          cols="20"
+                          class="w-100 f4 bg-near-white br2 bn"
+                          @mouseover="m_evalLabelState(d_HOVER_IN, charactersActual)"
+                          @mouseout="m_evalLabelState(d_HOVER_OUT, charactersActual)"
+                          @focus="m_evalLabelState(d_FOCUS_IN, charactersActual)"
+                          @blur="m_evalLabelState(d_FOCUS_OUT, charactersActual)">
                 </textarea>
-                <transition name="fade" mode="out-in">
-                    <div v-if="photoHasBeenUploaded" class="bg-black-10 pa2 flex overflow-x-scroll" id="photo-area">
-                        <figure v-for="(photo, index) in photos" class="ma0 mh1 relative flex items-center justify-center" style="flex-shrink: 0">
-                            <button @click="removePhoto(index)" class="pointer dim bg-blue h1 w1 br-100 white flex items-center justify-center absolute absolute--fill mr-auto">
+                <transition name="fade"
+                            mode="out-in">
+                    <div v-if="photoHasBeenUploaded"
+                         class="bg-black-10 pa2 flex overflow-x-scroll"
+                         id="photo-area">
+                        <figure v-for="(photo, index) in photos"
+                                class="ma0 mh1 relative flex items-center justify-center"
+                                style="flex-shrink: 0">
+                            <button @click="removePhoto(index)"
+                                    class="pointer dim bg-blue h1 w1 br-100 white flex items-center justify-center absolute absolute--fill mr-auto">
                                 <i class="material-icons f6">close</i>
                             </button>
-                            <img v-bind:src="photo" class="h3 w3" alt="Uploaded photo">
+                            <img v-bind:src="photo"
+                                 class="h3 w3"
+                                 alt="Uploaded photo">
                         </figure>
                     </div>
                 </transition>
-                <input @change="handlePhotoUpload" ref="photoUpload" type="file" accept="image/*" multiple="true" class="dn">
+                <input @change="handlePhotoUpload"
+                       ref="photoUpload"
+                       type="file"
+                       accept="image/*"
+                       multiple="true"
+                       class="dn">
                 <div class="flex justify-end items-center">
                     <div class="flex mr-auto self-stretch items-center bt bw1 b--dark-red">
-                        <button @click="triggerFileUpload" class="flex br2 pa1 items-center justify-center bg-transparent blue hover-bg-black-10 pointer">
+                        <button @click="triggerFileUpload"
+                                class="flex br2 pa1 items-center justify-center bg-transparent blue hover-bg-black-10 pointer">
                             <i class="material-icons f4">photo_camera</i>
                         </button>
                     </div>
                     <div class="flex bt bw1 b--orange">
-                        <button :disabled="c_tweetIsOutOfRange" class="bg-blue white f6 fw5 pv2 ph3 br2 dim">Tweet it!</button>
+                        <button :disabled="c_tweetIsOutOfRange"
+                                class="bg-blue white f6 fw5 pv2 ph3 br2 dim">Tweet it!</button>
                     </div>
                 </div>
             </div>

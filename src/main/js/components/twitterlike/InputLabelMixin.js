@@ -8,7 +8,17 @@ const logit = debug("components:InputLabelMixin.vue");
 
 let inputLabelMixin = {
     /**
-     * @returns {{d_labelIsUp: boolean, d_hasFocus: boolean, d_hasHover: boolean, d_FOCUS_IN: Event, d_FOCUS_OUT: Event, d_HOVER_IN: Event, d_HOVER_OUT: Event}}
+     * @typedef {Object} Data
+     * @property {boolean} d_labelIsUp
+     * @property {boolean} d_hasFocus
+     * @property {boolean} d_hasHover
+     * @property {Event} d_FOCUS_IN
+     * @property {Event} d_FOCUS_OUT
+     * @property {Event} d_HOVER_IN
+     * @property {Event} d_HOVER_OUT
+     */
+    /**
+     * @returns {Data}
      */
     data() {
         return {

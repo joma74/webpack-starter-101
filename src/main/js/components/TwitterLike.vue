@@ -1,5 +1,7 @@
 <template>
-    <div class="w-25 center ba b--black-10" id="twitterlike" v-cloak>
+    <div class="w-25 center ba b--black-10"
+         id="twitterlike"
+         v-cloak>
         <p class="f1 tc loading v-cloak--block">Loading
             <span>.</span>
             <span>.</span>
@@ -11,33 +13,70 @@
                 <h1 class="ma0 f5 normal">TwitterLike | Compose New Tweet</h1>
             </div>
             <div class="bg-near-white pa3">
-                <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1" v-bind:class="b_labelMove" @mouseover="evalLabelState('hi')" @mouseout="evalLabelState('ho')" role="presentation">
-                    <label for="c_tweet_id" class="mr-auto" v-bind:class="b_labelTitle">Your story</label>
-                    <label for="c_tweet_id" class="black-70" v-bind:class="b_labelCurCharCount">{{ charactersActual }}</label>
-                    <label for="c_tweet_id" class="black-70" v-bind:class="b_labelTotalCharCount">&nbsp;/&nbsp;{{ charactersRemaining }}</label>
+                <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1"
+                     v-bind:class="b_labelMove"
+                     @mouseover="evalLabelState('hi')"
+                     @mouseout="evalLabelState('ho')"
+                     role="presentation">
+                    <label for="c_tweet_id"
+                           class="mr-auto"
+                           v-bind:class="b_labelTitle">Your story</label>
+                    <label for="c_tweet_id"
+                           class="black-70"
+                           v-bind:class="b_labelCurCharCount">{{ charactersActual }}</label>
+                    <label for="c_tweet_id"
+                           class="black-70"
+                           v-bind:class="b_labelTotalCharCount">&nbsp;/&nbsp;{{ charactersRemaining }}</label>
                 </div>
-                <div class="pb1" @mouseover="evalLabelState('hi')" @mouseout="evalLabelState('ho')" role="presentation"></div>
-                <textarea name="tweet" id="c_tweet_id" v-model="tweet" rows="6" cols="20" class="w-100 f4 bg-near-white br2 bn" @mouseover="evalLabelState('hi')" @mouseout="evalLabelState('ho')" @focus="evalLabelState('fi')" @blur="evalLabelState('fo')">
+                <div class="pb1"
+                     @mouseover="evalLabelState('hi')"
+                     @mouseout="evalLabelState('ho')"
+                     role="presentation"></div>
+                <textarea name="tweet"
+                          id="c_tweet_id"
+                          v-model="tweet"
+                          rows="6"
+                          cols="20"
+                          class="w-100 f4 bg-near-white br2 bn"
+                          @mouseover="evalLabelState('hi')"
+                          @mouseout="evalLabelState('ho')"
+                          @focus="evalLabelState('fi')"
+                          @blur="evalLabelState('fo')">
                 </textarea>
-                <transition name="fade" mode="out-in">
-                    <div v-if="photoHasBeenUploaded" class="bg-black-10 pa2 flex overflow-x-scroll" id="photo-area">
-                        <figure v-for="(photo, index) in photos" class="ma0 mh1 relative flex items-center justify-center" style="flex-shrink: 0">
-                            <button @click="removePhoto(index)" class="pointer dim bg-blue h1 w1 br-100 white flex items-center justify-center absolute absolute--fill mr-auto">
+                <transition name="fade"
+                            mode="out-in">
+                    <div v-if="photoHasBeenUploaded"
+                         class="bg-black-10 pa2 flex overflow-x-scroll"
+                         id="photo-area">
+                        <figure v-for="(photo, index) in photos"
+                                class="ma0 mh1 relative flex items-center justify-center"
+                                style="flex-shrink: 0">
+                            <button @click="removePhoto(index)"
+                                    class="pointer dim bg-blue h1 w1 br-100 white flex items-center justify-center absolute absolute--fill mr-auto">
                                 <i class="material-icons f6">close</i>
                             </button>
-                            <img v-bind:src="photo" class="h3 w3" alt="Uploaded photo">
+                            <img v-bind:src="photo"
+                                 class="h3 w3"
+                                 alt="Uploaded photo">
                         </figure>
                     </div>
                 </transition>
-                <input @change="handlePhotoUpload" ref="photoUpload" type="file" accept="image/*" multiple="true" class="dn">
+                <input @change="handlePhotoUpload"
+                       ref="photoUpload"
+                       type="file"
+                       accept="image/*"
+                       multiple="true"
+                       class="dn">
                 <div class="flex justify-end items-center">
                     <div class="flex mr-auto self-stretch items-center bt bw1 b--dark-red">
-                        <button @click="triggerFileUpload" class="flex br2 pa1 items-center justify-center bg-transparent blue hover-bg-black-10 pointer">
+                        <button @click="triggerFileUpload"
+                                class="flex br2 pa1 items-center justify-center bg-transparent blue hover-bg-black-10 pointer">
                             <i class="material-icons f4">photo_camera</i>
                         </button>
                     </div>
                     <div class="flex bt bw1 b--orange">
-                        <button :disabled="tweetIsOutOfRange" class="bg-blue white f6 fw5 pv2 ph3 br2 dim">Tweet it!</button>
+                        <button :disabled="tweetIsOutOfRange"
+                                class="bg-blue white f6 fw5 pv2 ph3 br2 dim">Tweet it!</button>
                     </div>
                 </div>
             </div>
