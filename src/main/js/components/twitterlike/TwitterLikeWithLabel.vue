@@ -14,6 +14,7 @@
             </div>
             <div class="bg-near-white pa3">
                 <InputLabel p_title="Your Story"
+                            p_labelFor="c_tweet_id"
                             :p_curCharCount="charactersActual"
                             :p_remainingCharCount="charactersRemaining"
                             :p_isOutOfUpperRange="c_tweetIsOutOfUpperRange"

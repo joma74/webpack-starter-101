@@ -1,26 +1,23 @@
 <template>
-    <div>
+    <div @mouseover="m_evalLabelState(d_HOVER_IN, p_curCharCount)"
+         @mouseout="m_evalLabelState(d_HOVER_OUT, p_curCharCount)">
         <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1"
              v-bind:class="b_labelMove"
-             @mouseover="m_evalLabelState(d_HOVER_IN, p_curCharCount)"
-             @mouseout="m_evalLabelState(d_HOVER_OUT, p_curCharCount)"
              role="presentation">
-            <label for="c_tweet_id"
+            <label :for="p_labelFor"
                    class="mr-auto"
                    v-bind:class="b_labelTitle">{{ p_title }}
             </label>
-            <label for="c_tweet_id"
+            <label :for="p_labelFor"
                    class="black-70"
                    v-bind:class="b_labelCurCharCount">{{ p_curCharCount }}
             </label>
-            <label for="c_tweet_id"
+            <label :for="p_labelFor"
                    class="black-70"
                    v-bind:class="b_labelTotalCharCount">&nbsp;/&nbsp;{{ p_remainingCharCount }}
             </label>
         </div>
         <div class="pb1"
-             @mouseover="m_evalLabelState(d_HOVER_IN, p_curCharCount)"
-             @mouseout="m_evalLabelState(d_HOVER_OUT, p_curCharCount)"
              role="presentation">
         </div>
     </div>
@@ -39,6 +36,10 @@ import InputLabelMixin from "./InputLabelMixin";
 export default Vue.extend({
     props: {
         p_title: {
+            type: String,
+            required: true
+        },
+        p_labelFor: {
             type: String,
             required: true
         },
