@@ -4,9 +4,11 @@ import {
 } from "./EventEnum";
 
 import debug from "debug";
-const logit = debug("components:InputLabelMixin.vue");
 
-let inputLabelMixin = {
+let InputLabelMixin = {
+    created: function () {
+        this.logit = debug("components:" + this.$options._componentTag + ":InputLabelMixin");
+    },
     /**
      * @typedef {Object} Data
      * @property {boolean} d_labelIsUp
@@ -38,13 +40,13 @@ let inputLabelMixin = {
          */
         m_evalLabelState(event, curCharCount) {
             if (event === EventEnum.FOCUS_IN) {
-                logit("handling focus in");
+                this.logit("handling focus in");
                 this.d_labelIsUp = true;
                 this.d_hasFocus = true;
                 return;
             }
             if (event === EventEnum.HOVER_IN) {
-                logit("handling hover in");
+                this.logit("handling hover in");
                 this.d_labelIsUp = true;
                 this.d_hasHover = true;
                 return;
@@ -52,31 +54,31 @@ let inputLabelMixin = {
             if (event == EventEnum.HOVER_OUT) {
                 this.d_hasHover = false;
                 if (!this.d_hasFocus && !(curCharCount > 0)) {
-                    logit("handling hover out without focus");
+                    this.logit("handling hover out without focus");
                     this.d_labelIsUp = false;
                 } else {
-                    logit("handling hover out with focus");
+                    this.logit("handling hover out with focus");
                     this.d_labelIsUp = true;
                 }
                 return;
             }
             if (event == EventEnum.FOCUS_OUT) {
-                logit("handling focus out");
+                this.logit("handling focus out");
                 this.d_hasFocus = false;
                 if (!this.d_hasHover && !(curCharCount > 0)) {
-                    logit("handling focus out without hover");
+                    this.logit("handling focus out without hover");
                     this.d_labelIsUp = false;
                 } else {
-                    logit("handling focus out but has hover");
+                    this.logit("handling focus out but has hover");
                     this.d_labelIsUp = true;
                 }
 
 
                 return;
             }
-            logit("Huh?" + event);
+            this.logit("Unhandled event on given args [" + arguments + "]");
         }
     }
 }
 
-export default inputLabelMixin;
+export default InputLabelMixin;
