@@ -10,5 +10,7 @@
     "files.associations": {
         "*.vue": "vue"
     },
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "vetur.format.html.wrap_attributes": "force-aligned",
+    "vetur.format.html.wrap_line_length": 120
 }
