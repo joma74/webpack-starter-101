@@ -29,16 +29,12 @@
 <script>
 import Vue from "vue"
 
-import {
-    EventEnum
-} from "./EventEnum";
-
 import "css@/twitterlike.scss"
 
 import debug from "debug";
 const logit = debug("components:Label.vue");
 
-import inputLabelMixin from "./InputLabelMixin";
+import InputLabelMixin from "./InputLabelMixin";
 
 export default Vue.extend({
     props: {
@@ -75,7 +71,7 @@ export default Vue.extend({
             required: true
         }
     },
-    mixins: [inputLabelMixin],
+    mixins: [InputLabelMixin],
     computed: {
         /**@returns {boolean} */
         c_underTwentyMark() {

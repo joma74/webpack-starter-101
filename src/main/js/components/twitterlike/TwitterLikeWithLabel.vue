@@ -78,10 +78,7 @@
 import Vue from "vue"
 
 import InputLabel from "./InputLabel.vue"
-import inputLabelMixin from "./InputLabelMixin";
-import {
-    EventEnum
-} from "./EventEnum";
+import InputLabelMixin from "./InputLabelMixin";
 
 import "css@/twitterlike.scss"
 
@@ -142,7 +139,7 @@ export default Vue.extend({
             this.photos.splice(index, 1);
         }
     },
-    mixins: [inputLabelMixin],
+    mixins: [InputLabelMixin],
     computed: {
         /**@returns {number} */
         charactersActual() {
