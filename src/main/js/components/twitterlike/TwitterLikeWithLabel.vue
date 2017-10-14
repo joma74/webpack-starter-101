@@ -29,10 +29,10 @@
                           rows="6"
                           cols="20"
                           class="w-100 f4 bg-near-white br2 bn"
-                          @mouseover="m_evalLabelState(d_HOVER_IN, charactersActual)"
-                          @mouseout="m_evalLabelState(d_HOVER_OUT, charactersActual)"
-                          @focus="m_evalLabelState(d_FOCUS_IN, charactersActual)"
-                          @blur="m_evalLabelState(d_FOCUS_OUT, charactersActual)">
+                          @mouseenter="m_evalLabelState(HOVER_IN, charactersActual)"
+                          @mouseleave="m_evalLabelState(HOVER_OUT, charactersActual)"
+                          @focus="m_evalLabelState(FOCUS_IN, charactersActual)"
+                          @blur="m_evalLabelState(FOCUS_OUT, charactersActual)">
                 </textarea>
                 <transition name="fade"
                             mode="out-in">
@@ -91,10 +91,10 @@ const MAX_TWEET_LENGTH = 140;
 
 export default Vue.extend({
     created: function () {
-        this.d_FOCUS_IN = EventEnum.FOCUS_IN,
-        this.d_FOCUS_OUT = EventEnum.FOCUS_OUT,
-        this.d_HOVER_IN = EventEnum.HOVER_IN,
-        this.d_HOVER_OUT = EventEnum.HOVER_OUT
+        this.FOCUS_IN = EventEnum.FOCUS_IN
+        this.FOCUS_OUT = EventEnum.FOCUS_OUT
+        this.HOVER_IN = EventEnum.HOVER_IN
+        this.HOVER_OUT = EventEnum.HOVER_OUT
     },
     components: { InputLabel },
     /**

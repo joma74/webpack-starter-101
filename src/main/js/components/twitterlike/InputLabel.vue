@@ -1,6 +1,6 @@
 <template>
-    <div @mouseover="m_evalLabelState(d_HOVER_IN, p_curCharCount)"
-         @mouseout="m_evalLabelState(d_HOVER_OUT, p_curCharCount)">
+    <div @mouseenter="m_evalLabelState(HOVER_IN, p_curCharCount)"
+         @mouseleave="m_evalLabelState(HOVER_OUT, p_curCharCount)">
         <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1"
              v-bind:class="b_labelMove"
              role="presentation">
@@ -74,10 +74,10 @@ export default Vue.extend({
         }
     },
     created: function () {
-        this.d_FOCUS_IN = EventEnum.FOCUS_IN,
-        this.d_FOCUS_OUT = EventEnum.FOCUS_OUT,
-        this.d_HOVER_IN = EventEnum.HOVER_IN,
-        this.d_HOVER_OUT = EventEnum.HOVER_OUT
+        this.FOCUS_IN = EventEnum.FOCUS_IN
+        this.FOCUS_OUT = EventEnum.FOCUS_OUT
+        this.HOVER_IN = EventEnum.HOVER_IN
+        this.HOVER_OUT = EventEnum.HOVER_OUT
     },
     mixins: [InputLabelMixin],
     computed: {
@@ -122,7 +122,9 @@ export default Vue.extend({
          * @param {Boolean} value 
          */
         p_labelIsUp: function(value) {
-            this.d_labelIsUp = value;
+            if(!this.d_hasHover){
+                this.d_labelIsUp = value;
+            }
         },
         /**
          * @param {Boolean} value 
