@@ -2,9 +2,14 @@ import {
     Event, // eslint-disable-line no-unused-vars
     EventEnum
 } from "./EventEnum";
-
 import debug from "debug";
+import {
+    Component // eslint-disable-line no-unused-vars
+} from "vue";
 
+/**
+ * @type {Component} 
+ */
 let InputLabelMixin = {
     created: function () {
         let componentName = this.$options.name || this.$options._componentTag;
@@ -15,10 +20,6 @@ let InputLabelMixin = {
      * @property {boolean} d_labelIsUp
      * @property {boolean} d_hasFocus
      * @property {boolean} d_hasHover
-     * @property {Event} d_FOCUS_IN
-     * @property {Event} d_FOCUS_OUT
-     * @property {Event} d_HOVER_IN
-     * @property {Event} d_HOVER_OUT
      */
     /**
      * @returns {Data}
@@ -27,11 +28,7 @@ let InputLabelMixin = {
         return {
             d_labelIsUp: false,
             d_hasFocus: false,
-            d_hasHover: false,
-            d_FOCUS_IN: EventEnum.FOCUS_IN,
-            d_FOCUS_OUT: EventEnum.FOCUS_OUT,
-            d_HOVER_IN: EventEnum.HOVER_IN,
-            d_HOVER_OUT: EventEnum.HOVER_OUT,
+            d_hasHover: false
         }
     },
     methods: {

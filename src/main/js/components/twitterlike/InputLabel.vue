@@ -24,14 +24,15 @@
 </template>
 
 <script>
-import Vue from "vue"
-
 import "css@/twitterlike.scss"
-
 import debug from "debug";
-const logit = debug("components:Label.vue");
-
+import {
+    Event, // eslint-disable-line no-unused-vars
+    EventEnum
+} from "./EventEnum";
 import InputLabelMixin from "./InputLabelMixin";
+const logit = debug("components:Label.vue");
+import Vue from "vue"
 
 export default Vue.extend({
     props: {
@@ -71,6 +72,12 @@ export default Vue.extend({
             type: Boolean,
             required: true
         }
+    },
+    created: function () {
+        this.d_FOCUS_IN = EventEnum.FOCUS_IN,
+        this.d_FOCUS_OUT = EventEnum.FOCUS_OUT,
+        this.d_HOVER_IN = EventEnum.HOVER_IN,
+        this.d_HOVER_OUT = EventEnum.HOVER_OUT
     },
     mixins: [InputLabelMixin],
     computed: {

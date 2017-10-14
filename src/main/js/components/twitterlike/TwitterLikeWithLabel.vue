@@ -76,19 +76,26 @@
 </template>
 
 <script>
-import Vue from "vue"
-
+import "css@/twitterlike.scss"
+import {
+    Event, // eslint-disable-line no-unused-vars
+    EventEnum
+} from "./EventEnum";
+import debug from "debug";
 import InputLabel from "./InputLabel.vue"
 import InputLabelMixin from "./InputLabelMixin";
-
-import "css@/twitterlike.scss"
-
-import debug from "debug";
 const logit = debug('components:TwitterLike.vue');
+import Vue from "vue"
 
 const MAX_TWEET_LENGTH = 140;
 
 export default Vue.extend({
+    created: function () {
+        this.d_FOCUS_IN = EventEnum.FOCUS_IN,
+        this.d_FOCUS_OUT = EventEnum.FOCUS_OUT,
+        this.d_HOVER_IN = EventEnum.HOVER_IN,
+        this.d_HOVER_OUT = EventEnum.HOVER_OUT
+    },
     components: { InputLabel },
     /**
      * @returns {{tweet: string, photos: string[]}}
