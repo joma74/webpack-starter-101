@@ -7,7 +7,8 @@ import debug from "debug";
 
 let InputLabelMixin = {
     created: function () {
-        this.logit = debug("components:" + this.$options._componentTag + ":InputLabelMixin");
+        let componentName = this.$options.name || this.$options._componentTag;
+        this.logit = debug("components:" + componentName + ":InputLabelMixin");
     },
     /**
      * @typedef {Object} Data
