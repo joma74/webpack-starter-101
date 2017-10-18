@@ -80,10 +80,10 @@ import "css@/twitterlike.scss"
 import {
     Event, // eslint-disable-line no-unused-vars
     EventEnum
-} from "./EventEnum";
+} from "jsm@/components/twitterlike/EventEnum";
 import debug from "debug";
-import InputLabel from "./InputLabel.vue"
-import InputLabelMixin from "./InputLabelMixin";
+import InputLabel from "jsm@/components/twitterlike/InputLabel.vue"
+import InputLabelMixin from "jsm@/components/twitterlike/InputLabelMixin";
 const logit = debug('components:TwitterLike.vue');
 import Vue from "vue"
 
