@@ -4,11 +4,11 @@ import {
 } from "./EventEnum";
 import debug from "debug";
 import {
-    Component // eslint-disable-line no-unused-vars
+    ComponentOptions // eslint-disable-line no-unused-vars
 } from "vue";
 
 /**
- * @type {Component} 
+ * @type {ComponentOptions} 
  */
 let InputLabelMixin = {
     created: function () {
