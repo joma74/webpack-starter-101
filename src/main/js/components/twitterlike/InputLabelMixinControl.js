@@ -5,11 +5,11 @@ import {
 import debug from "debug";
 import C from "jsm@/components/twitterlike/C"
 import {
-    Component // eslint-disable-line no-unused-vars
+    ComponentOptions // eslint-disable-line no-unused-vars
 } from "vue";
 
 /**
- * @type {Component} 
+ * @type {ComponentOptions} 
  */
 let InputLabelMixin = {
     created: function () {
