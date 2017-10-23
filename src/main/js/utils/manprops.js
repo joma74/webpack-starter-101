@@ -14,9 +14,3 @@ export function mergeValues(from, to) {
     }
     return to;
 }
-
-import  {
-    pick as RPick 
-} from "ramda"
-
-export { RPick };
