@@ -31,22 +31,22 @@ describe("DescisionEngine", () => {
         let dEngine = new DecisionEngine(decisionTable);
         //
         let data = Object.assign({}, dataOrig);
-        dEngine.decide(EvtE.FOCUS_IN, data);
+        dEngine.decideAndMerge(EvtE.FOCUS_IN, data);
         expect(data.d_hasFocus).toBe(C.Y);
         expect(data.d_hasHover).toBeNull();
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decide(EvtE.FOCUS_OUT, data);
+        dEngine.decideAndMerge(EvtE.FOCUS_OUT, data);
         expect(data.d_hasFocus).toBe(C.N);
         expect(data.d_hasHover).toBeNull();
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decide(EvtE.HOVER_IN, data);
+        dEngine.decideAndMerge(EvtE.HOVER_IN, data);
         expect(data.d_hasHover).toBe(C.Y);
         expect(data.d_hasFocus).toBeNull();
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decide(EvtE.HOVER_OUT, data);
+        dEngine.decideAndMerge(EvtE.HOVER_OUT, data);
         expect(data.d_hasHover).toBe(C.N);
         expect(data.d_hasFocus).toBeNull();
     });
@@ -70,7 +70,7 @@ describe("DescisionEngine", () => {
         let dEngine = new DecisionEngine(decisionTable, { descriptiveHeaderRows: 3 });
         //
         let data = Object.assign({}, dataOrig);
-        dEngine.decide(EvtE.FOCUS_IN, data);
+        dEngine.decideAndMerge(EvtE.FOCUS_IN, data);
         expect(data.d_hasFocus).toBe(C.Y);
         expect(data.d_hasHover).toBeNull();
     });

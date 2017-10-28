@@ -40,31 +40,62 @@ export default class DecisionEngine {
     }
 
     /**
+     * Decide the appropriate outcome from the given {onCase}. The outcome will be merged
+     * into the given {mergeOutcomeInto}.
      * 
      * @param {object} onCase single case to the rule
      * @param {object} mergeOutcomeInto where the values of the outcome get merged into
+     * @returns {object|undefined} the outcome
      */
-    decide(onCase, mergeOutcomeInto) {
-        let outcome = this.evaluate(onCase);
+    decideAndMerge(onCase, mergeOutcomeInto) {
+        let outcome = this.decide(onCase);
         MPSmergeValues(outcome, mergeOutcomeInto);
+        return outcome;
     }
 
+    /**
+     * Decide the appropriate outcome from the given {onCase}.
+     * 
+     * @param {object} onCase single case to the rule
+     * @returns {object|undefined} the outcome
+     */
+    decide(onCase) {
+        let outcome = this.evaluate(onCase);
+        return outcome;
+    }
+
+    /**
+     * @return {object[][]} given table in constructor 
+     */
     getDecisionTable() {
         return this.decisionTable;
     }
 
+    /**
+     * @return {object[][]} cases of each decision rule
+     */
     getCases() {
         return this.cases;
     }
 
+    /**
+     * @returns {object[][]} given headers on the decision table  
+     */
     getHeaders() {
         return this.headers;
     }
 
+
+    /**
+     * @returns {number} number of cases of each decision rule
+     */
     getNumberOfCases() {
         return this.numberOfCases;
     }
 
+    /**
+     * @returns {object[]} outcomes of each decision rule
+     */
     getOutcomes() {
         return this.outcomes;
     }
