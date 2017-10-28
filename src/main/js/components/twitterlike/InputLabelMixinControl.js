@@ -17,11 +17,11 @@ let InputLabelMixin = {
         this.logit = debug("components:" + componentName + ":InputLabelMixin");
         this.decisionTable = [
             /* beautify preserve:start */
-            [EvtE.FOCUS_IN, EvtE.FOCUS_OUT, EvtE.HOVER_IN, EvtE.HOVER_OUT],
-            [          C.Y,            C.N,           C.N,            C.N, { d_hasFocus: C.Y }], //
-            [          C.N,            C.Y,           C.N,            C.N, { d_hasFocus: C.N }], //
-            [          C.N,            C.N,           C.Y,            C.N, { d_hasHover: C.Y }], //
-            [          C.N,            C.N,           C.N,            C.Y, { d_hasHover: C.N }], //
+            [EvtE.FOCUS_IN, EvtE.FOCUS_OUT, EvtE.HOVER_IN, EvtE.HOVER_OUT                       ],
+            [          C.Y,            C.N,           C.N,            C.N, { d_hasFocus: C.Y }  ], //
+            [          C.N,            C.Y,           C.N,            C.N, { d_hasFocus: C.N }  ], //
+            [          C.N,            C.N,           C.Y,            C.N, { d_hasHover: C.Y }  ], //
+            [          C.N,            C.N,           C.N,            C.Y, { d_hasHover: C.N }  ], //
             /* beautify preserve:end */
         ];
         const facts_output = Object.assign({}, () => ({ d_hasFocus, d_hasHover } = this.$data)); // eslint-disable-line no-undef
