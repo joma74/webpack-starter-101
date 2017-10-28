@@ -12,6 +12,7 @@ import {
     map as Rmap,
     memoize as Rmemoize,
     range as Rrange,
+    splitAt as RsplitAt,
     take as Rtake,
     takeLast as RtakeLast,
     T as RT
@@ -20,55 +21,69 @@ import {
 
 export default class DecisionEngine {
     /**
-     * @param {object[][]} decisionTable 
+     * @typedef {Object} Metadata
+     * @property {number} descriptiveHeaderRows - how many first rows contain description
      */
-    constructor(decisionTable) {
+    /**
+     * @param {object[][]} decisionTable 
+     * @param {Metadata} metaData
+     */
+    constructor(decisionTable, metaData = _metaData_default) {
         this.decisionTable = decisionTable;
-        this.numberOfConsiderations = this.decisionTable[0].length - 1;
-        this.considerations = Rmap(Rtake(this.numberOfConsiderations), this.decisionTable);
-        this.outcomes = Rflatten(Rmap(RtakeLast(1), this.decisionTable));
+        let headersOverDecisionRules = RsplitAt(metaData.descriptiveHeaderRows, this.decisionTable);
+        this.headers = headersOverDecisionRules[0];
+        this.decisionRules = headersOverDecisionRules[1];
+        this.numberOfCases = this.decisionRules[0].length - 1;
+        this.cases = Rmap(Rtake(this.numberOfCases), this.decisionRules);
+        this.outcomes = Rflatten(Rmap(RtakeLast(1), this.decisionRules));
         this.evaluate = _decorateDecisionTable(this);
     }
 
     /**
      * 
      * @param {object} onCase single case to the rule
-     * @param {object} intoOutput where the values of the outcome get merged into
+     * @param {object} mergeOutcomeInto where the values of the outcome get merged into
      */
-    decide(onCase, intoOutput) {
+    decide(onCase, mergeOutcomeInto) {
         let outcome = this.evaluate(onCase);
-        MPSmergeValues(outcome, intoOutput);
+        MPSmergeValues(outcome, mergeOutcomeInto);
     }
 
-    getConsiderations(){
-        return this.considerations;
-    }
-
-    getDecisionsTable(){
+    getDecisionTable() {
         return this.decisionTable;
     }
 
-    getNumberOfConsiderations(){
-        return this.numberOfConsiderations;
+    getCases() {
+        return this.cases;
     }
 
-    getOutcomes(){
+    getHeaders() {
+        return this.headers;
+    }
+
+    getNumberOfCases() {
+        return this.numberOfCases;
+    }
+
+    getOutcomes() {
         return this.outcomes;
     }
 }
 
+const _metaData_default = { descriptiveHeaderRows: 0};
+
 /**
  * @param {DecisionEngine} self
  */
-function _decorateDecisionTable(self){
-    let indicesOfConsiderations = Rrange(0, self.numberOfConsiderations);
+function _decorateDecisionTable(self) {
+    let indicesOfConsiderations = Rrange(0, self.numberOfCases);
     let mapIndexed = RaddIndex(Rmap);
     let flippedContainsConsideration = Rflip(Rcontains)(indicesOfConsiderations);
     let decorateCell = Rcond([
-        [ flippedContainsConsideration, (index, cell) => Requals(cell) ],
-        [ RT, (index, cell) => Ralways(cell) ]
+        [flippedContainsConsideration, (index, cell) => Requals(cell)],
+        [RT, (index, cell) => Ralways(cell)]
     ]);
     let decorateRow = mapIndexed((cell, index) => decorateCell(index, cell));
-    let decoratedTable = Rmap(decorateRow, self.decisionTable);
+    let decoratedTable = Rmap(decorateRow, self.decisionRules);
     return Rmemoize(Rcond(decoratedTable));
 }
