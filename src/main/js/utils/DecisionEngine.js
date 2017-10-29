@@ -33,8 +33,9 @@ export default class DecisionEngine {
         let headersOverDecisionRules = RsplitAt(metaData.descriptiveHeaderRows, this.decisionTable);
         this.headers = headersOverDecisionRules[0];
         this.decisionRules = headersOverDecisionRules[1];
-        this.numberOfCases = this.decisionRules[0].length - 1;
-        this.cases = Rmap(Rtake(this.numberOfCases), this.decisionRules);
+        this.numberOfConsiderations = this.decisionRules[0].length - 1;
+        this.cases = Rmap(Rtake(this.numberOfConsiderations), this.decisionRules);
+        this.numberOfCases = this.cases.length;
         this.outcomes = Rflatten(Rmap(RtakeLast(1), this.decisionRules));
         this.evaluate = _decorateDecisionTable(this);
     }
@@ -56,10 +57,15 @@ export default class DecisionEngine {
     /**
      * Decide the appropriate outcome from the given {onCase}.
      * 
-     * @param {object} onCase single case to the rule
+     * @param {object|any[]} onCase single case to the rule
      * @returns {object|undefined} the outcome
      */
-    decide(onCase) {
+    decide(onCase = []) {
+        if (onCase.constructor === Array && onCase.length != this.numberOfConsiderations) {
+            throw new Error("Given onCase is an array with elements not equal to the expected number of this rule's considerations");
+        } else if (onCase.constructor !== Array && 1 != this.numberOfConsiderations) {
+            throw new Error("Given onCase is a single object hence not equal to the expected number of this rule's considerations");
+        }
         let outcome = this.evaluate(onCase);
         return outcome;
     }
@@ -85,9 +91,16 @@ export default class DecisionEngine {
         return this.headers;
     }
 
+    /**
+     * @returns {number} number of considerations
+     */
+    getNumberOfConsiderations() {
+        return this.numberOfConsiderations;
+    }
+
 
     /**
-     * @returns {number} number of cases of each decision rule
+     * @returns {number} number of cases over all decision rule
      */
     getNumberOfCases() {
         return this.numberOfCases;
@@ -101,20 +114,26 @@ export default class DecisionEngine {
     }
 }
 
-const _metaData_default = { descriptiveHeaderRows: 0};
+const _metaData_default = {
+    descriptiveHeaderRows: 0
+};
 
 /**
  * @param {DecisionEngine} self
  */
 function _decorateDecisionTable(self) {
-    let indicesOfConsiderations = Rrange(0, self.numberOfCases);
-    let mapIndexed = RaddIndex(Rmap);
+    let indicesOfConsiderations = Rrange(0, self.numberOfConsiderations);
     let flippedContainsConsideration = Rflip(Rcontains)(indicesOfConsiderations);
+    let mapIndexed = RaddIndex(Rmap);
     let decorateCell = Rcond([
         [flippedContainsConsideration, (index, cell) => Requals(cell)],
         [RT, (index, cell) => Ralways(cell)]
     ]);
     let decorateRow = mapIndexed((cell, index) => decorateCell(index, cell));
+    // Gives [
+    // [function(), function(), object]
+    // [function(), ...]
+    // ]
     let decoratedTable = Rmap(decorateRow, self.decisionRules);
     return Rmemoize(Rcond(decoratedTable));
 }

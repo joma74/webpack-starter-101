@@ -140,34 +140,34 @@ describe("decision", () => {
     });
 
     it("can flip ramda's contains", () => {
-        let indicesOfConsiderations = Rrange(0,1);
+        let indicesOfConsiderations = Rrange(0, 1);
         let flippedContains = Rflip(Rcontains)(indicesOfConsiderations);
         expect(flippedContains(0)).toBe(true);
         expect(flippedContains(1)).toBe(false);
     });
 
     it("can conditional return function", () => {
-        let indicesOfConsiderations = Rrange(0,1);
+        let indicesOfConsiderations = Rrange(0, 1);
         // item, list -> list, item is curried
         let flippedContainsConsideration = Rflip(Rcontains)(indicesOfConsiderations);
         let transformRow = Rcond([
-            [ flippedContainsConsideration, (index, cell) => { 
+            [flippedContainsConsideration, (index, cell) => {
                 // console.log("1. " +  index + cell); 
-                return Requals(cell) 
-            } ],
-            [ RT, (index, cell) => { 
+                return Requals(cell)
+            }],
+            [RT, (index, cell) => {
                 // console.log("2. " +  index + cell); 
-                return Requals(cell) 
+                return Requals(cell)
             }]
         ]);
-        expect(transformRow(0,"abc")("abc")).toBe(true);
-        expect(transformRow(1,"abc")("def")).toBe(false);
-        expect(transformRow(1,"def")("def")).toBe(true);
-        expect(transformRow(1,"def")("abc")).toBe(false);
+        expect(transformRow(0, "abc")("abc")).toBe(true);
+        expect(transformRow(1, "abc")("def")).toBe(false);
+        expect(transformRow(1, "def")("def")).toBe(true);
+        expect(transformRow(1, "def")("abc")).toBe(false);
     });
 
     it("can decorate decision table", () => {
-        let decisionTable =  [
+        let decisionTable = [
             /* beautify preserve:start */
             [   EvtE.FOCUS_IN,      { d_hasFocus: C.Y }    ],
             [   EvtE.FOCUS_OUT,     { d_hasFocus: C.N }    ],
@@ -175,42 +175,50 @@ describe("decision", () => {
             [   EvtE.HOVER_OUT,     { d_hasHover: C.N }    ]
             /* beautify preserve:end */
         ];
-        let indicesOfConsiderations = Rrange(0,1);
+        let indicesOfConsiderations = Rrange(0, 1);
         let mapIndexed = RaddIndex(Rmap);
         let flippedContainsConsideration = Rflip(Rcontains)(indicesOfConsiderations);
         let decorateCell = Rcond([
-            [ flippedContainsConsideration, (index, cell) => Requals(cell) ],
-            [ RT, (index, cell) => Ralways(cell) ]
+            [flippedContainsConsideration, (index, cell) => Requals(cell)],
+            [RT, (index, cell) => Ralways(cell)]
         ]);
         let decorateRow = mapIndexed((cell, index) => decorateCell(index, cell));
         let decoratedTable = Rmap(decorateRow, decisionTable);
         /**
          * @type {function(Event): {d_hasFocus: boolean} | {d_hasHover: boolean}} | undefined }
          */
-        let onEventRuleWhen =  Rmemoize(Rcond(decoratedTable));
+        let onEventRuleWhen = Rmemoize(Rcond(decoratedTable));
         //
         let onEventOutcome = onEventRuleWhen(EvtE.FOCUS_IN);
         expect(onEventOutcome).not.toBeUndefined();
-        expect(onEventOutcome).toEqual({ d_hasFocus: C.Y });
+        expect(onEventOutcome).toEqual({
+            d_hasFocus: C.Y
+        });
         //
         onEventOutcome = onEventRuleWhen(EvtE.HOVER_IN);
         expect(onEventOutcome).not.toBeUndefined();
-        expect(onEventOutcome).toEqual({ d_hasHover: C.Y });
+        expect(onEventOutcome).toEqual({
+            d_hasHover: C.Y
+        });
         //
         onEventOutcome = onEventRuleWhen(EvtE.FOCUS_OUT);
         expect(onEventOutcome).not.toBeUndefined();
-        expect(onEventOutcome).toEqual({ d_hasFocus: C.N });
+        expect(onEventOutcome).toEqual({
+            d_hasFocus: C.N
+        });
         //
         onEventOutcome = onEventRuleWhen(EvtE.HOVER_OUT);
         expect(onEventOutcome).not.toBeUndefined();
-        expect(onEventOutcome).toEqual({ d_hasHover: C.N });
+        expect(onEventOutcome).toEqual({
+            d_hasHover: C.N
+        });
     });
 
-    it("can rule outcome by when on case", () => {
+    it("can rule outcome with one consideration", () => {
         /**
          * @type {function(Event): {d_hasFocus: boolean} | {d_hasHover: boolean}} | undefined }
          */
-        let onEventRuleWhen =  Rmemoize(Rcond([
+        let onEventRuleWhen = Rmemoize(Rcond([
             /* beautify preserve:start */
             [   Requals(EvtE.FOCUS_IN),     Ralways({ d_hasFocus: C.Y })    ],
             [   Requals(EvtE.FOCUS_OUT),    Ralways({ d_hasFocus: C.N })    ],
@@ -221,20 +229,64 @@ describe("decision", () => {
         //
         let onEventOutcome = onEventRuleWhen(EvtE.HOVER_IN);
         expect(onEventOutcome).not.toBeUndefined();
-        expect(onEventOutcome).toEqual({ d_hasHover: C.Y });
-        expect(onEventRuleWhen(EvtE.HOVER_IN)).toEqual({ d_hasHover: C.Y });
+        expect(onEventOutcome).toEqual({
+            d_hasHover: C.Y
+        });
+        expect(onEventRuleWhen(EvtE.HOVER_IN)).toEqual({
+            d_hasHover: C.Y
+        });
         //
         onEventOutcome = onEventRuleWhen(EvtE.FOCUS_IN);
         expect(onEventOutcome).not.toBeUndefined();
-        expect(onEventOutcome).toEqual({ d_hasFocus: C.Y });
-        expect(onEventRuleWhen(EvtE.FOCUS_IN)).toEqual({ d_hasFocus: C.Y });
+        expect(onEventOutcome).toEqual({
+            d_hasFocus: C.Y
+        });
+        expect(onEventRuleWhen(EvtE.FOCUS_IN)).toEqual({
+            d_hasFocus: C.Y
+        });
         //
         onEventOutcome = onEventRuleWhen("WHATSUP");
         expect(onEventOutcome).toBeUndefined();
         expect(onEventRuleWhen("WHATSUP")).toBeUndefined();
     });
 
-    it("avoid Ramda's clone", () => {
+    it("can rule outcome with two consideration", () => {
+        /**
+         * @type {function(Event): {d_hasFocus: boolean} | {d_hasHover: boolean}} | undefined }
+         */
+        let onEventRuleWhen = Rmemoize(Rcond([
+            /* beautify preserve:start */
+            [   Requals(EvtE.FOCUS_IN),     Requals(C.Y),   Ralways({ d_hasFocus: C.Y })    ],
+            [   Requals(EvtE.FOCUS_OUT),    Requals(C.Y),   Ralways({ d_hasFocus: C.N })    ],
+            [   Requals(EvtE.HOVER_IN),     Requals(C.Y),   Ralways({ d_hasHover: C.Y })    ],
+            [   Requals(EvtE.HOVER_OUT),    Requals(C.Y),   Ralways({ d_hasHover: C.N })    ]
+            /* beautify preserve:end */
+        ]));
+        //
+        let onEventOutcome = onEventRuleWhen(EvtE.HOVER_IN);
+        expect(onEventOutcome).not.toBeUndefined();
+        expect(onEventOutcome).toEqual({
+            d_hasHover: C.Y
+        });
+        expect(onEventRuleWhen(EvtE.HOVER_IN)).toEqual({
+            d_hasHover: C.Y
+        });
+        //
+        onEventOutcome = onEventRuleWhen(EvtE.FOCUS_IN);
+        expect(onEventOutcome).not.toBeUndefined();
+        expect(onEventOutcome).toEqual({
+            d_hasFocus: C.Y
+        });
+        expect(onEventRuleWhen(EvtE.FOCUS_IN)).toEqual({
+            d_hasFocus: C.Y
+        });
+        //
+        onEventOutcome = onEventRuleWhen("WHATSUP");
+        expect(onEventOutcome).toBeUndefined();
+        expect(onEventRuleWhen("WHATSUP")).toBeUndefined();
+    });
+
+    it("avoid Ramda's clone on class instances", () => {
         let FocusInEvent = EvtE.FOCUS_IN;
         let FocusInEventClone = Rclone(FocusInEvent);
         expect(FocusInEvent).not.toEqual(FocusInEventClone);
