@@ -17,9 +17,11 @@ import {
     EventEnum as EvtE
 } from "jsm@/components/twitterlike/EventEnum";
 import {
+    apply as Rapply,
     contains as Rcontains,
     flip as Rflip,
     reduce as Rreduce,
+    reduced as Rreduced,
     range as Rrange,
     addIndex as RaddIndex,
     map as Rmap,
@@ -33,7 +35,9 @@ import {
     equals as Requals,
     always as Ralways,
     memoize as Rmemoize,
-    T as RT
+    T as RT,
+    __ as R__,
+    curry as Rcurry
 } from "ramda";
 
 describe("decision", () => {
@@ -250,40 +254,73 @@ describe("decision", () => {
         expect(onEventRuleWhen("WHATSUP")).toBeUndefined();
     });
 
-    it("can rule outcome with two consideration", () => {
-        /**
-         * @type {function(Event): {d_hasFocus: boolean} | {d_hasHover: boolean}} | undefined }
-         */
-        let onEventRuleWhen = Rmemoize(Rcond([
+    it("can reduce single consideration", () => {
+        let considerationMatches = [Requals(EvtE.FOCUS_IN), Requals(C.Y)];
+        let considerationNotMatchesA = [Requals(EvtE.FOCUS_OUT), Requals(C.Y)];
+        let considerationNotMatchesB = [Requals(EvtE.FOCUS_IN), Requals(C.N)];
+
+        let RreduceIndexed = RaddIndex(Rreduce);
+
+        let evaluateCurried = Rcurry(
+            /**
+             * @param {boolean} accValue 
+             * @param {object[]} consideration 
+             * @param {object[]} actualFacts
+             */
+            (accValue, consideration, actualFacts) => {
+                return RreduceIndexed((acc, value, index) => {
+                    acc = value(actualFacts[index]) && acc;
+                    if (!acc) Rreduced(acc);
+                    return acc;
+                }, accValue, consideration);
+            }
+        );
+
+        let actualFacts = [EvtE.FOCUS_IN, true];
+        expect(evaluateCurried(true, considerationMatches, R__)(actualFacts)).toBe(true);
+        expect(evaluateCurried(true, considerationNotMatchesA, R__)(actualFacts)).toBe(false);
+        expect(evaluateCurried(true, considerationNotMatchesB, R__)(actualFacts)).toBe(false);
+    });
+
+    it("can properly reduce array of considerations", () => {
+        let considerations = [
             /* beautify preserve:start */
-            [   Requals(EvtE.FOCUS_IN),     Requals(C.Y),   Ralways({ d_hasFocus: C.Y })    ],
-            [   Requals(EvtE.FOCUS_OUT),    Requals(C.Y),   Ralways({ d_hasFocus: C.N })    ],
-            [   Requals(EvtE.HOVER_IN),     Requals(C.Y),   Ralways({ d_hasHover: C.Y })    ],
-            [   Requals(EvtE.HOVER_OUT),    Requals(C.Y),   Ralways({ d_hasHover: C.N })    ]
+            [   Requals(EvtE.FOCUS_IN),     Requals(C.Y)    ],
+            [   Requals(EvtE.FOCUS_OUT),    Requals(C.Y)    ],
+            [   Requals(EvtE.HOVER_IN),     Requals(C.Y)    ],
+            [   Requals(EvtE.HOVER_OUT),    Requals(C.Y)    ]
             /* beautify preserve:end */
-        ]));
+        ];
+
+        let RreduceIndexed = RaddIndex(Rreduce);
+        let RmapIndexed = RaddIndex(Rmap);
+
+        let evaluateCurried = Rcurry(
+            /**
+             * @param {boolean} accValue 
+             * @param {object[]} consideration 
+             * @param {object[]} actualFacts
+             */
+            (accValue, consideration, actualFacts) => {
+                return RreduceIndexed((acc, value, index) => {
+                    acc = value(actualFacts[index]) && acc;
+                    if (!acc) Rreduced(acc);
+                    return acc;
+                }, accValue, consideration);
+            }
+        );
+
+        let decoratedDecisions = RmapIndexed((consideration) => evaluateCurried(true, consideration, R__), considerations);
         //
-        let onEventOutcome = onEventRuleWhen(EvtE.HOVER_IN);
-        expect(onEventOutcome).not.toBeUndefined();
-        expect(onEventOutcome).toEqual({
-            d_hasHover: C.Y
-        });
-        expect(onEventRuleWhen(EvtE.HOVER_IN)).toEqual({
-            d_hasHover: C.Y
-        });
+        expect(decoratedDecisions[0]([EvtE.FOCUS_IN, true])).toBe(true);
+        expect(decoratedDecisions[1]([EvtE.FOCUS_OUT, true])).toBe(true);
+        expect(decoratedDecisions[2]([EvtE.HOVER_IN, true])).toBe(true);
+        expect(decoratedDecisions[3]([EvtE.HOVER_OUT, true])).toBe(true);
         //
-        onEventOutcome = onEventRuleWhen(EvtE.FOCUS_IN);
-        expect(onEventOutcome).not.toBeUndefined();
-        expect(onEventOutcome).toEqual({
-            d_hasFocus: C.Y
-        });
-        expect(onEventRuleWhen(EvtE.FOCUS_IN)).toEqual({
-            d_hasFocus: C.Y
-        });
-        //
-        onEventOutcome = onEventRuleWhen("WHATSUP");
-        expect(onEventOutcome).toBeUndefined();
-        expect(onEventRuleWhen("WHATSUP")).toBeUndefined();
+        expect(decoratedDecisions[0]([EvtE.FOCUS_IN, false])).toBe(false);
+        expect(decoratedDecisions[1]([EvtE.FOCUS_IN, true])).toBe(false);
+        expect(decoratedDecisions[2]([EvtE.HOVER_IN, false])).toBe(false);
+        expect(decoratedDecisions[3]([EvtE.HOVER_IN, true])).toBe(false);
     });
 
     it("avoid Ramda's clone on class instances", () => {

@@ -126,8 +126,10 @@ function _decorateDecisionTable(self) {
     let flippedContainsConsideration = Rflip(Rcontains)(indicesOfConsiderations);
     let mapIndexed = RaddIndex(Rmap);
     let decorateCell = Rcond([
-        [flippedContainsConsideration, (index, cell) => Requals(cell)],
-        [RT, (index, cell) => Ralways(cell)]
+        /* beautify preserve:start */
+        [flippedContainsConsideration,      (index, cell) => Requals(cell)],
+        [RT,                                (index, cell) => Ralways(cell)]
+        /* beautify preserve:end */
     ]);
     let decorateRow = mapIndexed((cell, index) => decorateCell(index, cell));
     // Gives [
