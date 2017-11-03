@@ -1,4 +1,5 @@
 /*global describe*/
+/*global fdescribe*/
 /*global jasmine*/
 /*global beforeEach*/
 /*global fit*/

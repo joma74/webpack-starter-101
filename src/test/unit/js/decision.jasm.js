@@ -1,4 +1,5 @@
 /*global describe*/
+/*global fdescribe*/
 /*global jasmine*/
 /*global beforeEach*/
 /*global fit*/
@@ -23,6 +24,7 @@ import {
     reduce as Rreduce,
     reduced as Rreduced,
     range as Rrange,
+    findIndex as RfindIndex,
     addIndex as RaddIndex,
     map as Rmap,
     take as Rtake,
@@ -37,10 +39,11 @@ import {
     memoize as Rmemoize,
     T as RT,
     __ as R__,
-    curry as Rcurry
+    curry as Rcurry,
+    zip as Rzip
 } from "ramda";
 
-describe("decision", () => {
+fdescribe("decision", () => {
 
     it("can convert true-false array into a binary string", () => {
         /**
@@ -254,7 +257,7 @@ describe("decision", () => {
         expect(onEventRuleWhen("WHATSUP")).toBeUndefined();
     });
 
-    it("can reduce single consideration", () => {
+    it("can reduce a single consideration", () => {
         let considerationMatches = [Requals(EvtE.FOCUS_IN), Requals(C.Y)];
         let considerationNotMatchesA = [Requals(EvtE.FOCUS_OUT), Requals(C.Y)];
         let considerationNotMatchesB = [Requals(EvtE.FOCUS_IN), Requals(C.N)];
@@ -282,13 +285,13 @@ describe("decision", () => {
         expect(evaluateCurried(true, considerationNotMatchesB, R__)(actualFacts)).toBe(false);
     });
 
-    it("can properly reduce array of considerations", () => {
-        let considerations = [
+    fit("can reduce an array of considerations", () => {
+        let decoratedDecisionTable = [
             /* beautify preserve:start */
-            [   Requals(EvtE.FOCUS_IN),     Requals(C.Y)    ],
-            [   Requals(EvtE.FOCUS_OUT),    Requals(C.Y)    ],
-            [   Requals(EvtE.HOVER_IN),     Requals(C.Y)    ],
-            [   Requals(EvtE.HOVER_OUT),    Requals(C.Y)    ]
+            [   Requals(EvtE.FOCUS_IN),     Requals(C.Y),   Ralways({ expected: 1 })    ],
+            [   Requals(EvtE.FOCUS_OUT),    Requals(C.Y),   Ralways({ expected: 2 })    ],
+            [   Requals(EvtE.HOVER_IN),     Requals(C.Y),   Ralways({ expected: 3 })    ],
+            [   Requals(EvtE.HOVER_OUT),    Requals(C.Y),   Ralways({ expected: 4 })    ]
             /* beautify preserve:end */
         ];
 
@@ -309,7 +312,8 @@ describe("decision", () => {
                 }, accValue, consideration);
             }
         );
-
+        let considerations = Rmap(Rtake(2), decoratedDecisionTable);
+        let outcomes = Rflatten(Rmap(RtakeLast(1), decoratedDecisionTable));
         let decoratedDecisions = RmapIndexed((consideration) => evaluateCurried(true, consideration, R__), considerations);
         //
         expect(decoratedDecisions[0]([EvtE.FOCUS_IN, true])).toBe(true);
@@ -321,6 +325,34 @@ describe("decision", () => {
         expect(decoratedDecisions[1]([EvtE.FOCUS_IN, true])).toBe(false);
         expect(decoratedDecisions[2]([EvtE.HOVER_IN, false])).toBe(false);
         expect(decoratedDecisions[3]([EvtE.HOVER_IN, true])).toBe(false);
+
+        let f_decoratedDecisionTable = Rzip(decoratedDecisions, outcomes);
+        let f_conditionalesDecisionTable = Rcond(f_decoratedDecisionTable);
+        // 1.
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_IN, true])).toEqual({ expected: 1 });
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_OUT, true])).toEqual({ expected: 2 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_IN, true])).toEqual({ expected: 3 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_OUT, true])).toEqual({ expected: 4 });
+        // 2.
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_IN, true])).toEqual({ expected: 1 });
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_OUT, true])).toEqual({ expected: 2 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_IN, true])).toEqual({ expected: 3 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_OUT, true])).toEqual({ expected: 4 });
+        // 3.
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_IN, true])).toEqual({ expected: 1 });
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_OUT, true])).toEqual({ expected: 2 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_IN, true])).toEqual({ expected: 3 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_OUT, true])).toEqual({ expected: 4 });
+        // 4.
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_IN, true])).toEqual({ expected: 1 });
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_OUT, true])).toEqual({ expected: 2 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_IN, true])).toEqual({ expected: 3 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_OUT, true])).toEqual({ expected: 4 });
+        // 5.
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_IN, true])).toEqual({ expected: 1 });
+        expect(f_conditionalesDecisionTable([EvtE.FOCUS_OUT, true])).toEqual({ expected: 2 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_IN, true])).toEqual({ expected: 3 });
+        expect(f_conditionalesDecisionTable([EvtE.HOVER_OUT, true])).toEqual({ expected: 4 });
     });
 
     it("avoid Ramda's clone on class instances", () => {

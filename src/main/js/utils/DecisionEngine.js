@@ -37,7 +37,7 @@ export default class DecisionEngine {
         this.cases = Rmap(Rtake(this.numberOfConsiderations), this.decisionRules);
         this.numberOfCases = this.cases.length;
         this.outcomes = Rflatten(Rmap(RtakeLast(1), this.decisionRules));
-        this.evaluate = _decorateDecisionTable(this);
+        this.f_preparedDecisionTable = _prepareDecisionTable(this);
     }
 
     /**
@@ -66,7 +66,7 @@ export default class DecisionEngine {
         } else if (onCase.constructor !== Array && 1 != this.numberOfConsiderations) {
             throw new Error("Given onCase is a single object hence not equal to the expected number of this rule's considerations");
         }
-        let outcome = this.evaluate(onCase);
+        let outcome = this.f_preparedDecisionTable(onCase);
         return outcome;
     }
 
@@ -121,21 +121,39 @@ const _metaData_default = {
 /**
  * @param {DecisionEngine} self
  */
-function _decorateDecisionTable(self) {
+function _prepareDecisionTable(self) {
     let indicesOfConsiderations = Rrange(0, self.numberOfConsiderations);
-    let flippedContainsConsideration = Rflip(Rcontains)(indicesOfConsiderations);
-    let mapIndexed = RaddIndex(Rmap);
-    let decorateCell = Rcond([
+    let f_containsConsideration = Rflip(Rcontains)(indicesOfConsiderations);
+    let f_mapIndexed = RaddIndex(Rmap);
+    let decoratedTable = _decorateConsiderationCells(self, f_mapIndexed, f_containsConsideration);
+    return Rmemoize(Rcond(decoratedTable));
+}
+
+/**
+ * @param {DecisionEngine} self
+ * @param {any} f_mapIndexed
+ * @param {any} f_containsConsideration
+ * 
+ */
+function _decorateConsiderationCells(self, f_mapIndexed, f_containsConsideration){
+    let f_decorateCell = Rcond([
         /* beautify preserve:start */
-        [flippedContainsConsideration,      (index, cell) => Requals(cell)],
-        [RT,                                (index, cell) => Ralways(cell)]
+        [f_containsConsideration,       (index, cell) => Requals(cell)],
+        [RT,                            (index, cell) => Ralways(cell)]
         /* beautify preserve:end */
     ]);
-    let decorateRow = mapIndexed((cell, index) => decorateCell(index, cell));
+    let f_decorateRow = f_mapIndexed(
+        /**
+         * @param {any} cell
+         * @param {number} index
+         */
+        (cell, index) => f_decorateCell(index, cell)
+    );
     // Gives [
-    // [function(), function(), object]
-    // [function(), ...]
-    // ]
-    let decoratedTable = Rmap(decorateRow, self.decisionRules);
-    return Rmemoize(Rcond(decoratedTable));
+    //      [function(), function(), ..., object]
+    //      [function(), function(), ..., object]
+    //      [function(), ...]
+    /* beautify preserve:end */
+    let decoratedTable = Rmap(f_decorateRow, self.decisionRules);
+    return decoratedTable;
 }
