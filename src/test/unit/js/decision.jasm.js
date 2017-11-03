@@ -43,7 +43,7 @@ import {
     zip as Rzip
 } from "ramda";
 
-fdescribe("decision", () => {
+describe("decision", () => {
 
     it("can convert true-false array into a binary string", () => {
         /**
@@ -285,7 +285,7 @@ fdescribe("decision", () => {
         expect(evaluateCurried(true, considerationNotMatchesB, R__)(actualFacts)).toBe(false);
     });
 
-    fit("can reduce an array of considerations", () => {
+    it("can reduce an array of considerations", () => {
         let decoratedDecisionTable = [
             /* beautify preserve:start */
             [   Requals(EvtE.FOCUS_IN),     Requals(C.Y),   Ralways({ expected: 1 })    ],
