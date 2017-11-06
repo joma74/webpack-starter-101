@@ -19,7 +19,7 @@ import {
 } from "jsm@/components/twitterlike/EventEnum";
 import {
     f_decideCurried,
-    f_decideOn,
+    f_wrapDeciderOver,
     f_conditionalizeDecisionTable
 } from "jsm@/utils/DecisionEngine"
 import {
@@ -169,7 +169,7 @@ describe("decision", () => {
 
         let decoratedCases = Rmap(Rtake(1), decoratedDecisionTable);
         let decoratedOutcomes = f_flatMap(RtakeLast(1), decoratedDecisionTable);
-        let f_decoratedDecisions = f_decideOn(decoratedCases);
+        let f_decoratedDecisions = f_wrapDeciderOver(decoratedCases);
         //
         expect(f_decoratedDecisions[0]([EvtE.FOCUS_IN])).toBe(true);
         expect(f_decoratedDecisions[1]([EvtE.FOCUS_OUT])).toBe(true);
@@ -204,7 +204,7 @@ describe("decision", () => {
 
         let decoratedCases = Rmap(Rtake(2), decoratedDecisionTable);
         let decoratedOutcomes = f_flatMap(RtakeLast(1), decoratedDecisionTable);
-        let f_decoratedDecisions = f_decideOn(decoratedCases);
+        let f_decoratedDecisions = f_wrapDeciderOver(decoratedCases);
         //
         expect(f_decoratedDecisions[0]([EvtE.FOCUS_IN, true])).toBe(true);
         expect(f_decoratedDecisions[1]([EvtE.FOCUS_OUT, true])).toBe(true);

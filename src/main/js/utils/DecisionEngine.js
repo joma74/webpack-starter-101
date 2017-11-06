@@ -44,9 +44,9 @@ export default class DecisionEngine {
         this.numberOfCases = this.cases.length;
         this.outcomes = _getOutcomes(this.decisionRules);
         this.decoratedDecisionTable = _decorateDecisionTable(this.numberOfConsiderations, this.decisionRules);
-        this.decoratedCases = _getCases(this.numberOfConsiderations, this.decoratedDecisionTable);
-        this.decoratedOutcomes = _getOutcomes(this.decoratedDecisionTable);
-        this.f_conditionalDecisionTable = f_conditionalizeDecisionTable(f_decideOn(this.decoratedCases), this.decoratedOutcomes);
+        let decoratedCases = _getCases(this.numberOfConsiderations, this.decoratedDecisionTable);
+        let decoratedOutcomes = _getOutcomes(this.decoratedDecisionTable);
+        this.f_conditionalDecisionTable = f_conditionalizeDecisionTable(f_wrapDeciderOver(decoratedCases), decoratedOutcomes);
     }
 
     /**
@@ -158,13 +158,17 @@ const _metaData_default = {
  * @param {object[][]} decoratedCases
  * @returns {(function(object[]):boolean)[]} function that accepts a fact and returns true if the considerations can be fulfilled
  */
-export function f_decideOn(decoratedCases) {
+export function f_wrapDeciderOver(decoratedCases) {
     return f_mapIndexed((singleCase) => f_decideCurried(true, singleCase, R__), decoratedCases);
 }
 
 /**
+ * Function that accepts a fact and returns conditionally upon this a matching outcome.   
+ * The resulting table from `f_decoratedCases` with `decoratedOutcomes`.
+ * 
  * @param {(function(object[]):boolean)[]} f_decoratedCases 
- * @param {object[][]} decoratedOutcomes 
+ * @param {object[][]} decoratedOutcomes
+ * @return {any|undefined} returns undefined if not any of the considerations matched 
  */
 export function f_conditionalizeDecisionTable(f_decoratedCases, decoratedOutcomes) {
     let f_decoratedDecisionTable = Rzip(f_decoratedCases, decoratedOutcomes);
