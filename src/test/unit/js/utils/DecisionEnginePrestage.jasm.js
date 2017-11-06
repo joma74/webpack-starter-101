@@ -37,7 +37,7 @@ import {
     __ as R__
 } from "ramda";
 
-describe("decision", () => {
+describe("Decision Engine Prestage", () => {
 
     it("can convert true-false array into a binary string", () => {
         /**

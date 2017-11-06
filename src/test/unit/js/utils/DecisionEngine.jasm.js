@@ -15,7 +15,7 @@ import {
     EventEnum as EvtE
 } from "jsm@/components/twitterlike/EventEnum";
 
-describe("DescisionEngine", () => {
+describe("Descision Engine", () => {
 
     it("can be set up with one type consideration", () => {
         let dataOrig = {
