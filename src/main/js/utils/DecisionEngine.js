@@ -1,29 +1,35 @@
 import {
-    mergeValues as MPSmergeValues
+    mergeValues
 } from "jsm@/utils/manprops"
 import {
-    addIndex as RaddIndex,
+    f_mapIndexed,
+    f_reduceIndexed,
+    f_flippedContains,
+    f_flatMap
+} from "jsm@/utils/ramdautils"
+import {
+    __ as R__,
     always as Ralways,
     cond as Rcond,
-    contains as Rcontains,
+    curry as Rcurry,
     equals as Requals,
-    flatten as Rflatten,
-    flip as Rflip,
     map as Rmap,
     memoize as Rmemoize,
     range as Rrange,
+    reduced as Rreduced,
     splitAt as RsplitAt,
     take as Rtake,
     takeLast as RtakeLast,
+    zip as Rzip,
     T as RT
 } from "ramda";
 
-
+/**
+ * @typedef {Object} Metadata
+ * @property {number} descriptiveHeaderRows - how many first rows contain description
+ */
 export default class DecisionEngine {
-    /**
-     * @typedef {Object} Metadata
-     * @property {number} descriptiveHeaderRows - how many first rows contain description
-     */
+
     /**
      * @param {object[][]} decisionTable 
      * @param {Metadata} metaData
@@ -34,10 +40,13 @@ export default class DecisionEngine {
         this.headers = headersOverDecisionRules[0];
         this.decisionRules = headersOverDecisionRules[1];
         this.numberOfConsiderations = this.decisionRules[0].length - 1;
-        this.cases = Rmap(Rtake(this.numberOfConsiderations), this.decisionRules);
+        this.cases = _getCases(this.numberOfConsiderations, this.decisionRules);
         this.numberOfCases = this.cases.length;
-        this.outcomes = Rflatten(Rmap(RtakeLast(1), this.decisionRules));
-        this.f_preparedDecisionTable = _prepareDecisionTable(this);
+        this.outcomes = _getOutcomes(this.decisionRules);
+        this.decoratedDecisionTable = _decorateDecisionTable(this.numberOfConsiderations, this.decisionRules);
+        this.decoratedCases = _getCases(this.numberOfConsiderations, this.decoratedDecisionTable);
+        this.decoratedOutcomes = _getOutcomes(this.decoratedDecisionTable);
+        this.f_conditionalDecisionTable = f_conditionalizeDecisionTable(f_decideOn(this.decoratedCases), this.decoratedOutcomes);
     }
 
     /**
@@ -50,7 +59,7 @@ export default class DecisionEngine {
      */
     decideAndMerge(onCase, mergeOutcomeInto) {
         let outcome = this.decide(onCase);
-        MPSmergeValues(outcome, mergeOutcomeInto);
+        mergeValues(outcome, mergeOutcomeInto);
         return outcome;
     }
 
@@ -61,23 +70,33 @@ export default class DecisionEngine {
      * @returns {object|undefined} the outcome
      */
     decide(onCase = []) {
-        if (onCase.constructor === Array && onCase.length != this.numberOfConsiderations) {
-            throw new Error("Given onCase is an array with elements not equal to the expected number of this rule's considerations");
-        } else if (onCase.constructor !== Array && 1 != this.numberOfConsiderations) {
-            throw new Error("Given onCase is a single object hence not equal to the expected number of this rule's considerations");
+        let onCaseArray = onCase;
+        if (onCase.constructor === Array) {
+            if (onCase.length != this.numberOfConsiderations) {
+
+                throw new Error("Given onCase is an array with elements not equal to the expected number of this rule's considerations");
+            }
+        } else if (onCase.constructor !== Array) {
+            if (1 != this.numberOfConsiderations) {
+
+                throw new Error("Given onCase is a single object hence not equal to the expected number of this rule's considerations");
+            }
+            onCaseArray = [onCase];
         }
-        let outcome = this.f_preparedDecisionTable(onCase);
+        let outcome = this.f_conditionalDecisionTable(onCaseArray);
         return outcome;
     }
 
     /**
-     * @return {object[][]} given table in constructor 
+     * Returns the given decision table.
+     * @return {object[][]} given decision table
      */
     getDecisionTable() {
         return this.decisionTable;
     }
 
     /**
+     * Returns the given cases of each decision rule
      * @return {object[][]} cases of each decision rule
      */
     getCases() {
@@ -85,13 +104,15 @@ export default class DecisionEngine {
     }
 
     /**
-     * @returns {object[][]} given headers on the decision table  
+     * Returns the given headers on the decision table
+     * @returns {object[][]} given headers on the decision table
      */
     getHeaders() {
         return this.headers;
     }
 
     /**
+     * Returns the number of considerations of the given decision table
      * @returns {number} number of considerations
      */
     getNumberOfConsiderations() {
@@ -100,42 +121,91 @@ export default class DecisionEngine {
 
 
     /**
-     * @returns {number} number of cases over all decision rule
+     * Returns the number of cases for each decision rule
+     * @returns {number} number of cases for each decision rule
      */
     getNumberOfCases() {
         return this.numberOfCases;
     }
 
     /**
-     * @returns {object[]} outcomes of each decision rule
+     * Returns the outcomes over all decision rules
+     * @returns {object[]} outcomes over all decision rules
      */
     getOutcomes() {
         return this.outcomes;
     }
+
+    /**
+     * Returns the function-wise decorated decisions table
+     * @return {object[][]} the function-wise decorated decisions table
+     */
+    getDecoratedDecisionTable() {
+        return this.decoratedDecisionTable;
+    }
 }
 
+/**
+ * @type {Metadata}
+ */
 const _metaData_default = {
     descriptiveHeaderRows: 0
 };
 
 /**
- * @param {DecisionEngine} self
+ * Function that accepts a fact and returns true if all considerations in any of the `decoratedCases` can be fulfilled.
+ * 
+ * @param {object[][]} decoratedCases
+ * @returns {(function(object[]):boolean)[]} function that accepts a fact and returns true if the considerations can be fulfilled
  */
-function _prepareDecisionTable(self) {
-    let indicesOfConsiderations = Rrange(0, self.numberOfConsiderations);
-    let f_containsConsideration = Rflip(Rcontains)(indicesOfConsiderations);
-    let f_mapIndexed = RaddIndex(Rmap);
-    let decoratedTable = _decorateConsiderationCells(self, f_mapIndexed, f_containsConsideration);
-    return Rmemoize(Rcond(decoratedTable));
+export function f_decideOn(decoratedCases) {
+    return f_mapIndexed((singleCase) => f_decideCurried(true, singleCase, R__), decoratedCases);
 }
 
 /**
- * @param {DecisionEngine} self
- * @param {any} f_mapIndexed
- * @param {any} f_containsConsideration
- * 
+ * @param {(function(object[]):boolean)[]} f_decoratedCases 
+ * @param {object[][]} decoratedOutcomes 
  */
-function _decorateConsiderationCells(self, f_mapIndexed, f_containsConsideration){
+export function f_conditionalizeDecisionTable(f_decoratedCases, decoratedOutcomes) {
+    let f_decoratedDecisionTable = Rzip(f_decoratedCases, decoratedOutcomes);
+    // @ts-ignore Huh???
+    return Rmemoize(Rcond(f_decoratedDecisionTable));
+}
+
+export const f_decideCurried = Rcurry(
+    /**
+     * @param {boolean} accValue 
+     * @param {object[]} singleCase
+     * @param {object[]} actualFacts
+     */
+    (accValue, singleCase, actualFacts) => {
+        return f_reduceIndexed((acc, singleCase, index) => {
+            acc = singleCase(actualFacts[index]) && acc;
+            if (!acc) Rreduced(acc);
+            return acc;
+        }, accValue, singleCase);
+    }
+);
+
+/**
+ * @param {number} numberOfConsiderations
+ * @param {object[][]} decisionRules
+ * @returns {function[][]} a 2d array of functions
+ */
+export function _decorateDecisionTable(numberOfConsiderations, decisionRules) {
+    let indicesOfConsiderations = Rrange(0, numberOfConsiderations);
+    let f_containsConsideration = f_flippedContains(indicesOfConsiderations);
+    let decoratedTable = _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration);
+    return decoratedTable;
+}
+
+/**
+ * @param {object[][]} decisionRules
+ * @param {function} f_mapIndexed
+ * @param {function(number[]): boolean} f_containsConsideration
+ * @returns {function[][]} a 2d array of functions
+ */
+function _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration) {
     let f_decorateCell = Rcond([
         /* beautify preserve:start */
         [f_containsConsideration,       (index, cell) => Requals(cell)],
@@ -154,6 +224,23 @@ function _decorateConsiderationCells(self, f_mapIndexed, f_containsConsideration
     //      [function(), function(), ..., object]
     //      [function(), ...]
     /* beautify preserve:end */
-    let decoratedTable = Rmap(f_decorateRow, self.decisionRules);
+    let decoratedTable = Rmap(f_decorateRow, decisionRules);
     return decoratedTable;
+}
+
+/**
+ * 
+ * @param {number} numberOfConsiderations 
+ * @param {object[]} decisionRulesTable 
+ */
+function _getCases(numberOfConsiderations, decisionRulesTable){
+    return Rmap(Rtake(numberOfConsiderations), decisionRulesTable);
+}
+
+/**
+ * 
+ * @param {object[]} decisionRulesTable 
+ */
+function _getOutcomes(decisionRulesTable){
+    return f_flatMap(RtakeLast(1), decisionRulesTable);
 }

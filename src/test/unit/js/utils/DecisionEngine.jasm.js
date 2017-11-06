@@ -15,7 +15,7 @@ import {
     EventEnum as EvtE
 } from "jsm@/components/twitterlike/EventEnum";
 
-describe("DescisionEngine", () => {
+fdescribe("DescisionEngine", () => {
 
     it("can be set up with one type consideration", () => {
         let dataOrig = {
@@ -103,8 +103,24 @@ describe("DescisionEngine", () => {
         expect(data.d_result).toBe(C.Y);
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.FOCUS_OUT, C.Y ], data);
+        dEngine.decideAndMerge([ EvtE.FOCUS_OUT, C.N ], data);
         expect(data.d_result).toBe(C.N);
+        //
+        data = Object.assign({}, dataOrig);
+        dEngine.decideAndMerge([ EvtE.HOVER_IN, C.Y ], data);
+        expect(data.d_result).toBe(C.ANY);
+        //
+        data = Object.assign({}, dataOrig);
+        dEngine.decideAndMerge([ EvtE.HOVER_OUT, C.N ], data);
+        expect(data.d_result).toBe(C.I);
+        //
+        data = Object.assign({}, dataOrig);
+        let result = dEngine.decideAndMerge([ EvtE.HOVER_OUT, C.Y ], data);
+        expect(result).toBeUndefined();
+        //
+        data = Object.assign({}, dataOrig);
+        result = dEngine.decideAndMerge([ "Hah!", "Huh?" ], data);
+        expect(result).toBeUndefined();
     });
 
     it("can ignore three descriptive header rows", () => {
