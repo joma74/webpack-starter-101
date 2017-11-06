@@ -4,6 +4,7 @@ import {
     contains as Rcontains,
     flatten as Rflatten,
     flip as Rflip,
+    last as RLast,
     map as Rmap,
     reduce as Rreduce
 } from "ramda";

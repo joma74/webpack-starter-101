@@ -13,13 +13,13 @@ import {
     cond as Rcond,
     curry as Rcurry,
     equals as Requals,
+    init as Rinit,
+    last as Rlast,
     map as Rmap,
     memoize as Rmemoize,
     range as Rrange,
     reduced as Rreduced,
     splitAt as RsplitAt,
-    take as Rtake,
-    takeLast as RtakeLast,
     zip as Rzip,
     T as RT
 } from "ramda";
@@ -40,20 +40,21 @@ export default class DecisionEngine {
         this.headers = headersOverDecisionRules[0];
         this.decisionRules = headersOverDecisionRules[1];
         this.numberOfConsiderations = this.decisionRules[0].length - 1;
-        this.cases = _getCases(this.numberOfConsiderations, this.decisionRules);
+        this.cases = _getCases(this.decisionRules);
         this.numberOfCases = this.cases.length;
         this.outcomes = _getOutcomes(this.decisionRules);
         this.decoratedDecisionTable = _decorateDecisionTable(this.numberOfConsiderations, this.decisionRules);
-        let decoratedCases = _getCases(this.numberOfConsiderations, this.decoratedDecisionTable);
+        let decoratedCases = _getCases(this.decoratedDecisionTable);
         let decoratedOutcomes = _getOutcomes(this.decoratedDecisionTable);
-        this.f_conditionalDecisionTable = f_conditionalizeDecisionTable(f_wrapDeciderOver(decoratedCases), decoratedOutcomes);
+        let f_wrapedDecider = f_wrapDeciderOver(decoratedCases);
+        this.f_conditionalDecisionTable = f_conditionalizeDecisionTable(f_wrapedDecider, decoratedOutcomes);
     }
 
     /**
      * Decide the appropriate outcome from the given {onCase}. The outcome will be merged
      * into the given {mergeOutcomeInto}.
      * 
-     * @param {object} onCase single case to the rule
+     * @param {object|object[]} onCase single case to the rule
      * @param {object} mergeOutcomeInto where the values of the outcome get merged into
      * @returns {object|undefined} the outcome
      */
@@ -166,12 +167,12 @@ export function f_wrapDeciderOver(decoratedCases) {
  * Function that accepts a fact and returns conditionally upon this a matching outcome.   
  * The resulting table from `f_decoratedCases` with `decoratedOutcomes`.
  * 
- * @param {(function(object[]):boolean)[]} f_decoratedCases 
+ * @param {(function(object[]):boolean)[]} f_wrapedDecider 
  * @param {object[][]} decoratedOutcomes
  * @return {any|undefined} returns undefined if not any of the considerations matched 
  */
-export function f_conditionalizeDecisionTable(f_decoratedCases, decoratedOutcomes) {
-    let f_decoratedDecisionTable = Rzip(f_decoratedCases, decoratedOutcomes);
+export function f_conditionalizeDecisionTable(f_wrapedDecider, decoratedOutcomes) {
+    let f_decoratedDecisionTable = Rzip(f_wrapedDecider, decoratedOutcomes);
     // @ts-ignore Huh???
     return Rmemoize(Rcond(f_decoratedDecisionTable));
 }
@@ -233,18 +234,21 @@ function _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsCons
 }
 
 /**
+ * Extract cases from the `table`(all but the last column).
  * 
- * @param {number} numberOfConsiderations 
- * @param {object[]} decisionRulesTable 
+ * @param {object[][]} table 2d 
+ * @return {object[][]} extracted cases from the `table`
  */
-function _getCases(numberOfConsiderations, decisionRulesTable){
-    return Rmap(Rtake(numberOfConsiderations), decisionRulesTable);
+function _getCases(table){
+    return Rmap(Rinit, table);
 }
 
 /**
+ * Extract outcomes from the `table`(only the last column).
  * 
- * @param {object[]} decisionRulesTable 
+ * @param {object[][]} table 2d
+ * @return {object[][]} extracted outcomes from the `table`
  */
-function _getOutcomes(decisionRulesTable){
-    return f_flatMap(RtakeLast(1), decisionRulesTable);
+function _getOutcomes(table){
+    return f_flatMap(Rlast, table);
 }

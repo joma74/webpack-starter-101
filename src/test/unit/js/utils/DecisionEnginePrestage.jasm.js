@@ -26,15 +26,16 @@ import {
     f_flatMap
 } from "jsm@/utils/ramdautils"
 import {
-    reduce as Rreduce,
-    map as Rmap,
-    take as Rtake,
-    takeLast as RtakeLast,
-    lensProp as RlensProp,
-    set as Rset,
-    equals as Requals,
+    __ as R__,
     always as Ralways,
-    __ as R__
+    equals as Requals,
+    init as Rinit,
+    last as Rlast,
+    lensProp as RlensProp,
+    map as Rmap,
+    reduce as Rreduce,
+    set as Rset,
+    take as Rtake
 } from "ramda";
 
 describe("Decision Engine Prestage", () => {
@@ -80,7 +81,7 @@ describe("Decision Engine Prestage", () => {
         /**
          * @type {object[]}
          */
-        const actions = f_flatMap(RtakeLast(1), decisionTable);
+        const actions = f_flatMap(Rlast, decisionTable);
         //
         expect(actions.length).toBe(4);
         expect(actions[0]).toEqual({
@@ -167,8 +168,8 @@ describe("Decision Engine Prestage", () => {
             /* beautify preserve:end */
         ];
 
-        let decoratedCases = Rmap(Rtake(1), decoratedDecisionTable);
-        let decoratedOutcomes = f_flatMap(RtakeLast(1), decoratedDecisionTable);
+        let decoratedCases = Rmap(Rinit, decoratedDecisionTable);
+        let decoratedOutcomes = f_flatMap(Rlast, decoratedDecisionTable);
         let f_decoratedDecisions = f_wrapDeciderOver(decoratedCases);
         //
         expect(f_decoratedDecisions[0]([EvtE.FOCUS_IN])).toBe(true);
@@ -202,8 +203,8 @@ describe("Decision Engine Prestage", () => {
             /* beautify preserve:end */
         ];
 
-        let decoratedCases = Rmap(Rtake(2), decoratedDecisionTable);
-        let decoratedOutcomes = f_flatMap(RtakeLast(1), decoratedDecisionTable);
+        let decoratedCases = Rmap(Rinit, decoratedDecisionTable);
+        let decoratedOutcomes = f_flatMap(Rlast, decoratedDecisionTable);
         let f_decoratedDecisions = f_wrapDeciderOver(decoratedCases);
         //
         expect(f_decoratedDecisions[0]([EvtE.FOCUS_IN, true])).toBe(true);
