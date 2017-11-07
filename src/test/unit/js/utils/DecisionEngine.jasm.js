@@ -8,7 +8,7 @@
 
 "use strict";
 
-import C from "jsm@/components/twitterlike/C"
+import C from "jsm@/utils/C"
 import DecisionEngine from "jsm@/utils/DecisionEngine"
 import {
     Event, // eslint-disable-line no-unused-vars
@@ -117,6 +117,47 @@ describe("Descision Engine", () => {
         data = Object.assign({}, dataOrig);
         let result = dEngine.decideAndMerge([ EvtE.HOVER_OUT, C.Y ], data);
         expect(result).toBeUndefined();
+        //
+        data = Object.assign({}, dataOrig);
+        result = dEngine.decideAndMerge([ "Hah!", "Huh?" ], data);
+        expect(result).toBeUndefined();
+    });
+
+    it("can support an ANY consideration", () => {
+        let dataOrig = {
+            d_result: null
+        };
+        let decisionTable = [
+            /* beautify preserve:start */
+            [   EvtE.FOCUS_IN,      C.ANY,    { d_result: C.Y }       ],
+            [   EvtE.FOCUS_OUT,     C.ANY,    { d_result: C.N }       ],
+            [   EvtE.HOVER_IN,      C.ANY,    { d_result: C.ANY }     ],
+            [   EvtE.HOVER_OUT,     C.ANY,    { d_result: C.I }       ]
+            /* beautify preserve:end */
+        ];
+        let dEngine = new DecisionEngine(decisionTable);
+        expect(dEngine.getNumberOfCases()).toEqual(4);
+        expect(dEngine.getNumberOfConsiderations()).toEqual(2);
+        //
+        let data = Object.assign({}, dataOrig);
+        dEngine.decideAndMerge([ EvtE.FOCUS_IN, C.Y ], data);
+        expect(data.d_result).toBe(C.Y);
+        //
+        data = Object.assign({}, dataOrig);
+        dEngine.decideAndMerge([ EvtE.FOCUS_OUT, C.N ], data);
+        expect(data.d_result).toBe(C.N);
+        //
+        data = Object.assign({}, dataOrig);
+        dEngine.decideAndMerge([ EvtE.HOVER_IN, C.Y ], data);
+        expect(data.d_result).toBe(C.ANY);
+        //
+        data = Object.assign({}, dataOrig);
+        dEngine.decideAndMerge([ EvtE.HOVER_OUT, C.N ], data);
+        expect(data.d_result).toBe(C.I);
+        //
+        data = Object.assign({}, dataOrig);
+        let result = dEngine.decideAndMerge([ EvtE.HOVER_OUT, "Huh?" ], data);
+        expect(data.d_result).toBe(C.I);
         //
         data = Object.assign({}, dataOrig);
         result = dEngine.decideAndMerge([ "Hah!", "Huh?" ], data);

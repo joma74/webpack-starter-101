@@ -8,7 +8,7 @@
 
 "use strict";
 
-import C from "jsm@/components/twitterlike/C"
+import C from "jsm@/utils/C"
 import {
     mergeValues as MPmergeValues
 } from "jsm@/utils/manprops"

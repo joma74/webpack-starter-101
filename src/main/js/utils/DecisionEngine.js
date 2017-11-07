@@ -1,3 +1,4 @@
+import C from "jsm@/utils/C"
 import {
     mergeValues
 } from "jsm@/utils/manprops"
@@ -213,7 +214,7 @@ export function _decorateDecisionTable(numberOfConsiderations, decisionRules) {
 function _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration) {
     let f_decorateCell = Rcond([
         /* beautify preserve:start */
-        [f_containsConsideration,       (index, cell) => Requals(cell)],
+        [f_containsConsideration,       (index, cell) => Requals(cell, C.ANY) ? RT : Requals(cell)],
         [RT,                            (index, cell) => Ralways(cell)]
         /* beautify preserve:end */
     ]);
