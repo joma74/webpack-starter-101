@@ -12,7 +12,7 @@ import DecisionEngine from "jsm@/utils/DecisionEngine"
 /**
  * @type {ComponentOptions} 
  */
-let InputLabelMixin = {
+let InputLabelMixinControl = {
     created: function () {
         let componentName = this.$options.name || this.$options._componentTag;
         this.logit = debug("components:" + componentName + ":InputLabelMixin");
@@ -62,52 +62,32 @@ let InputLabelMixin = {
         /**
          * @param {Event} event
          */
-        m_evalLabelState(event) {
+        m_evalLabelStateOnEvent(event) {
             /**
              * @type {DecisionEngine}
              */
             let onEventEngine = this.onEventEngineDE;
-            onEventEngine.decideAndMerge(event, this.$data);
-
-            if (event === EvtE.FOCUS_IN) {
-                this.logit("handling focus in");
-                this.d_moveLabelUp = true;
-                this.d_hasFocus = true;
-                return;
+            if(!onEventEngine.decideAndMerge(event, this.$data)){
+                this.logit("Unhandled on given args [" + arguments + "]");
             }
-            if (event === EvtE.HOVER_IN) {
-                this.logit("handling hover in");
-                this.d_moveLabelUp = true;
-                this.d_hasHover = true;
-                return;
+            this.m_evalShouldMoveLabelUp();
+        },
+        m_evalShouldMoveLabelUp(){
+            /**
+             * @type {DecisionEngine}
+             */
+            let shouldMoveLabelUpDE = this.shouldMoveLabelUpDE;
+            let actualFacts = [this.d_hasFocus,   this.d_hasHover,   this.d_isDirty];
+            if(!shouldMoveLabelUpDE.decideAndMerge(actualFacts, this.$data)){
+                this.logit("Unhandled on actual facts [" + actualFacts + "]");
             }
-            if (event == EvtE.HOVER_OUT) {
-                this.d_hasHover = false;
-                if (!this.d_hasFocus && !this.d_isDirty) {
-                    this.logit("handling hover out without focus");
-                    this.d_moveLabelUp = false;
-                } else {
-                    this.logit("handling hover out with focus");
-                    this.d_moveLabelUp = true;
-                }
-                return;
-            }
-            if (event == EvtE.FOCUS_OUT) {
-                this.logit("handling focus out");
-                this.d_hasFocus = false;
-                if (!this.d_hasHover && !this.d_isDirty) {
-                    this.logit("handling focus out without hover");
-                    this.d_moveLabelUp = false;
-                } else {
-                    this.logit("handling focus out but has hover");
-                    this.d_moveLabelUp = true;
-                }
-
-                return;
-            }
-            this.logit("Unhandled event on given args [" + arguments + "]");
+        }
+    },
+    watch: {
+        d_isDirty(){
+            this.m_evalShouldMoveLabelUp();
         }
     }
 }
 
-export default InputLabelMixin;
+export default InputLabelMixinControl;

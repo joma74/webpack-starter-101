@@ -20,7 +20,7 @@
                             :p_isOutOfUpperRange="c_tweetIsOutOfUpperRange"
                             :p_isOutOfLowerRange="c_tweetIsOutOfLowerRange"
                             :p_isOutOfRange="c_tweetIsOutOfRange"
-                            :p_labelIsUp="d_labelIsUp"
+                            :p_labelIsUp="d_moveLabelUp"
                             :p_hasFocus="d_hasFocus">
                 </InputLabel>
                 <textarea name="tweet"
@@ -29,10 +29,10 @@
                           rows="6"
                           cols="20"
                           class="w-100 f4 bg-near-white br2 bn"
-                          @mouseenter="m_evalLabelState(HOVER_IN)"
-                          @mouseleave="m_evalLabelState(HOVER_OUT)"
-                          @focus="m_evalLabelState(FOCUS_IN)"
-                          @blur="m_evalLabelState(FOCUS_OUT)">
+                          @mouseenter="m_evalLabelStateOnEvent(HOVER_IN)"
+                          @mouseleave="m_evalLabelStateOnEvent(HOVER_OUT)"
+                          @focus="m_evalLabelStateOnEvent(FOCUS_IN)"
+                          @blur="m_evalLabelStateOnEvent(FOCUS_OUT)">
                 </textarea>
                 <transition name="fade"
                             mode="out-in">
@@ -83,7 +83,7 @@ import {
     EventEnum
 } from "jsm@/components/twitterlike/EventEnum";
 import InputLabel from "jsm@/components/twitterlike/InputLabel.vue"
-import InputLabelMixin from "jsm@/components/twitterlike/InputLabelMixin";
+import InputLabelMixinControl from "jsm@/components/twitterlike/InputLabelMixinControl";
 import Vue from "vue"
 
 const MAX_TWEET_LENGTH = 140;
@@ -146,7 +146,7 @@ export default Vue.extend({
             this.photos.splice(index, 1);
         }
     },
-    mixins: [InputLabelMixin],
+    mixins: [InputLabelMixinControl],
     computed: {
         /**@returns {number} */
         charactersActual() {
