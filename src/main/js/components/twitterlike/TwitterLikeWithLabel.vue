@@ -29,10 +29,10 @@
                           rows="6"
                           cols="20"
                           class="w-100 f4 bg-near-white br2 bn"
-                          @mouseenter="m_evalLabelState(HOVER_IN, charactersActual)"
-                          @mouseleave="m_evalLabelState(HOVER_OUT, charactersActual)"
-                          @focus="m_evalLabelState(FOCUS_IN, charactersActual)"
-                          @blur="m_evalLabelState(FOCUS_OUT, charactersActual)">
+                          @mouseenter="m_evalLabelState(HOVER_IN)"
+                          @mouseleave="m_evalLabelState(HOVER_OUT)"
+                          @focus="m_evalLabelState(FOCUS_IN)"
+                          @blur="m_evalLabelState(FOCUS_OUT)">
                 </textarea>
                 <transition name="fade"
                             mode="out-in">
@@ -171,7 +171,15 @@ export default Vue.extend({
         /**@returns {boolean} */
         c_tweetIsOutOfRange() {
             return this.c_tweetIsOutOfLowerRange || this.c_tweetIsOutOfUpperRange;
-        },
+        }
+    },
+    watch: {
+        /**
+         * @param {number} value 
+         */
+        charactersActual: function(value) {
+            this.d_isDirty = value > 0;
+        }
     }
 });
 </script>

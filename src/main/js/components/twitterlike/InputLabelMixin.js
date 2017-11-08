@@ -20,6 +20,7 @@ let InputLabelMixin = {
      * @property {boolean} d_labelIsUp
      * @property {boolean} d_hasFocus
      * @property {boolean} d_hasHover
+     * @property {boolean} d_isDirty
      */
     /**
      * @returns {Data}
@@ -28,15 +29,15 @@ let InputLabelMixin = {
         return {
             d_labelIsUp: false,
             d_hasFocus: false,
-            d_hasHover: false
+            d_hasHover: false,
+            d_isDirty: false
         }
     },
     methods: {
         /**
-         * @param {Event} event 
-         * @param {Number} curCharCount 
+         * @param {Event} event
          */
-        m_evalLabelState(event, curCharCount) {
+        m_evalLabelState(event) {
             if (event === EventEnum.FOCUS_IN) {
                 this.logit("handling focus in");
                 this.d_labelIsUp = true;
@@ -51,7 +52,7 @@ let InputLabelMixin = {
             }
             if (event == EventEnum.HOVER_OUT) {
                 this.d_hasHover = false;
-                if (!this.d_hasFocus && !(curCharCount > 0)) {
+                if (!this.d_hasFocus && !this.d_isDirty) {
                     this.logit("handling hover out without focus");
                     this.d_labelIsUp = false;
                 } else {
@@ -63,7 +64,7 @@ let InputLabelMixin = {
             if (event == EventEnum.FOCUS_OUT) {
                 this.logit("handling focus out");
                 this.d_hasFocus = false;
-                if (!this.d_hasHover && !(curCharCount > 0)) {
+                if (!this.d_hasHover && !this.d_isDirty) {
                     this.logit("handling focus out without hover");
                     this.d_labelIsUp = false;
                 } else {
