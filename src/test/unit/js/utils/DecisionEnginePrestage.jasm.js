@@ -25,18 +25,17 @@ import {
 import {
     f_flatMap
 } from "jsm@/utils/ramdautils"
-import {
-    __ as R__,
-    always as Ralways,
-    equals as Requals,
-    init as Rinit,
-    last as Rlast,
-    lensProp as RlensProp,
-    map as Rmap,
-    reduce as Rreduce,
-    set as Rset,
-    take as Rtake
-} from "ramda";
+import R__ from "ramda/es/__"
+import Ralways from "ramda/es/always"
+import Requals from "ramda/es/equals"
+import Rinit from "ramda/es/init"
+import Rlast from "ramda/es/last"
+import RlensProp from "ramda/es/lensProp"
+import Rmap from "ramda/es/map"
+import Rreduce from "ramda/es/reduce"
+import Rset from "ramda/es/set"
+import Rtake from "ramda/es/take"
+
 
 describe("Decision Engine Prestage", () => {
 

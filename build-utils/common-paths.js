@@ -11,7 +11,8 @@ const paths = {
     mainHtml: resolve("src/main/html/"),
     jsConfigJson: resolve("jsconfig.json"),
     vueDev: "vue/dist/vue.esm.js",
-    vueProd: "vue/dist/vue.runtime.esm.js"
+    vueProd: "vue/dist/vue.runtime.esm.js",
+    nodeModules: resolve("node_modules"),
 }
 
 module.exports = paths;

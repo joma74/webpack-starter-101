@@ -4,10 +4,8 @@
 /*global expect*/
 
 "use strict";
-import {
-    range as Rrange,
-    clone as Rclone
-} from "ramda";
+import Rrange from "ramda/es/range"
+import Rclone from "ramda/es/clone"
 import {
     Event, // eslint-disable-line no-unused-vars
     EventEnum as EvtE

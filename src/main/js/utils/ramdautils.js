@@ -1,13 +1,10 @@
-import {
-    addIndex as RaddIndex,
-    compose as Rcompose,
-    contains as Rcontains,
-    flatten as Rflatten,
-    flip as Rflip,
-    map as Rmap,
-    reduce as Rreduce
-} from "ramda";
-
+import RaddIndex from "ramda/es/addIndex"
+import Rcompose from "ramda/es/compose"
+import Rcontains from "ramda/es/contains"
+import Rflatten from "ramda/es/flatten"
+import Rflip from "ramda/es/flip"
+import Rmap from "ramda/es/map"
+import Rreduce from "ramda/es/reduce"
 
 export const f_mapIndexed = RaddIndex(Rmap);
 

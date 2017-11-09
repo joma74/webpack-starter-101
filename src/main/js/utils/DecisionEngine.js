@@ -8,22 +8,20 @@ import {
     f_flippedContains,
     f_flatMap
 } from "jsm@/utils/ramdautils"
-import {
-    __ as R__,
-    always as Ralways,
-    cond as Rcond,
-    curry as Rcurry,
-    equals as Requals,
-    init as Rinit,
-    last as Rlast,
-    map as Rmap,
-    memoize as Rmemoize,
-    range as Rrange,
-    reduced as Rreduced,
-    splitAt as RsplitAt,
-    zip as Rzip,
-    T as RT
-} from "ramda";
+import R__ from "ramda/es/__"
+import Ralways from "ramda/es/always"
+import Rcond from "ramda/es/cond"
+import Rcurry from "ramda/es/curry"
+import Requals from "ramda/es/equals"
+import Rinit from "ramda/es/init"
+import Rlast from "ramda/es/last"
+import Rmap from "ramda/es/map"
+import Rmemoize from "ramda/es/memoize"
+import Rrange from "ramda/es/range"
+import Rreduced from "ramda/es/reduced"
+import RsplitAt from "ramda/es/splitAt"
+import Rzip from "ramda/es/zip"
+import RT from "ramda/es/T"
 
 /**
  * @typedef {Object} Metadata

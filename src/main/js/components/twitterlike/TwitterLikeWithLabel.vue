@@ -20,7 +20,7 @@
                             :p_isOutOfUpperRange="c_tweetIsOutOfUpperRange"
                             :p_isOutOfLowerRange="c_tweetIsOutOfLowerRange"
                             :p_isOutOfRange="c_tweetIsOutOfRange"
-                            :p_labelIsUp="d_moveLabelUp"
+                            :p_moveLabelUp="d_moveLabelUp"
                             :p_hasFocus="d_hasFocus">
                 </InputLabel>
                 <textarea name="tweet"

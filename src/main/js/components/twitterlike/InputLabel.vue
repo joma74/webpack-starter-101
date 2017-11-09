@@ -64,7 +64,7 @@ export default Vue.extend({
             type: Boolean,
             required: true
         },
-        p_labelIsUp: {
+        p_moveLabelUp: {
             type: Boolean,
             required: true
         },
@@ -121,7 +121,7 @@ export default Vue.extend({
         /**
          * @param {Boolean} value 
          */
-        p_labelIsUp: function(value) {
+        p_moveLabelUp: function(value) {
             if(!this.d_hasHover){
                 this.d_labelIsUp = value;
             }

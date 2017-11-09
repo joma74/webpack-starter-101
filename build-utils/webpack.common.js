@@ -1,6 +1,7 @@
 const commonPaths = require("./common-paths");
 const alias = require("./alias-common");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
 
 const config = {
     entry: "./src/main/js/",
@@ -36,7 +37,15 @@ const config = {
         new HtmlWebpackPlugin({
             title: "Webpack Vue Starter 101",
             template: "src/main/html/twitterlike.ejs"
-        })
+        }),
+        new webpack.PrefetchPlugin("/dist/", "jsm@/utils/DecisionEngine"),
+        new webpack.PrefetchPlugin("/dist/", "jsm@/components/twitterlike/TwitterLikeWithLabel.vue"),
+        new webpack.PrefetchPlugin("/dist/", "css@/twitterlike.scss"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/toString.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/internal/_toString.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/compose.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/debug/src/browser.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/debug/src/debug.js"),
     ]
 }
 

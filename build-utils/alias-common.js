@@ -5,7 +5,8 @@ const alias = {
     "jsm@": commonPaths.mainJs,
     "jstu@": commonPaths.testUnitJs,
     "css@": commonPaths.mainCss,
-    "html@": commonPaths.mainHtml
+    "html@": commonPaths.mainHtml,
+    "~": commonPaths.nodeModules
 }
 
 module.exports = alias

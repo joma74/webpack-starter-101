@@ -22,7 +22,7 @@
         "types": [
             "node", "webpack", "debug", "jasmine", "karma", "karma-webpack", "ramda"
         ],
-        "traceResolution": true
+        "traceResolution": false
     },
     "exclude": [
         "dist",
