@@ -20,7 +20,7 @@
         },
         "sourceMap": true,
         "types": [
-            "node", "webpack", "debug", "jasmine", "karma", "karma-webpack"
+            "node", "webpack", "debug", "jasmine", "karma", "karma-webpack", "ramda"
         ],
         "traceResolution": true
     },
@@ -34,6 +34,6 @@
         "src/**/*"
     ],
     "typeAcquisition": {
-        "include": ["node", "webpack", "debug", "jasmine", "karma"]
+        "include": ["node", "webpack", "debug", "jasmine", "karma", "ramda"]
     }
 }

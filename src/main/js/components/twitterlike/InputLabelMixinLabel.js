@@ -12,10 +12,10 @@ import DecisionEngine from "jsm@/utils/DecisionEngine"
 /**
  * @type {ComponentOptions} 
  */
-let InputLabelMixinControl = {
+let InputLabelMixinLabel = {
     created: function () {
         let componentName = this.$options.name || this.$options._componentTag;
-        this.logit = debug("components:" + componentName + ":InputLabelMixinControl");
+        this.logit = debug("components:" + componentName + ":InputLabelMixinLabel");
         let onEventDecisionTable = [
             /* beautify preserve:start */
             [   EvtE.FOCUS_IN,          { d_hasFocus: C.Y }    ],
@@ -90,4 +90,4 @@ let InputLabelMixinControl = {
     }
 }
 
-export default InputLabelMixinControl;
+export default InputLabelMixinLabel;
