@@ -28,7 +28,7 @@
     "@types/jasmine": "^2.6.0",
     "@types/karma": "^0.13.36",
     "@types/node": "^8.0.26",
-    "@types/ramda": "^0.25.3",
+    "@types/ramda": "^0.25.4",
     "@types/webpack": "^3.0.10",
     "@types/webpack-env": "^1.13.1",
     "babel-minify-webpack-plugin": "^0.2.0",

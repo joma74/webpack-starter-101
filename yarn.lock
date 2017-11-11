@@ -74,9 +74,9 @@
   version "8.0.50"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.50.tgz#dc545448e128c88c4eec7cd64025fcc3b7604541"
 
-"@types/ramda@^0.25.3":
-  version "0.25.3"
-  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.25.3.tgz#ae5d1714e1c8b1d2622deca3690bd3e2fd0446dd"
+"@types/ramda@^0.25.4":
+  version "0.25.4"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.25.4.tgz#dd9e671b2d2e9830a6797b4edd3153a52ddfa765"
 
 "@types/relateurl@*":
   version "0.2.28"
