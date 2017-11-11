@@ -1,5 +1,9 @@
 const path = require("path");
 
+/**
+ * Resolve path againts working dir
+ * @param {string} p path segment
+ */
 const resolve = p => path.resolve(__dirname, "../", p)
 
 const paths = {

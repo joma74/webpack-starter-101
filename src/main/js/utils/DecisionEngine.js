@@ -245,7 +245,7 @@ function _getCases(table){
 /**
  * Extract outcomes from the `table`(only the last column).
  * 
- * @param {object[][]} table 2d
+ * @param {object[][]} table a 2d array
  * @return {object[][]} extracted outcomes from the `table`
  */
 function _getOutcomes(table){
