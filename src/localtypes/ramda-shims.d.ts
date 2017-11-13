@@ -13,18 +13,6 @@ import {
     zip
 } from "../../node_modules/@types/ramda/index.d";
 
-interface FileReaderEventTarget extends EventTarget {
-    result:string
-}
-
-interface FileReaderEvent extends Event {
-    target: FileReaderEventTarget;
-    getMessage():string;
-}
-
-interface HTMLInputEvent extends Event {
-    target: HTMLInputElement & EventTarget;
-}
 declare module "ramda/es/__" {
     export = __;
 }
