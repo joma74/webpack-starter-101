@@ -4,15 +4,10 @@ import {
 } from "jsm@/components/twitterlike/EventEnum";
 import debug from "debug";
 import C from "jsm@/utils/C"
-import {
-    ComponentOptions // eslint-disable-line no-unused-vars
-} from "vue";
+import Vue from "vue";
 import DecisionEngine from "jsm@/utils/DecisionEngine"
 
-/**
- * @type {ComponentOptions} 
- */
-let InputLabelMixinControl = {
+let InputLabelMixinControl = Vue.extend({
     created: function () {
         let componentName = this.$options.name || this.$options._componentTag;
         this.logit = debug("components:" + componentName + ":InputLabelMixinControl");
@@ -40,16 +35,6 @@ let InputLabelMixinControl = {
             descriptiveHeaderRows: 1
         });
     },
-    /**
-     * @typedef {Object} Data
-     * @property {boolean} d_moveLabelUp
-     * @property {boolean} d_hasFocus
-     * @property {boolean} d_hasHover
-     * @property {boolean} d_isDirty
-     */
-    /**
-     * @returns {Data}
-     */
     data() {
         return {
             d_moveLabelUp: false,
@@ -83,11 +68,16 @@ let InputLabelMixinControl = {
             }
         }
     },
+    computed: {
+        withoutthatinferencebreaks(){
+            this.d_isDirty;
+        }
+    },
     watch: {
         d_isDirty(){
             this.m_evalShouldMoveLabelUp();
         }
     }
-}
+});
 
 export default InputLabelMixinControl;
