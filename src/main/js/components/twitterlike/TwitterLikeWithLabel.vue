@@ -96,9 +96,6 @@ export default Vue.extend({
         this.HOVER_OUT = EventEnum.HOVER_OUT
     },
     components: { InputLabel },
-    /**
-     * @returns {{tweet: string, photos: string[]}}
-     */
     data() {
         return {
             tweet: "",
