@@ -19,7 +19,7 @@ let InputLabelMixinControl = Vue.extend({
             [   EvtE.HOVER_OUT,         { d_hasHover: C.N }    ]
             /* beautify preserve:end */
         ];
-        this.onEventEngineDE = new DecisionEngine(onEventDecisionTable);
+        this.onEventDE = new DecisionEngine(onEventDecisionTable);
 
         let shouldMoveLabelUpDecisionTable = [
             /* beautify preserve:start */
@@ -47,11 +47,11 @@ let InputLabelMixinControl = Vue.extend({
         /**
          * @param {Event} event
          */
-        m_evalLabelStateOnEvent(event) {
+        m_evalOnEvent(event) {
             /**
              * @type {DecisionEngine}
              */
-            let onEventEngine = this.onEventEngineDE;
+            let onEventEngine = this.onEventDE;
             if(!onEventEngine.decideAndMerge(event, this.$data)){
                 this.logit("Unhandled on given args [" + arguments + "]");
             }

@@ -1,6 +1,6 @@
 <template>
-    <div @mouseenter="m_evalLabelState(HOVER_IN, p_curCharCount)"
-         @mouseleave="m_evalLabelState(HOVER_OUT, p_curCharCount)">
+    <div @mouseenter="m_evalOnEvent(HOVER_IN)"
+         @mouseleave="m_evalOnEvent(HOVER_OUT)">
         <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1"
              v-bind:class="b_labelMove"
              role="presentation">
@@ -30,8 +30,8 @@ import {
     Event, // eslint-disable-line no-unused-vars
     EventEnum
 } from "./EventEnum";
-import InputLabelMixin from "./InputLabelMixin";
-const logit = debug("components:Label.vue");
+import InputLabelMixinLabel from "jsm@/components/twitterlike/InputLabelMixinLabel";
+const logit = debug("components:InputLabel.vue");
 import Vue from "vue"
 
 export default Vue.extend({
@@ -64,11 +64,7 @@ export default Vue.extend({
             type: Boolean,
             required: true
         },
-        p_moveLabelUp: {
-            type: Boolean,
-            required: true
-        },
-        p_hasFocus: {
+        p_moveLabelUpControl: {
             type: Boolean,
             required: true
         }
@@ -79,7 +75,7 @@ export default Vue.extend({
         this.HOVER_IN = EventEnum.HOVER_IN
         this.HOVER_OUT = EventEnum.HOVER_OUT
     },
-    mixins: [InputLabelMixin],
+    mixins: [InputLabelMixinLabel],
     computed: {
         /**@returns {boolean} */
         c_underTwentyMark() {
@@ -121,16 +117,9 @@ export default Vue.extend({
         /**
          * @param {Boolean} value 
          */
-        p_moveLabelUp: function(value) {
-            if(!this.d_hasHover){
-                this.d_labelIsUp = value;
-            }
-        },
-        /**
-         * @param {Boolean} value 
-         */
-        p_hasFocus: function(value) {
-            this.d_hasFocus = value;
+        p_moveLabelUpControl: function(value) {
+            this.d_moveLabelUpControl= value;
+            this.m_evalShouldMoveLabelUp();
         }
     }
 })

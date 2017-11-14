@@ -20,8 +20,7 @@
                             :p_isOutOfUpperRange="c_tweetIsOutOfUpperRange"
                             :p_isOutOfLowerRange="c_tweetIsOutOfLowerRange"
                             :p_isOutOfRange="c_tweetIsOutOfRange"
-                            :p_moveLabelUp="d_moveLabelUp"
-                            :p_hasFocus="d_hasFocus">
+                            :p_moveLabelUpControl="d_moveLabelUp">
                 </InputLabel>
                 <textarea name="tweet"
                           id="c_tweet_id"
@@ -29,10 +28,10 @@
                           rows="6"
                           cols="20"
                           class="w-100 f4 bg-near-white br2 bn"
-                          @mouseenter="m_evalLabelStateOnEvent(HOVER_IN)"
-                          @mouseleave="m_evalLabelStateOnEvent(HOVER_OUT)"
-                          @focus="m_evalLabelStateOnEvent(FOCUS_IN)"
-                          @blur="m_evalLabelStateOnEvent(FOCUS_OUT)">
+                          @mouseenter="m_evalOnEvent(HOVER_IN)"
+                          @mouseleave="m_evalOnEvent(HOVER_OUT)"
+                          @focus="m_evalOnEvent(FOCUS_IN)"
+                          @blur="m_evalOnEvent(FOCUS_OUT)">
                 </textarea>
                 <transition name="fade"
                             mode="out-in">
