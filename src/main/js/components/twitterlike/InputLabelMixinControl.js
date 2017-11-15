@@ -19,7 +19,11 @@ let InputLabelMixinControl = Vue.extend({
             [   EvtE.HOVER_OUT,         { d_hasHover: C.N }    ]
             /* beautify preserve:end */
         ];
-        this.onEventDE = new DecisionEngine(onEventDecisionTable);
+        this.onEventDE = new DecisionEngine(onEventDecisionTable,{
+            descriptiveHeaderRows: 0,
+            f_log: this.logit,
+            name: "onEventDE"
+        });
 
         let shouldMoveLabelUpDecisionTable = [
             /* beautify preserve:start */
@@ -32,7 +36,9 @@ let InputLabelMixinControl = Vue.extend({
         ];
 
         this.shouldMoveLabelUpDE = new DecisionEngine(shouldMoveLabelUpDecisionTable, {
-            descriptiveHeaderRows: 1
+            descriptiveHeaderRows: 1,
+            f_log: this.logit,
+            name: "shouldMoveLabelUpDE"
         });
     },
     data() {

@@ -24,7 +24,7 @@ let InputLabelMixinLabel = Vue.extend({
         ];
         this.onEventEngineDE = new DecisionEngine(onEventDecisionTable, {
             descriptiveHeaderRows: 0,
-            logF: this.logit,
+            f_log: this.logit,
             name: "onEventDecisionTable"
         });
 
@@ -39,7 +39,7 @@ let InputLabelMixinLabel = Vue.extend({
 
         this.shouldMoveLabelUpDE = new DecisionEngine(shouldMoveLabelUpDecisionTable, {
             descriptiveHeaderRows: 1,
-            logF: this.logit,
+            f_log: this.logit,
             name: "shouldMoveLabelUpDecisionTable"
         });
     },
