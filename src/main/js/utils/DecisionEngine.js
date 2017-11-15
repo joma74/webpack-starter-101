@@ -26,7 +26,7 @@ import RT from "ramda/es/T"
 /**
  * @typedef {Object} Metadata
  * @property {number} descriptiveHeaderRows - how many first rows contain description
- * @property {function(string)} logF
+ * @property {function(string):void} f_log
  * @property {string} name of decision table
  */
 export default class DecisionEngine {
@@ -36,8 +36,9 @@ export default class DecisionEngine {
      * @param {Metadata} metaData
      */
     constructor(decisionTable, metaData = _metaData_default) {
+        _sanitzeObject(metaData, _metaData_default);
         this.decisionTable = decisionTable;
-        this.name = metaData.name + "-"  + _getRandomInt(11,99);
+        this.name = metaData.name + "-" + _getRandomInt(11, 99);
         let headersOverDecisionRules = RsplitAt(metaData.descriptiveHeaderRows, this.decisionTable);
         this.headers = headersOverDecisionRules[0];
         this.decisionRules = headersOverDecisionRules[1];
@@ -45,7 +46,7 @@ export default class DecisionEngine {
         this.cases = _getCases(this.decisionRules);
         this.numberOfCases = this.cases.length;
         this.outcomes = _getOutcomes(this.decisionRules);
-        this.decoratedDecisionTable = _decorateDecisionTable(this.numberOfConsiderations, this.decisionRules);
+        this.decoratedDecisionTable = _decorateDecisionTable(this.numberOfConsiderations, this.decisionRules, metaData.f_log);
         let decoratedCases = _getCases(this.decoratedDecisionTable);
         let decoratedOutcomes = _getOutcomes(this.decoratedDecisionTable);
         let f_wrapedDecider = f_wrapDeciderOver(decoratedCases);
@@ -162,7 +163,7 @@ export default class DecisionEngine {
  */
 const _metaData_default = {
     descriptiveHeaderRows: 0,
-    logF: console.log,  // eslint-disable-line no-unused-vars
+    f_log: (msg) => {}, // eslint-disable-line no-unused-vars
     name: "DecisionTable"
 };
 
@@ -208,12 +209,13 @@ export const f_decideCurried = Rcurry(
 /**
  * @param {number} numberOfConsiderations
  * @param {object[][]} decisionRules
+ * @param {function(string): void} f_log
  * @returns {function[][]} a 2d array of functions
  */
-export function _decorateDecisionTable(numberOfConsiderations, decisionRules) {
+export function _decorateDecisionTable(numberOfConsiderations, decisionRules, f_log) {
     let indicesOfConsiderations = Rrange(0, numberOfConsiderations);
     let f_containsConsideration = f_flippedContains(indicesOfConsiderations);
-    let decoratedTable = _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration);
+    let decoratedTable = _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration, f_log);
     return decoratedTable;
 }
 
@@ -221,13 +223,18 @@ export function _decorateDecisionTable(numberOfConsiderations, decisionRules) {
  * @param {object[][]} decisionRules
  * @param {function} f_mapIndexed
  * @param {function(number[]): boolean} f_containsConsideration
+ * @param {function(string): void} f_log
  * @returns {function[][]} a 2d array of functions
  */
-function _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration) {
+function _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration, f_log) {
     let f_decorateCell = Rcond([
         /* beautify preserve:start */
-        [f_containsConsideration,       (index, cell) => Requals(cell, C.ANY) ? RT : Requals(cell)],
-        [RT,                            (index, cell) => Ralways(cell)]
+        [f_containsConsideration,       (index, cell) => {
+            return Requals(cell, C.ANY) ? RT : Requals(cell)
+        }],
+        [RT,                            (index, cell) => {
+            return Ralways(cell)}
+        ]
         /* beautify preserve:end */
     ]);
     let f_decorateRow = f_mapIndexed(
@@ -252,7 +259,7 @@ function _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsCons
  * @param {object[][]} table 2d 
  * @return {object[][]} extracted cases from the `table`
  */
-function _getCases(table){
+function _getCases(table) {
     return Rmap(Rinit, table);
 }
 
@@ -262,7 +269,7 @@ function _getCases(table){
  * @param {object[][]} table a 2d array
  * @return {object[][]} extracted outcomes from the `table`
  */
-function _getOutcomes(table){
+function _getOutcomes(table) {
     return f_flatMap(Rlast, table);
 }
 
@@ -274,4 +281,9 @@ function _getOutcomes(table){
  */
 function _getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function _sanitzeObject(target, defaults) {
+    for (const p in defaults)
+        target[p] = (p in target ? target : defaults)[p];
 }
