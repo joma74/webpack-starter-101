@@ -26,6 +26,8 @@ import RT from "ramda/es/T"
 /**
  * @typedef {Object} Metadata
  * @property {number} descriptiveHeaderRows - how many first rows contain description
+ * @property {function(string)} logF
+ * @property {string} name of decision table
  */
 export default class DecisionEngine {
 
@@ -35,6 +37,7 @@ export default class DecisionEngine {
      */
     constructor(decisionTable, metaData = _metaData_default) {
         this.decisionTable = decisionTable;
+        this.name = metaData.name + "-"  + _getRandomInt(11,99);
         let headersOverDecisionRules = RsplitAt(metaData.descriptiveHeaderRows, this.decisionTable);
         this.headers = headersOverDecisionRules[0];
         this.decisionRules = headersOverDecisionRules[1];
@@ -67,9 +70,10 @@ export default class DecisionEngine {
      * Decide the appropriate outcome from the given {onCase}.
      * 
      * @param {object|any[]} onCase single case to the rule
+     * @param {boolean} debug if decided case should be logged
      * @returns {object|undefined} the outcome
      */
-    decide(onCase = []) {
+    decide(onCase = [], debug = false) {
         let onCaseArray = onCase;
         if (onCase.constructor === Array) {
             if (onCase.length != this.numberOfConsiderations) {
@@ -93,6 +97,14 @@ export default class DecisionEngine {
      */
     getDecisionTable() {
         return this.decisionTable;
+    }
+
+    /**
+     * Returns the given decision table name.
+     * @return {string} name of the given decision table 
+     */
+    getName() {
+        return this.name;
     }
 
     /**
@@ -149,14 +161,16 @@ export default class DecisionEngine {
  * @type {Metadata}
  */
 const _metaData_default = {
-    descriptiveHeaderRows: 0
+    descriptiveHeaderRows: 0,
+    logF: console.log,  // eslint-disable-line no-unused-vars
+    name: "DecisionTable"
 };
 
 /**
  * Function that accepts a fact and returns true if all considerations in any of the `decoratedCases` can be fulfilled.
  * 
- * @param {object[][]} decoratedCases
- * @returns {(function(object[]):boolean)[]} function that accepts a fact and returns true if the considerations can be fulfilled
+ * @param {function[][]} decoratedCases
+ * @returns {(function(object[]):boolean)[]} function that accepts a fact as `parameter` and returns true if the considerations can be fulfilled
  */
 export function f_wrapDeciderOver(decoratedCases) {
     return f_mapIndexed((singleCase) => f_decideCurried(true, singleCase, R__), decoratedCases);
@@ -179,7 +193,7 @@ export function f_conditionalizeDecisionTable(f_wrapedDecider, decoratedOutcomes
 export const f_decideCurried = Rcurry(
     /**
      * @param {boolean} accValue 
-     * @param {object[]} singleCase
+     * @param {function[]} singleCase
      * @param {object[]} actualFacts
      */
     (accValue, singleCase, actualFacts) => {
@@ -250,4 +264,14 @@ function _getCases(table){
  */
 function _getOutcomes(table){
     return f_flatMap(Rlast, table);
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ * Using Math.round() will give you a non-uniform distribution!
+ * @param {number} min
+ * @param {number} max
+ */
+function _getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

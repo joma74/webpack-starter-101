@@ -10,6 +10,9 @@ import DecisionEngine from "jsm@/utils/DecisionEngine"
 let InputLabelMixinLabel = Vue.extend({
     created: function () {
         let componentName = this.$options.name || this.$options._componentTag;
+        /**
+         * @type {function(string)} 
+         */
         this.logit = debug("components:" + componentName + ":InputLabelMixinLabel");
         let onEventDecisionTable = [
             /* beautify preserve:start */
@@ -19,7 +22,11 @@ let InputLabelMixinLabel = Vue.extend({
             [   EvtE.HOVER_OUT,         { d_hasHover: C.N }    ]
             /* beautify preserve:end */
         ];
-        this.onEventEngineDE = new DecisionEngine(onEventDecisionTable);
+        this.onEventEngineDE = new DecisionEngine(onEventDecisionTable, {
+            descriptiveHeaderRows: 0,
+            logF: this.logit,
+            name: "onEventDecisionTable"
+        });
 
         let shouldMoveLabelUpDecisionTable = [
             /* beautify preserve:start */
@@ -31,7 +38,9 @@ let InputLabelMixinLabel = Vue.extend({
         ];
 
         this.shouldMoveLabelUpDE = new DecisionEngine(shouldMoveLabelUpDecisionTable, {
-            descriptiveHeaderRows: 1
+            descriptiveHeaderRows: 1,
+            logF: this.logit,
+            name: "shouldMoveLabelUpDecisionTable"
         });
     },
     data() {
