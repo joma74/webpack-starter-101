@@ -1,8 +1,8 @@
 <template>
     <div @mouseenter="m_evalOnEvent(HOVER_IN)"
          @mouseleave="m_evalOnEvent(HOVER_OUT)">
-        <div class="label-is-down h2 flex justify-end items-center bb bw1 pt1 pb1"
-             v-bind:class="b_labelMove"
+        <div class="h2 flex justify-end items-center bb bw1 pt1 pb1"
+             v-bind:class="[b_labelMove]"
              role="presentation">
             <label :for="p_labelFor"
                    class="mr-auto"
