@@ -1,6 +1,7 @@
 import C from "jsm@/utils/C"
 import {
-    mergeValues
+    mergeValues,
+    sanitzeObject
 } from "jsm@/utils/manprops"
 import {
     f_mapIndexed,
@@ -28,6 +29,10 @@ import RT from "ramda/es/T"
  * @property {number} descriptiveHeaderRows - how many first rows contain description
  * @property {function(string):void} f_log
  * @property {string} name of decision table
+ * 
+ * @typedef {object} Outcome
+ * @property {object} cell
+ * @property {number} index
  */
 export default class DecisionEngine {
 
@@ -36,9 +41,10 @@ export default class DecisionEngine {
      * @param {Metadata} metaData
      */
     constructor(decisionTable, metaData = _metaData_default) {
-        _sanitzeObject(metaData, _metaData_default);
+        sanitzeObject(metaData, _metaData_default);
         this.decisionTable = decisionTable;
-        this.name = metaData.name + "-" + _getRandomInt(11, 99);
+        this.metaData = metaData;
+        this.decisionTableName = metaData.name;
         let headersOverDecisionRules = RsplitAt(metaData.descriptiveHeaderRows, this.decisionTable);
         this.headers = headersOverDecisionRules[0];
         this.decisionRules = headersOverDecisionRules[1];
@@ -46,7 +52,7 @@ export default class DecisionEngine {
         this.cases = _getCases(this.decisionRules);
         this.numberOfCases = this.cases.length;
         this.outcomes = _getOutcomes(this.decisionRules);
-        this.decoratedDecisionTable = _decorateDecisionTable(this.numberOfConsiderations, this.decisionRules, metaData.f_log);
+        this.decoratedDecisionTable = _decorateDecisionTable(this.numberOfConsiderations, this.decisionRules);
         let decoratedCases = _getCases(this.decoratedDecisionTable);
         let decoratedOutcomes = _getOutcomes(this.decoratedDecisionTable);
         let f_wrapedDecider = f_wrapDeciderOver(decoratedCases);
@@ -55,7 +61,7 @@ export default class DecisionEngine {
 
     /**
      * Decide the appropriate outcome from the given {onCase}. The outcome will be merged
-     * into the given {mergeOutcomeInto}.
+     * into the given {mergeOutcomeInto} if it is not `undefined`.
      * 
      * @param {object|object[]} onCase single case to the rule
      * @param {object} mergeOutcomeInto where the values of the outcome get merged into
@@ -63,7 +69,9 @@ export default class DecisionEngine {
      */
     decideAndMerge(onCase, mergeOutcomeInto) {
         let outcome = this.decide(onCase);
-        mergeValues(outcome, mergeOutcomeInto);
+        if (outcome != undefined) {
+            mergeValues(outcome, mergeOutcomeInto);
+        }
         return outcome;
     }
 
@@ -71,10 +79,9 @@ export default class DecisionEngine {
      * Decide the appropriate outcome from the given {onCase}.
      * 
      * @param {object|any[]} onCase single case to the rule
-     * @param {boolean} debug if decided case should be logged
      * @returns {object|undefined} the outcome
      */
-    decide(onCase = [], debug = false) {
+    decide(onCase = []) {
         let onCaseArray = onCase;
         if (onCase.constructor === Array) {
             if (onCase.length != this.numberOfConsiderations) {
@@ -89,6 +96,12 @@ export default class DecisionEngine {
             onCaseArray = [onCase];
         }
         let outcome = this.f_conditionalDecisionTable(onCaseArray);
+
+        if (outcome != undefined && outcome.cell != undefined) {
+            this.metaData.f_log(`>${JSON.stringify(outcome.cell)}< is the outcome given by decision rule ${outcome.index+1}@${this.decisionTableName}`);
+            return outcome.cell;
+        }
+        this.metaData.f_log(`The outcome is >undefined< from any decision rule@${this.decisionTableName}`);
         return outcome;
     }
 
@@ -104,8 +117,8 @@ export default class DecisionEngine {
      * Returns the given decision table name.
      * @return {string} name of the given decision table 
      */
-    getName() {
-        return this.name;
+    getDecisionTableName() {
+        return this.decisionTableName;
     }
 
     /**
@@ -174,16 +187,19 @@ const _metaData_default = {
  * @returns {(function(object[]):boolean)[]} function that accepts a fact as `parameter` and returns true if the considerations can be fulfilled
  */
 export function f_wrapDeciderOver(decoratedCases) {
-    return f_mapIndexed((singleCase) => f_decideCurried(true, singleCase, R__), decoratedCases);
+    return f_mapIndexed(
+        /**
+         * @param {object[]} singleCase
+         */
+        (singleCase) => f_decideCurried(true, singleCase, R__), decoratedCases);
 }
 
 /**
- * Function that accepts a fact and returns conditionally upon this a matching outcome.   
- * The resulting table from `f_decoratedCases` with `decoratedOutcomes`.
+ * Returns a function that accepts a fact and returns conditionally upon this a matching `Outcome`.
  * 
  * @param {(function(object[]):boolean)[]} f_wrapedDecider 
  * @param {object[][]} decoratedOutcomes
- * @return {any|undefined} returns undefined if not any of the considerations matched 
+ * @return {function(object[]):Outcome|undefined} 
  */
 export function f_conditionalizeDecisionTable(f_wrapedDecider, decoratedOutcomes) {
     let f_decoratedDecisionTable = Rzip(f_wrapedDecider, decoratedOutcomes);
@@ -198,24 +214,29 @@ export const f_decideCurried = Rcurry(
      * @param {object[]} actualFacts
      */
     (accValue, singleCase, actualFacts) => {
-        return f_reduceIndexed((acc, singleCase, index) => {
-            acc = singleCase(actualFacts[index]) && acc;
-            if (!acc) Rreduced(acc);
-            return acc;
-        }, accValue, singleCase);
+        return f_reduceIndexed(
+            /**
+             * @param {boolean} acc
+             * @param {function(object[]):boolean} singleCase
+             * @param {number} index
+             */
+            (acc, singleCase, index) => {
+                acc = singleCase(actualFacts[index]) && acc;
+                if (!acc) Rreduced(acc);
+                return acc;
+            }, accValue, singleCase);
     }
 );
 
 /**
  * @param {number} numberOfConsiderations
  * @param {object[][]} decisionRules
- * @param {function(string): void} f_log
  * @returns {function[][]} a 2d array of functions
  */
-export function _decorateDecisionTable(numberOfConsiderations, decisionRules, f_log) {
+export function _decorateDecisionTable(numberOfConsiderations, decisionRules) {
     let indicesOfConsiderations = Rrange(0, numberOfConsiderations);
     let f_containsConsideration = f_flippedContains(indicesOfConsiderations);
-    let decoratedTable = _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration, f_log);
+    let decoratedTable = _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration);
     return decoratedTable;
 }
 
@@ -223,17 +244,22 @@ export function _decorateDecisionTable(numberOfConsiderations, decisionRules, f_
  * @param {object[][]} decisionRules
  * @param {function} f_mapIndexed
  * @param {function(number[]): boolean} f_containsConsideration
- * @param {function(string): void} f_log
  * @returns {function[][]} a 2d array of functions
  */
-function _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration, f_log) {
+function _decorateConsiderationCells(decisionRules, f_mapIndexed, f_containsConsideration) {
     let f_decorateCell = Rcond([
         /* beautify preserve:start */
         [f_containsConsideration,       (index, cell) => {
             return Requals(cell, C.ANY) ? RT : Requals(cell)
         }],
         [RT,                            (index, cell) => {
-            return Ralways(cell)}
+            return Ralways( Object.freeze(
+                {
+                    cell,
+                    index
+                }
+            ) )
+        }
         ]
         /* beautify preserve:end */
     ]);
@@ -271,19 +297,4 @@ function _getCases(table) {
  */
 function _getOutcomes(table) {
     return f_flatMap(Rlast, table);
-}
-
-/**
- * Returns a random integer between min (inclusive) and max (inclusive)
- * Using Math.round() will give you a non-uniform distribution!
- * @param {number} min
- * @param {number} max
- */
-function _getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function _sanitzeObject(target, defaults) {
-    for (const p in defaults)
-        target[p] = (p in target ? target : defaults)[p];
 }
