@@ -16,6 +16,9 @@ import {
 declare module "ramda/es/__" {
     export = __;
 }
+declare module "ramda/es/addIndex" {
+    export = addIndex;
+}
 declare module "ramda/es/always" {
     export = always;
 }
