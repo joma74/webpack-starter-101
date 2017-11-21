@@ -117,8 +117,7 @@ export default Vue.extend({
         /**
          * @param {Boolean} value 
          */
-        p_moveLabelUpControl: function(value) {
-            this.d_moveLabelUpControl= value;
+        p_moveLabelUpControl: function() {
             this.m_evalShouldMoveLabelUp();
         }
     }

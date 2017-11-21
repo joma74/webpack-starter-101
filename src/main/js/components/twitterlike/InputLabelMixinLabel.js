@@ -31,7 +31,7 @@ let InputLabelMixinLabel = Vue.extend({
 
         let moveLabelUpDT = [
             /* beautify preserve:start */
-            [   "d_hasHover",   "d_moveLabelUpControl",     "outcome"                 ],
+            [   "d_hasHover",   "p_moveLabelUpControl",     "outcome"                 ],
             [   C.ANY,          C.Y,                        { d_labelIsUp: C.Y }      ],
             [   C.Y,            C.N,                        { d_labelIsUp: C.Y }      ],
             [   C.N,            C.N,                        { d_labelIsUp: C.N }      ]
@@ -47,8 +47,8 @@ let InputLabelMixinLabel = Vue.extend({
     data() {
         return {
             d_labelIsUp: false,
-            d_hasHover: false,
-            d_moveLabelUpControl: false
+            d_hasHover: false
+            // d_moveLabelUpControl: false
         }
     },
     methods: {
@@ -70,7 +70,7 @@ let InputLabelMixinLabel = Vue.extend({
              * @type {DecisionEngine}
              */
             let moveLabelUpDTE = this.moveLabelUpDTE;
-            let actualFacts = [this.d_hasHover, this.d_moveLabelUpControl];
+            let actualFacts = [this.d_hasHover, this.p_moveLabelUpControl];
             if(!moveLabelUpDTE.decideAndMerge(actualFacts, this.$data)){
                 this.logit("Unhandled on actual facts [" + actualFacts + "]");
             }
