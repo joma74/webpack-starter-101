@@ -18,12 +18,12 @@ export default class DecisionEngineLogger {
     /**
      * 
      * @param {function(string):void} f_log
-     * @param {object[]} headers @TODO rename descriptiveDecisionRow
+     * @param {string[]} considerationHeaders
      * @param {string} decisionTableName
      */
-    constructor(f_log, headers, decisionTableName) {
+    constructor(f_log, considerationHeaders, decisionTableName) {
         this.f_log = f_log;
-        this.headers = headers;
+        this.considerationHeaders = considerationHeaders;
         this.decisionTableName = decisionTableName;
     }
 
@@ -75,7 +75,7 @@ function _createMsgOnLevelFine(that, outcome, isSyntaxStart=true) {
  * @returns {string} message
  */
 function _createMsgOnLevelFiner(that, onCaseArray, outcome) {
-    let msg = f_TPL_case([JSON.stringify(RZipObj(that.headers, onCaseArray))]);
+    let msg = f_TPL_case([JSON.stringify(RZipObj(that.considerationHeaders, onCaseArray))]);
     msg = msg + _createMsgOnLevelFine(that, outcome, false);
     return msg;
 }

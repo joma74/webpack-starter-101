@@ -39,6 +39,21 @@ import RT from "ramda/es/T"
 export default class DecisionEngine {
 
     /**
+     * The number of columns of the consideration rules from the given `decisionTable` is required assumed to be equally the same. The 
+     * `DecisionEngine` does not check that assumption but uses the number of columns of the FIRST decision rule
+     * 
+     * `decisionTable`: A 2d table which may contain descriptive header rows and must contain one or more decision rules.
+     * 
+     * `metaData`: Meta data that supports the whereabouts of the given `decisionTable`.
+     * 
+     * `metaData.descriptiveHeaderRows`: Descriptive headers can be given on the first rows of a decision table. Then 
+     * their row count must be given via `metaData.descriptiveHeaderRows`. So that the `DecisionEngine` instance can 
+     * split between the descriptive header rows and the decision rules. From those descriptive header rows the last one is assumed to 
+     * hold the consideration names used for logging on `LogLevelEnum.FINER`.
+     * 
+     * `metaData.f_log`: A function to be used for logging.
+     * 
+     * `metaData.name`: A name for the given `decisionTable` used for logging.
      * @param {object[][]} decisionTable 
      * @param {Metadata} metaData
      */
@@ -101,7 +116,7 @@ export default class DecisionEngine {
         let outcome = this.f_conditionalDecisionTable(onCaseArray);
 
         this.logger.logOutcome(onCaseArray, outcome);
-        
+
         return _f_cellPath(outcome);
     }
 
@@ -305,15 +320,15 @@ function _getOutcomes(table) {
  * 
  * @param {Metadata} metaData 
  * @param {String} decisionTableName
- * @param {object[][]} headers
+ * @param {string[][]} headers
  * @param {number} numberOfConsiderations
  */
 function _setupLogger(metaData, decisionTableName, headers, numberOfConsiderations) {
-    let decisionDescriptions = [];
-    if(metaData.descriptiveHeaderRows == 0){
-        decisionDescriptions = f_mapIndexed((cell, index) => "dd"+index, Array.apply(null, Array(numberOfConsiderations)));
-    }else{
-        decisionDescriptions = Rinit(headers[metaData.descriptiveHeaderRows-1]);
+    let considerationHeaders = null;
+    if (metaData.descriptiveHeaderRows == 0) {
+        considerationHeaders = f_mapIndexed((cell, index) => "dd" + index, Array.apply(null, Array(numberOfConsiderations)));
+    } else {
+        considerationHeaders = Rinit(headers[metaData.descriptiveHeaderRows - 1]);
     }
-    return new DecisionEngineLogger(metaData.f_log, decisionDescriptions, decisionTableName);
+    return new DecisionEngineLogger(metaData.f_log, considerationHeaders, decisionTableName);
 }
