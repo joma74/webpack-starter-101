@@ -39,6 +39,7 @@
                          class="bg-black-10 pa2 flex overflow-x-scroll"
                          id="photo-area">
                         <figure v-for="(photo, index) in photos"
+                                :key="photo"
                                 class="ma0 mh1 relative flex items-center justify-center"
                                 style="flex-shrink: 0">
                             <button @click="removePhoto(index)"
