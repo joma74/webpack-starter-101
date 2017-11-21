@@ -27,10 +27,12 @@ import Rzip from "ramda/es/zip"
 import RT from "ramda/es/T"
 
 /**
+ * @TODO Describe the concept and part of a decision table.
+ * 
  * @typedef {Object} Metadata
- * @property {number} descriptiveHeaderRows - how many first rows contain description; last row(if any) is used as the to-be logged description for the decision @TODO rename descriptiveDecisionRows
- * @property {function(string):void} f_log
- * @property {string} name of decision table
+ * @property {number=} descriptiveHeaderRows - how many initial rows contain description; last row of descriptions(if any) is used as the to-be logged description for each decision. If there is no 
+ * @property {(function(string):void)=} f_log
+ * @property {string=} name
  * 
  * @typedef {object} Outcome
  * @property {object} cell
@@ -39,21 +41,22 @@ import RT from "ramda/es/T"
 export default class DecisionEngine {
 
     /**
-     * The number of columns of the consideration rules from the given `decisionTable` is required assumed to be equally the same. The 
-     * `DecisionEngine` does not check that assumption but uses the number of columns of the FIRST decision rule
+     * [CAVEAT1] The number of columns of each decision rule from the given `decisionTable` is assumed to be the same for each row 
+     * over the whole `decisionTable`. The `DecisionEngine` does NOT check this assumption but uses the number of columns of the 
+     * FIRST decision rule for stating this. 
      * 
      * `decisionTable`: A 2d table which may contain descriptive header rows and must contain one or more decision rules.
      * 
      * `metaData`: Meta data that supports the whereabouts of the given `decisionTable`.
-     * 
-     * `metaData.descriptiveHeaderRows`: Descriptive headers can be given on the first rows of a decision table. Then 
-     * their row count must be given via `metaData.descriptiveHeaderRows`. So that the `DecisionEngine` instance can 
+    //  * 
+     * `metaData.descriptiveHeaderRows`: Descriptive headers can be given in the initial rows of a decision table. If so then 
+     * their row count must be given via this variable. So that the `DecisionEngine` instance can 
      * split between the descriptive header rows and the decision rules. From those descriptive header rows the last one is assumed to 
-     * hold the consideration names used for logging on `LogLevelEnum.FINER`.
+     * hold the consideration names used for logging on `LogLevelEnum.FINER`.  If there are no descriptiveHeaderRows, synthetic unique names are generated after the pattern `"dd" + (column index)`.
      * 
-     * `metaData.f_log`: A function to be used for logging.
+     * `metaData.f_log`: A function that is used to log a message of type string
      * 
-     * `metaData.name`: A name for the given `decisionTable` used for logging.
+     * `metaData.name`: A name for the given `decisionTable` used for logging
      * @param {object[][]} decisionTable 
      * @param {Metadata} metaData
      */

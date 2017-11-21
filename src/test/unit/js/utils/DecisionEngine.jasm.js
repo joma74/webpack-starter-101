@@ -99,27 +99,27 @@ describe("Descision Engine", () => {
         expect(dEngine.getNumberOfConsiderations()).toEqual(2);
         //
         let data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.FOCUS_IN, C.Y ], data);
+        dEngine.decideAndMerge([EvtE.FOCUS_IN, C.Y], data);
         expect(data.d_result).toBe(C.Y);
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.FOCUS_OUT, C.N ], data);
+        dEngine.decideAndMerge([EvtE.FOCUS_OUT, C.N], data);
         expect(data.d_result).toBe(C.N);
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.HOVER_IN, C.Y ], data);
+        dEngine.decideAndMerge([EvtE.HOVER_IN, C.Y], data);
         expect(data.d_result).toBe(C.ANY);
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.HOVER_OUT, C.N ], data);
+        dEngine.decideAndMerge([EvtE.HOVER_OUT, C.N], data);
         expect(data.d_result).toBe(C.I);
         //
         data = Object.assign({}, dataOrig);
-        let result = dEngine.decideAndMerge([ EvtE.HOVER_OUT, C.Y ], data);
+        let result = dEngine.decideAndMerge([EvtE.HOVER_OUT, C.Y], data);
         expect(result).toBeUndefined();
         //
         data = Object.assign({}, dataOrig);
-        result = dEngine.decideAndMerge([ "Hah!", "Huh?" ], data);
+        result = dEngine.decideAndMerge(["Hah!", "Huh?"], data);
         expect(result).toBeUndefined();
     });
 
@@ -140,27 +140,27 @@ describe("Descision Engine", () => {
         expect(dEngine.getNumberOfConsiderations()).toEqual(2);
         //
         let data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.FOCUS_IN, C.Y ], data);
+        dEngine.decideAndMerge([EvtE.FOCUS_IN, C.Y], data);
         expect(data.d_result).toBe(C.Y);
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.FOCUS_OUT, C.N ], data);
+        dEngine.decideAndMerge([EvtE.FOCUS_OUT, C.N], data);
         expect(data.d_result).toBe(C.N);
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.HOVER_IN, C.Y ], data);
+        dEngine.decideAndMerge([EvtE.HOVER_IN, C.Y], data);
         expect(data.d_result).toBe(C.ANY);
         //
         data = Object.assign({}, dataOrig);
-        dEngine.decideAndMerge([ EvtE.HOVER_OUT, C.N ], data);
+        dEngine.decideAndMerge([EvtE.HOVER_OUT, C.N], data);
         expect(data.d_result).toBe(C.I);
         //
         data = Object.assign({}, dataOrig);
-        let result = dEngine.decideAndMerge([ EvtE.HOVER_OUT, "Huh?" ], data);
+        let result = dEngine.decideAndMerge([EvtE.HOVER_OUT, "Huh?"], data);
         expect(data.d_result).toBe(C.I);
         //
         data = Object.assign({}, dataOrig);
-        result = dEngine.decideAndMerge([ "Hah!", "Huh?" ], data);
+        result = dEngine.decideAndMerge(["Hah!", "Huh?"], data);
         expect(result).toBeUndefined();
     });
 
