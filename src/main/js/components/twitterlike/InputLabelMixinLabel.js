@@ -14,7 +14,7 @@ let InputLabelMixinLabel = Vue.extend({
          * @type {function(string)} 
          */
         this.logit = debug("components:" + componentName + ":InputLabelMixinLabel");
-        let onEventDecisionTable = [
+        let onEventDT = [
             /* beautify preserve:start */
             [   "Event",                "outcome"              ],
             [   EvtE.FOCUS_IN,          { d_hasFocus: C.Y }    ],
@@ -23,13 +23,13 @@ let InputLabelMixinLabel = Vue.extend({
             [   EvtE.HOVER_OUT,         { d_hasHover: C.N }    ]
             /* beautify preserve:end */
         ];
-        this.onEventEngineDE = new DecisionEngine(onEventDecisionTable, {
+        this.onEventDTE = new DecisionEngine(onEventDT, {
             descriptiveHeaderRows: 1,
             f_log: this.logit,
-            name: "onEventDecisionTable"
+            name: "onEventDT"
         });
 
-        let shouldMoveLabelUpDecisionTable = [
+        let moveLabelUpDT = [
             /* beautify preserve:start */
             [   "d_hasHover",   "d_moveLabelUpControl",     "outcome"                 ],
             [   C.ANY,          C.Y,                        { d_labelIsUp: C.Y }      ],
@@ -38,10 +38,10 @@ let InputLabelMixinLabel = Vue.extend({
             /* beautify preserve:end */
         ];
 
-        this.shouldMoveLabelUpDE = new DecisionEngine(shouldMoveLabelUpDecisionTable, {
+        this.moveLabelUpDTE = new DecisionEngine(moveLabelUpDT, {
             descriptiveHeaderRows: 1,
             f_log: this.logit,
-            name: "shouldMoveLabelUpDecisionTable"
+            name: "moveLabelUpDT"
         });
     },
     data() {
@@ -59,8 +59,8 @@ let InputLabelMixinLabel = Vue.extend({
             /**
              * @type {DecisionEngine}
              */
-            let onEventEngine = this.onEventEngineDE;
-            if(!onEventEngine.decideAndMerge(event, this.$data)){
+            let onEventDTE = this.onEventDTE;
+            if(!onEventDTE.decideAndMerge(event, this.$data)){
                 this.logit("Unhandled on given args [" + arguments + "]");
             }
             this.m_evalShouldMoveLabelUp();
@@ -69,9 +69,9 @@ let InputLabelMixinLabel = Vue.extend({
             /**
              * @type {DecisionEngine}
              */
-            let shouldMoveLabelUpDE = this.shouldMoveLabelUpDE;
+            let moveLabelUpDTE = this.moveLabelUpDTE;
             let actualFacts = [this.d_hasHover, this.d_moveLabelUpControl];
-            if(!shouldMoveLabelUpDE.decideAndMerge(actualFacts, this.$data)){
+            if(!moveLabelUpDTE.decideAndMerge(actualFacts, this.$data)){
                 this.logit("Unhandled on actual facts [" + actualFacts + "]");
             }
         }
