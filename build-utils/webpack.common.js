@@ -38,14 +38,23 @@ const config = {
             title: "Webpack Vue Starter 101",
             template: "src/main/html/twitterlike.ejs"
         }),
-        new webpack.PrefetchPlugin("/dist/", "jsm@/utils/DecisionEngine"),
+        new webpack.PrefetchPlugin("/dist/", "jsm@/utils/DecisionEngine.js"),
+        new webpack.PrefetchPlugin("/dist/", "jsm@/utils/ramdautils.js"),
         new webpack.PrefetchPlugin("/dist/", "jsm@/components/twitterlike/TwitterLikeWithLabel.vue"),
         new webpack.PrefetchPlugin("/dist/", "css@/twitterlike.scss"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/addIndex.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/internal/_equals.js"),
         new webpack.PrefetchPlugin("/dist/", "~/ramda/es/toString.js"),
         new webpack.PrefetchPlugin("/dist/", "~/ramda/es/internal/_toString.js"),
         new webpack.PrefetchPlugin("/dist/", "~/ramda/es/compose.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/map.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/filter.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/reduce.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/ramda/es/tail.js"),
         new webpack.PrefetchPlugin("/dist/", "~/debug/src/browser.js"),
         new webpack.PrefetchPlugin("/dist/", "~/debug/src/debug.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/timers-browserify/main.js"),
+        new webpack.PrefetchPlugin("/dist/", "~/curry-template/curry-template.js")
     ]
 }
 
