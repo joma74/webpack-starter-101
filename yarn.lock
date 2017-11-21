@@ -1432,6 +1432,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+curry-template@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/curry-template/-/curry-template-1.0.4.tgz#2e6e8ea47ef6955c49ba64f1e25ad6a96f381b7c"
+
 custom-event@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/custom-event/-/custom-event-1.0.1.tgz#5d02a46850adf1b4a317946a3928fccb5bfd0425"

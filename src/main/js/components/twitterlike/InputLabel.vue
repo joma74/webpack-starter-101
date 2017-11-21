@@ -29,7 +29,7 @@ import debug from "debug";
 import {
     Event, // eslint-disable-line no-unused-vars
     EventEnum
-} from "./EventEnum";
+} from "jsm@/components/twitterlike/EventEnum";
 import InputLabelMixinLabel from "jsm@/components/twitterlike/InputLabelMixinLabel";
 const logit = debug("components:InputLabel.vue");
 import Vue from "vue"

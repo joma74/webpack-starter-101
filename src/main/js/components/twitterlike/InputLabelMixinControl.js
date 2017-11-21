@@ -13,6 +13,7 @@ let InputLabelMixinControl = Vue.extend({
         this.logit = debug("components:" + componentName + ":InputLabelMixinControl");
         let onEventDecisionTable = [
             /* beautify preserve:start */
+            [   "Event",                "outcome"              ],
             [   EvtE.FOCUS_IN,          { d_hasFocus: C.Y }    ],
             [   EvtE.FOCUS_OUT,         { d_hasFocus: C.N }    ],
             [   EvtE.HOVER_IN,          { d_hasHover: C.Y }    ],
@@ -20,7 +21,7 @@ let InputLabelMixinControl = Vue.extend({
             /* beautify preserve:end */
         ];
         this.onEventDE = new DecisionEngine(onEventDecisionTable,{
-            descriptiveHeaderRows: 0,
+            descriptiveHeaderRows: 1,
             f_log: this.logit,
             name: "onEventDE"
         });

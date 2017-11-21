@@ -4,13 +4,15 @@ import {
     cond, compose, contains, curry, clone, 
     equals, 
     flatten, flip, 
-    init, 
+    init, is,
     last, 
-    map, memoize, 
+    map, memoize,
+    path,
     range, reduce, reduced, 
-    set, splitAt, 
+    set, 
+    splitAt, 
     T, take,
-    zip
+    zip, zipObj
 } from "../../node_modules/@types/ramda/index.d";
 
 declare module "ramda/es/__" {
@@ -24,9 +26,6 @@ declare module "ramda/es/always" {
 }
 declare module "ramda/es/cond" {
     export = cond;
-}
-declare module "ramda/es/curry" {
-    export = curry;
 }
 declare module "ramda/es/compose" {
     export = compose;
@@ -52,6 +51,9 @@ declare module "ramda/es/flip" {
 declare module "ramda/es/init" {
     export = init;
 }
+declare module "ramda/es/is" {
+    export = is;
+}
 declare module "ramda/es/last" {
     export = last;
 } 
@@ -60,6 +62,9 @@ declare module "ramda/es/map" {
 }
 declare module "ramda/es/memoize" {
     export = memoize;
+}
+declare module "ramda/es/path" {
+    export = path;
 }
 declare module "ramda/es/range" {
     export = range;
@@ -73,14 +78,17 @@ declare module "ramda/es/reduced" {
 declare module "ramda/es/set" {
     export = set;
 }
-declare module "ramda/es/spliAt" {
-    export = spliAt;
+declare module "ramda/es/splitAt" {
+    export = splitAt;
 } 
 declare module "ramda/es/take" {
     export = take;
 } 
 declare module "ramda/es/zip" {
     export = zip;
+}
+declare module "ramda/es/zipObj" {
+    export = zipObj;
 }
 declare module "ramda/es/T" {
     export = T;

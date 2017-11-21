@@ -3,6 +3,7 @@ import {
     mergeValues,
     sanitzeObject
 } from "jsm@/utils/manprops"
+import DecisionEngineLogger from "jsm@/utils/DecisionEngineLogger"
 import {
     f_mapIndexed,
     f_reduceIndexed,
@@ -18,6 +19,7 @@ import Rinit from "ramda/es/init"
 import Rlast from "ramda/es/last"
 import Rmap from "ramda/es/map"
 import Rmemoize from "ramda/es/memoize"
+import RPath from "ramda/es/path"
 import Rrange from "ramda/es/range"
 import Rreduced from "ramda/es/reduced"
 import RsplitAt from "ramda/es/splitAt"
@@ -26,7 +28,7 @@ import RT from "ramda/es/T"
 
 /**
  * @typedef {Object} Metadata
- * @property {number} descriptiveHeaderRows - how many first rows contain description
+ * @property {number} descriptiveHeaderRows - how many first rows contain description; last row(if any) is used as the to-be logged description for the decision @TODO rename descriptiveDecisionRows
  * @property {function(string):void} f_log
  * @property {string} name of decision table
  * 
@@ -49,6 +51,7 @@ export default class DecisionEngine {
         this.headers = headersOverDecisionRules[0];
         this.decisionRules = headersOverDecisionRules[1];
         this.numberOfConsiderations = this.decisionRules[0].length - 1;
+        this.logger = _setupLogger(this.metaData, this.decisionTableName, this.headers, this.numberOfConsiderations);
         this.cases = _getCases(this.decisionRules);
         this.numberOfCases = this.cases.length;
         this.outcomes = _getOutcomes(this.decisionRules);
@@ -97,12 +100,9 @@ export default class DecisionEngine {
         }
         let outcome = this.f_conditionalDecisionTable(onCaseArray);
 
-        if (outcome != undefined && outcome.cell != undefined) {
-            this.metaData.f_log(`>${JSON.stringify(outcome.cell)}< is the outcome given by decision rule ${outcome.index+1}@${this.decisionTableName}`);
-            return outcome.cell;
-        }
-        this.metaData.f_log(`The outcome is >undefined< from any decision rule@${this.decisionTableName}`);
-        return outcome;
+        this.logger.logOutcome(onCaseArray, outcome);
+        
+        return _f_cellPath(outcome);
     }
 
     /**
@@ -179,6 +179,8 @@ const _metaData_default = {
     f_log: (msg) => {}, // eslint-disable-line no-unused-vars
     name: "DecisionTable"
 };
+
+const _f_cellPath = RPath(["cell"]);
 
 /**
  * Function that accepts a fact and returns true if all considerations in any of the `decoratedCases` can be fulfilled.
@@ -297,4 +299,21 @@ function _getCases(table) {
  */
 function _getOutcomes(table) {
     return f_flatMap(Rlast, table);
+}
+
+/**
+ * 
+ * @param {Metadata} metaData 
+ * @param {String} decisionTableName
+ * @param {object[][]} headers
+ * @param {number} numberOfConsiderations
+ */
+function _setupLogger(metaData, decisionTableName, headers, numberOfConsiderations) {
+    let decisionDescriptions = [];
+    if(metaData.descriptiveHeaderRows == 0){
+        decisionDescriptions = f_mapIndexed((cell, index) => "dd"+index, Array.apply(null, Array(numberOfConsiderations)));
+    }else{
+        decisionDescriptions = Rinit(headers[metaData.descriptiveHeaderRows-1]);
+    }
+    return new DecisionEngineLogger(metaData.f_log, decisionDescriptions, decisionTableName);
 }
