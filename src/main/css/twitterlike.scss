@@ -32,6 +32,33 @@
     @include rotate(315);
 }
 
+// force stacking context #1
+.fsc-o-99 {
+    opacity: 0.99;
+}
+// force stacking context #2
+.fsc {
+    transform: scale(1);
+}
+
+.upperleft {
+    left: 0; top: 0;
+}
+
+.upperright {
+    right: 0; top: 0;
+}
+
+.lowerleft {
+    left: 0; bottom: 0;
+}
+
+.lowerright {
+    right: 0; bottom: 0;
+}
+
+.z-n1 { z-index: -1; }
+
 .resizer {
     position: relative;
     display: inline-block;
