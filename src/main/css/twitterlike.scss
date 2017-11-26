@@ -59,23 +59,6 @@
 
 .z-n1 { z-index: -1; }
 
-.resizer {
-    position: relative;
-    display: inline-block;
-    &:after {
-      content: "";
-      border-top: 8px solid #1c87c7;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      @include rotate(-45);
-      opacity: 0.5;
-      position: absolute;
-      bottom: 1px;
-      right: -3px;
-      pointer-events: none;
-    }
-}
-
 button:disabled {
     cursor: not-allowed;
     opacity: .5;
