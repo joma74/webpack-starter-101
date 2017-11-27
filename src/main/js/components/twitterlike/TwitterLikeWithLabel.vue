@@ -12,7 +12,7 @@
             <div class="pv2 tc bb b--black-10">
                 <h1 class="ma0 f5 normal">TwitterLike | Compose New Tweet</h1>
             </div>
-            <div class="bg-near-white pa3">
+            <div class="background-color pa3">
                 <InputLabel p_title="Your Story"
                             p_labelFor="c_tweet_id"
                             :p_curCharCount="charactersActual"
@@ -27,7 +27,7 @@
                           v-model="tweet"
                           rows="6"
                           cols="20"
-                          class="w-100 f4 bg-near-white br2 bn"
+                          class="w-100 f4 background-color input-cue-a4c"
                           @mouseenter="m_evalOnEvent(HOVER_IN)"
                           @mouseleave="m_evalOnEvent(HOVER_OUT)"
                           @focus="m_evalOnEvent(FOCUS_IN)"
