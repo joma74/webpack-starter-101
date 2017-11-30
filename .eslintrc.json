@@ -13,15 +13,28 @@
         "indent": [
             "error",
             4,
-            { "SwitchCase": 1 }
+            {
+                "SwitchCase": 1,
+                "VariableDeclarator": 0,
+                "ArrayExpression": "off",
+                "ObjectExpression": "off"
+            }
         ],
         "linebreak-style": [
             "error",
             "unix"
         ],
+        "brace-style": [
+            "error",
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
         "quotes": [
             "error",
-            "double"
+            "double",
+            "avoid-escape"
         ],
         "no-console": [
             "off"
