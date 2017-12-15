@@ -18,6 +18,10 @@
             "css@/*": ["./src/main/css/*"],
             "~/*" : ["./src/main/*"]
         },
+        "lib": [
+            "es2016",
+            "dom"
+        ],
         "sourceMap": true,
         "types": [
             "node", "webpack", "debug", "jasmine", "karma", "karma-webpack", "ramda"

@@ -17,6 +17,7 @@ const paths = {
     vueDev: "vue/dist/vue.esm.js",
     vueProd: "vue/dist/vue.runtime.min.js",
     nodeModules: resolve("node_modules"),
+    mainSvg: resolve("src/main/svg/"),
 }
 
 module.exports = paths;

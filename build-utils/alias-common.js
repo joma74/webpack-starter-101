@@ -5,6 +5,7 @@ const alias = {
     "jsm@": commonPaths.mainJs,
     "jstu@": commonPaths.testUnitJs,
     "css@": commonPaths.mainCss,
+    "svg@": commonPaths.mainSvg,
     "html@": commonPaths.mainHtml,
     "~": commonPaths.nodeModules
 }
